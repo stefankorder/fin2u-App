@@ -4,6 +4,7 @@ const initialUserData = {
     age: 0,
     birthday: '',
     relationship: '',
+    children: '',
     jobStatus: '',
     income: 0,
     netIncome: 0,

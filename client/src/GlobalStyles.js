@@ -27,16 +27,11 @@ export const GlobalStyles = createGlobalStyle`
 
 body {
   font-family: sans-serif;
-  font-size: 1.25rem;
 }
 
 select,
   input {
     padding: 0.25rem;
-    border-bottom: .5px solid black;
-    border-left: .5px dashed black;
-    border-right: .5px dashed black;
-    border-top: none;
     margin: .5rem;
     width: 5rem;
     outline: none;
