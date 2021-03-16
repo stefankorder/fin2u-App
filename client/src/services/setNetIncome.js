@@ -1,5 +1,5 @@
 export default function setUserNetIncome(data, setData) {
-    data.income.length > 0 && data.jobStatus.length > 0 ? setData({ ...data, netIncome: setNetIncome(data.income, data.jobStatus) }) : setData({ ...data, netIncome: 0 })
+    data.income.length > 0 && data.jobStatus.length > 0 ? setData({ ...data, netIncome: setNetIncome(data.income, data.jobStatus) }) : setData({ ...data, netIncome: '' })
 }
 
 function setNetIncome(userIncome, jobStatus) {
