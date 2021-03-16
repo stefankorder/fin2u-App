@@ -37,6 +37,7 @@ export default function CarProps({userData, handleChange}) {
 }
 
 const HandleDiv = styled.div`
+margin: 0 0 1rem 0;
       height: 2rem;
       display: inline-flex;
       align-items: center;

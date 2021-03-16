@@ -36,7 +36,7 @@ export default function PetProps({userData, handleChange}) {
 }
 
 const DropdownDiv = styled.div`
-margin: 0 .5rem;
+margin: 0 .5rem 1rem .5rem;
       height: 2rem;
       display: flex;
       align-items: center;

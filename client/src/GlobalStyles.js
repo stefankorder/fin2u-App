@@ -21,7 +21,9 @@ export const GlobalStyles = createGlobalStyle`
   --secondary-500: hsl(173,100%,10%);
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 

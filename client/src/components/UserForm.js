@@ -16,21 +16,6 @@ import setUserNetIncome from '../services/setNetIncome';
 export default function UserForm({onSubmitForm}) {
 
     const [userData, setUserData] = useState(initialUserData)
-    const [dropdowns, setDropdowns] = useState({
-      relationship: false,
-      jobStatus: false,
-    })
-
-      /* window.addEventListener("click", (event) => {
-        const classe = event.target.className.split(' ')
-        console.log(classe[2] === 'jobStatus')
-        if (classe[2] !== 'relationship') {
-          setDropdowns({ ...dropdowns, relationship: false })
-        }
-        if (classe[2] !== 'jobStatus') {
-          setDropdowns({ ...dropdowns, jobStatus: false })
-        }
-      }); */
 
     const handleChange = (event) => {
         const field = event.target;
@@ -41,11 +26,6 @@ export default function UserForm({onSubmitForm}) {
         }
 
         setUserData({ ...userData, [field.name]: value });
-      };
-
-      const dropChange = (value, field) => {
-        setUserData({ ...userData, [field]: value })
-        setDropdowns({ ...dropdowns, [field]: false })
       };
 
     useEffect(() => {
@@ -62,26 +42,15 @@ export default function UserForm({onSubmitForm}) {
         setUserData(initialUserData);
     }
 
-    function DropDown(event) {
-      let eventTarget = event.target.className.split(' ')
-        if (eventTarget[2] === 'jobStatus') {
-          setDropdowns({ ...dropdowns, [eventTarget[2]]: dropdowns.jobStatus ? false : true })
-        }
-        if (eventTarget[2] === 'relationship') {
-          setDropdowns({ ...dropdowns, [eventTarget[2]]: dropdowns.relationship ? false : true })
-        }
-    }
-
       return (
         <ContainerBox>
         <Form onSubmit={submitForm}>
         <H2>Bitte geben Sie Ihre Daten ein:</H2>
           <div>
       <HandleDiv>
-    <StyledDiv></StyledDiv>
-          <Label htmlFor="name">NAME:</Label>
+    <StyledDiv />
+    <Label className={userData.name.length ? 'active' : ''} htmlFor="name">NAME</Label>
           <TextInput
-            placeholder="NAME:"
             type="text"
             name="name"
             value={userData.name}
@@ -90,9 +59,8 @@ export default function UserForm({onSubmitForm}) {
           </HandleDiv>
           <HandleDiv>
           <StyledDiv></StyledDiv>
-          <Label htmlFor="lastname">Vorname:</Label>
+          <Label className={userData.lastname.length ? 'active' : ''} htmlFor="lastname">NACHNAME</Label>
           <TextInput
-            placeholder="NACHNAME:"
             type="text"
             name="lastname"
             value={userData.lastname}
@@ -113,19 +81,23 @@ export default function UserForm({onSubmitForm}) {
           />
           </HandleDiv>
 
-          <DropdownDiv>
-          <StyledLongerDiv></StyledLongerDiv>
-          <DropdownFakeLabel className="relationship" htmlFor="relationship" onClick={DropDown} >
-            <DropdownLabel className="relationship" >{userData.relationship ? userData.relationship : 'BEZIEHUNGSSTATUS:'}</DropdownLabel><DropdownSpan className="relationship" >{dropdowns.relationship ? '⇐' : '⇓'}</DropdownSpan>
-            </DropdownFakeLabel>
-            <MenuDiv className={dropdowns.relationship ? 'active' : ''}>
-              <MenuP className="relationship" onClick={() => dropChange('single', 'relationship')}>ledig</MenuP>
-              <MenuP className="relationship" onClick={() => dropChange('inRelationship', 'relationship')}>Lebensgemeinschaft</MenuP>
-              <MenuP className="relationship" onClick={() => dropChange('married', 'relationship')}>verheiratet / eingetragene Lebenspartnerschaft</MenuP>
-              <MenuP className="relationship" onClick={() => dropChange('divorced', 'relationship')}>geschieden</MenuP>
-              <MenuP className="relationship" onClick={() => dropChange('widowed', 'relationship')}>verwitwet</MenuP>
-            </MenuDiv>
-            </DropdownDiv>
+          <SelectDiv>
+            <StyledLongerDiv></StyledLongerDiv>
+          <Select
+            name="relationship"
+            value={userData.relationship}
+            onChange={handleChange}
+            required
+          >
+            <Option value="">BEZIEHUNGSSTATUS:</Option>
+            <Option value="single">LEDIG</Option>
+            <Option value="inRelationship">LEBENSGEMEINSCHAFT</Option>
+            <Option value="married">VERHEIRATET / EINGETRAGENE LEBENSPARTNERSCHAFT</Option>
+            <Option value="divorced">GESCHIEDEN</Option>
+            <Option value="widowed">VERWITWET</Option>
+          </Select>
+          <SelectSpan>▾</SelectSpan>
+         </SelectDiv>
             
             <HandleDiv>
             <StyledLongerDiv></StyledLongerDiv>
@@ -138,18 +110,23 @@ export default function UserForm({onSubmitForm}) {
             onChange={handleChange}
           />
           </HandleDiv>
-          
-          <DropdownDiv>
-          <StyledLongerDiv></StyledLongerDiv>
-          <DropdownFakeLabel className="jobStatus" htmlFor="jobStatus" onClick={DropDown} >
-            <DropdownLabel className="jobStatus">{userData.jobStatus ? userData.jobStatus : 'BERUFSSTATUS:'}</DropdownLabel><DropdownSpan className="jobStatus">{dropdowns.jobStatus ? '⇐' : '⇓'}</DropdownSpan>
-            </DropdownFakeLabel>
-            <MenuDiv className={dropdowns.jobStatus ? 'active' : ''}>
-              <MenuP className="jobStatus" onClick={() => dropChange('employed', 'jobStatus')}>angestellt</MenuP>
-              <MenuP className="jobStatus" onClick={() => dropChange('selfEmployed', 'jobStatus')}>selbstständig</MenuP>
-              <MenuP className="jobStatus" onClick={() => dropChange('civilServants', 'jobStatus')}>verbeamtet</MenuP>
-            </MenuDiv>
-            </DropdownDiv>
+
+            <SelectDiv>
+            <StyledLongerDiv></StyledLongerDiv>
+          <Select
+            name="jobStatus"
+            value={userData.jobStatus}
+            onChange={handleChange}
+            required
+          >
+            <Option value="">BERUFSSTATUS:</Option>
+            <Option value="employed">ANGESTELLT</Option>
+            <Option value="selfEmployed">SELBSTSTÄNDIG</Option>
+            <Option value="civilServants">VERBEAMTET</Option>
+          </Select>
+          <SelectSpan>▾</SelectSpan>
+         </SelectDiv>
+        
 
             <HandleDiv>
           <StyledLongerDiv></StyledLongerDiv>
@@ -175,7 +152,7 @@ export default function UserForm({onSubmitForm}) {
           />
           </HandleDiv>
 
-          <DropdownLabel>
+          <CheckboxLabel className='firstLabel'>
             <Checkbox
               type="checkbox"
               name="houseOwner"
@@ -183,9 +160,9 @@ export default function UserForm({onSubmitForm}) {
               onChange={handleChange}
             />
             SELBSTBEWOHNTES EIGENTUMSHAUS?
-          </DropdownLabel>
+          </CheckboxLabel>
 
-          <DropdownLabel>
+          <CheckboxLabel>
             <Checkbox
               type="checkbox"
               name="valuables"
@@ -193,9 +170,9 @@ export default function UserForm({onSubmitForm}) {
               onChange={handleChange}
             />
             WERTGEGENSTÄNDE VORHANDEN?
-          </DropdownLabel>
+          </CheckboxLabel>
 
-          <DropdownLabel>
+          <CheckboxLabel>
             <Checkbox
               type="checkbox"
               name="car"
@@ -203,11 +180,11 @@ export default function UserForm({onSubmitForm}) {
               onChange={handleChange}
             />
             AUTO VORHANDEN?
-          </DropdownLabel>
+          </CheckboxLabel>
           
         <CarProps userData={userData} handleChange={handleChange} />
 
-        <DropdownLabel>
+        <CheckboxLabel>
             <Checkbox
               type="checkbox"
               name="pet"
@@ -215,11 +192,11 @@ export default function UserForm({onSubmitForm}) {
               onChange={handleChange}
             />
             HAUSTIER VORHANDEN?
-          </DropdownLabel>
+          </CheckboxLabel>
 
         <PetProps userData={userData} handleChange={handleChange} />
 
-        <DropdownLabel>
+        <CheckboxLabel>
             <Checkbox
               type="checkbox"
               name="motorcycle"
@@ -227,11 +204,11 @@ export default function UserForm({onSubmitForm}) {
               onChange={handleChange}
             />
             MOTORRAD VORHANDEN?
-          </DropdownLabel>
+          </CheckboxLabel>
 
         <MotorcycleProps userData={userData} handleChange={handleChange} />
 
-        <DropdownLabel>
+        <CheckboxLabel>
             <Checkbox
               type="checkbox"
               name="dangerousHobby"
@@ -239,7 +216,7 @@ export default function UserForm({onSubmitForm}) {
               onChange={handleChange}
             />
             GEFÄHRLICHES HOBBY? (Z.B. TAUCHEN)
-          </DropdownLabel>
+          </CheckboxLabel>
 
           <ButtonDiv>
         <ButtonSubmit type="submit" text="Add"><Submit />
@@ -272,80 +249,91 @@ margin: 1rem .4rem 1rem .4rem;
       `
 
       const HandleDiv = styled.div`
-      margin-top: 1rem;
-      height: 2rem;
+      margin-top: .5rem;
+      height: 3rem;
       display: inline-flex;
       align-items: center;
+      border: 1px solid black;
+      position: relative;
       `
 
-      const DropdownDiv = styled.div`
-      margin-top: 1rem;
+      const SelectDiv = styled.div`
+      margin: 1rem 1rem 0 0;
       height: 2rem;
       display: inline-flex;
       align-items: center;
       position: relative;
-      `
-
-      const DropdownFakeLabel = styled.label`
-      margin-left: .5rem;
       width: 10rem;
-      z-index: 10;
-      padding: 0 .25rem;
-      height: 2rem;
       `
 
-      const DropdownLabel = styled.p`
-      display: inline-block;
+      const Select = styled.select`
+      appearance: none;
+      background-color: transparent;
+      border: none;
+      width: 100%;
+      font-family: inherit;
+      color: grey;
+      outline: none;
       font-size: .7rem;
-      color: grey;
-      `
-
-      const DropdownSpan = styled.span`
-      margin-top: .3rem;
-      float: right;
-      font-size: 1.2rem;
+      cursor: pointer;
       z-index: 10;
-      color: grey;
-      `
 
-      const MenuDiv = styled.div`
-      margin-left: .5rem;
-      font-size: .8rem;
-      display: none;
-      width: 10rem;
-      z-index: 15;
-      position: absolute;
-      top: 2rem;
-      border: 1px solid black;
-      background: white;
-
-      &.active {
-        display: inline-block;
+      &::-ms-expand {
+        display: none;
       }
       `
 
-      const MenuP = styled.p`
-      margin: 0;
-      padding: .125rem .25rem;
-      background: #0989F7;
-      color: white;
-      font-size: .7rem;
-      `
+const SelectSpan = styled.span`
+right: 0;
+margin-bottom: .35rem;
+font-size: 1.2rem;
+color: grey;
+position: absolute;
+`
+
+const Option = styled.option`
+padding: .125rem .25rem;
+background: #0989F7;
+color: white;
+font-size: .7rem;
+`
+
+const CheckboxLabel = styled.label`
+margin: .25rem 0 0 0;
+display: inline-block;
+font-size: .7rem;
+color: grey;
+
+&.firstLabel {
+  margin-top: 2rem;
+}
+`
 
       const Label = styled.label`
-      margin-left: .25rem;
+      margin-left: .75rem;
       font-size: .6rem;
       z-index: 10;
-      display: none;
+      position: absolute;
+      transition: all .25s;
+      
+
+&.active {
+  transform: translateY(1.1rem);
+  left: -.45rem;
+  scale: 0.8;
+}
+
       `
 
       const TextInput = styled.input`
+      background: transparent;
       width: 7rem;
       border: none;
       z-index: 10;
       `
 
 const TextLongerInput = styled.input`
+background: transparent;
 width: 10rem;
 border: none;
 z-index: 10;
@@ -354,22 +342,24 @@ z-index: 10;
       const StyledDiv = styled.div`
       width: 7.125rem;
       height: .5rem;
+      background: transparent;
       position: absolute;
       border: 1px solid #0989F7;
       border-top: none;
       margin-left: .45rem;
-      margin-top: 1.1rem;
+      margin-top: .5rem;
       z-index: 1;
       `
 
 const StyledLongerDiv = styled.div`
 width: 10.125rem;
 height: .5rem;
+background: transparent;
 position: absolute;
 border: 1px solid #0989F7;
 border-top: none;
 margin-left: .45rem;
-margin-top: 1.1rem;
+margin-top: .5rem;
 z-index: 1;
 `
 
@@ -379,7 +369,7 @@ width: 1rem;
 `
 
 const ButtonDiv = styled.div`
-margin-top: 1rem;
+margin-top: 2rem;
 width: 100%;
 `
 
