@@ -33,9 +33,6 @@ body {
 
 select,
   input {
-    padding: 0.25rem;
-    margin: .5rem;
-    width: 5rem;
     outline: none;
   }
 

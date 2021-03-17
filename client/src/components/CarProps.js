@@ -1,68 +1,92 @@
 import styled from 'styled-components'
 
-export default function CarProps({userData, handleChange}) {
+export default function CarProps({userData, handleChange, focused, setFocused}) {
     if (userData.car) {
         return (
-            <div>
-
+            <SubMenuDiv>
 <HandleDiv>
-    <StyledDiv></StyledDiv>
-          <Label htmlFor="carAge">Alter des Fahrzeugs:</Label>
+<StyledDiv>
+          <Label className={focused === 'carAge' || userData.carAge.length ? 'active' : ''} htmlFor="carAge">FAHRZEUGALTER</Label>
+          </StyledDiv>
           <TextInput
-            placeholder="ALTER:"
+            className='carAge'
             type="text"
             name="carAge"
             value={userData.carAge}
             onChange={handleChange}
+            onClick={() => setFocused('carAge')}
           />
           </HandleDiv>
 
           <HandleDiv>
-    <StyledDiv></StyledDiv>
-          <Label htmlFor="carValue">Wert des Fahrzeugs:</Label>
+          <StyledDiv>
+          <Label className={focused === 'carValue' || userData.carValue.length ? 'active' : ''} htmlFor="carValue">FAHRZEUGWERT</Label>
+          </StyledDiv>
           <TextInput
-            placeholder="WERT:"
+            className='carValue'
             type="text"
             name="carValue"
             value={userData.carValue}
             onChange={handleChange}
+            onClick={() => setFocused('carValue')}
           />
           </HandleDiv>
-
-            </div>
+            </SubMenuDiv>
         )
     } else {
         return ''
     }
 }
 
+const SubMenuDiv = styled.div`
+width: 100%
+`
+
 const HandleDiv = styled.div`
-margin: 0 0 1rem 0;
-      height: 2rem;
+width: 50%;
+max-width: 191px;
+      margin-top: .5rem;
+      height: 3rem;
       display: inline-flex;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
+      position: relative;
       `
 
 const StyledDiv = styled.div`
-width: 7.125rem;
-height: .5rem;
-position: absolute;
-border: 1px solid #0989F7;
-border-top: none;
-margin-left: .45rem;
-margin-top: 1.1rem;
-z-index: 1;
-`
+      width: 90%;
+      height: .5rem;
+      background: transparent;
+      position: relative;
+      border: 1px solid #0989F7;
+      border-top: none;
+      margin-top: .5rem;
+      z-index: 1;
+      `
 
 const Label = styled.label`
-      margin-left: .25rem;
       font-size: .6rem;
       z-index: 10;
-      display: none;
+      position: absolute;
+      transition: all .25s;
+      left: .25rem;
+      bottom: .1rem;
+      
+
+&.active {
+  left: 0;
+  bottom: 0;
+  transform: translateY(-1.3rem);
+  scale: 0.8;
+}
       `
 
-      const TextInput = styled.input`
-      width: 7rem;
-      border: none;
-      z-index: 10;
-      `
+const TextInput = styled.input`
+position: absolute;
+background: transparent;
+padding: .25rem;
+width: 90%;
+border: none;
+z-index: 10;
+`
