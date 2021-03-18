@@ -45,24 +45,18 @@ export default function UserForm({onSubmitForm}) {
 
  useEffect(() => {
   if (focused) {
-    window.addEventListener('click', handleClick)
+    window.addEventListener('click', handleClick, true)
       
       return () => {
-        window.removeEventListener('click', handleClick);
+        window.removeEventListener('click', handleClick, true);
       }
    }
 
-  function handleClick(event) {
-    const classNames = ['name', 'lastname', 'birthday', 'children', 'income', 'netIncome', 'carAge', 'carValue', 'motorcycleAge', 'motorcycleValue']
-    if (classNames.includes(event.target.name)) {
-      setFocused(event.target.name)
-      return
-    }
-    else {
-      setFocused('')
-    }
+function handleClick(event) {
+  if (focused) {
+    setFocused('')
   }
-}, [focused])
+}}, [focused])
 
 console.log(focused, 123)
 
