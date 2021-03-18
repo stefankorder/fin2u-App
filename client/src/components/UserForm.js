@@ -45,20 +45,26 @@ export default function UserForm({onSubmitForm}) {
 
  useEffect(() => {
   if (focused) {
-    window.addEventListener('click', handleClick, true)
+    window.addEventListener('click', handleClick)
       
       return () => {
-        window.removeEventListener('click', handleClick, true);
+        window.removeEventListener('click', handleClick);
       }
    }
+}, [focused])
 
-function handleClick(event) {
-  if (focused) {
-    setFocused('')
+function handleClick(event, value) {
+  event.stopPropagation();
+  
+  if (value) {
+    setFocused(value)
+    return
   }
-}}, [focused])
-
-console.log(focused, 123)
+  else {
+    setFocused('')
+    return
+  }
+}
 
       return (
         <ContainerBox>
@@ -75,7 +81,7 @@ console.log(focused, 123)
             name="name"
             value={userData.name}
             onChange={handleChange}
-            onClick={() => setFocused('name')}
+            onClick={(event) => handleClick(event, 'name')}
           />
           </HandleDiv>
           <HandleDiv>
@@ -88,7 +94,7 @@ console.log(focused, 123)
             name="lastname"
             value={userData.lastname}
             onChange={handleChange}
-            onClick={() => setFocused('lastname')}
+            onClick={(event) => handleClick(event, 'lastname')}
           />
           </HandleDiv>
 
@@ -102,19 +108,21 @@ console.log(focused, 123)
             name="birthday"
             value={userData.birthday}
             onChange={handleChange}
-            onClick={() => setFocused('birthday')}
+            onClick={(event) => handleClick(event, 'birthday')}
           />
           </HandleLongerDiv>
 
           <SelectDiv>
-          <StyledLongerDiv />
+          <StyledLongerDiv>
+            <Label className={userData.relationship.length ? 'active' : ''} htmlFor="relationship">BEZIEHUNGSSTATUS</Label>
+            </StyledLongerDiv>
           <Select
             name="relationship"
             value={userData.relationship}
             onChange={handleChange}
             required
           >
-            <Option value="">BEZIEHUNGSSTATUS:</Option>
+            <Option value=""></Option>
             <Option value="single">LEDIG</Option>
             <Option value="inRelationship">LEBENSGEMEINSCHAFT</Option>
             <Option value="married">VERHEIRATET / EINGETRAGENE LEBENSPARTNERSCHAFT</Option>
@@ -135,19 +143,21 @@ console.log(focused, 123)
             name="children"
             value={userData.children}
             onChange={handleChange}
-            onClick={() => setFocused('children')}
+            onClick={(event) => handleClick(event, 'children')}
           />
           </HandleLongerDiv>
 
             <SelectDiv>
-            <StyledLongerDiv />
+            <StyledLongerDiv>
+            <Label className={userData.jobStatus.length ? 'active' : ''} htmlFor="jobStatus">BERUFSSTATUS</Label>
+            </StyledLongerDiv>
           <Select
             name="jobStatus"
             value={userData.jobStatus}
             onChange={handleChange}
             required
           >
-            <Option value="">BERUFSSTATUS:</Option>
+            <Option value=""></Option>
             <Option value="employed">ANGESTELLT</Option>
             <Option value="selfEmployed">SELBSTSTÄNDIG</Option>
             <Option value="civilServants">VERBEAMTET</Option>
@@ -166,7 +176,7 @@ console.log(focused, 123)
             name="income"
             value={userData.income}
             onChange={handleChange}
-            onClick={() => setFocused('income')}
+            onClick={(event) => handleClick(event, 'income')}
           />
           </HandleLongerDiv>
 
@@ -180,10 +190,12 @@ console.log(focused, 123)
             name="netIncome"
             value={userData.netIncome}
             onChange={handleChange}
-            onClick={() => setFocused('netIncome')}
+            onClick={(event) => handleClick(event, 'netIncome')}
           />
           </HandleLongerDiv>
 
+<CheckboxContainer>
+<div>
           <CheckboxLabel className='firstLabel'>
             <Checkbox
               type="checkbox"
@@ -194,6 +206,8 @@ console.log(focused, 123)
             SELBSTBEWOHNTES EIGENTUMSHAUS?
           </CheckboxLabel>
 
+          </div>
+<div>
           <CheckboxLabel>
             <Checkbox
               type="checkbox"
@@ -203,7 +217,8 @@ console.log(focused, 123)
             />
             WERTGEGENSTÄNDE VORHANDEN?
           </CheckboxLabel>
-
+          </div>
+<div>
           <CheckboxLabel>
             <Checkbox
               type="checkbox"
@@ -214,8 +229,9 @@ console.log(focused, 123)
             AUTO VORHANDEN?
           </CheckboxLabel>
           
-        <CarProps userData={userData} handleChange={handleChange} setFocused={setFocused} focused={focused} />
-
+        <CarProps userData={userData} handleChange={handleChange} handleClick={handleClick} focused={focused} />
+        </div>
+        <div>
         <CheckboxLabel>
             <Checkbox
               type="checkbox"
@@ -227,7 +243,8 @@ console.log(focused, 123)
           </CheckboxLabel>
 
         <PetProps userData={userData} handleChange={handleChange} />
-
+        </div>
+        <div>
         <CheckboxLabel>
             <Checkbox
               type="checkbox"
@@ -238,8 +255,9 @@ console.log(focused, 123)
             MOTORRAD VORHANDEN?
           </CheckboxLabel>
 
-        <MotorcycleProps userData={userData} handleChange={handleChange} setFocused={setFocused} focused={focused} />
-
+        <MotorcycleProps userData={userData} handleChange={handleChange} handleClick={handleClick} focused={focused} />
+        </div>
+        <div>
         <CheckboxLabel>
             <Checkbox
               type="checkbox"
@@ -249,6 +267,8 @@ console.log(focused, 123)
             />
             GEFÄHRLICHES HOBBY? (Z.B. TAUCHEN)
           </CheckboxLabel>
+          </div>
+          </CheckboxContainer>
 
           <ButtonDiv>
         <ButtonSubmit type="submit" text="Add"><Submit />
@@ -304,13 +324,47 @@ max-width: 191px;
       position: relative;
       `
 
+const SelectDiv = styled.div`
+width: 70%;
+max-width: 191px;
+margin: .5rem 0 0 .25rem;
+height: 3rem;
+display: inline-flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+position: relative;
+`
+
+const Select = styled.select`
+position: absolute;
+      appearance: none;
+      background-color: transparent;
+      border: none;
+      width: 100%;
+      font-family: inherit;
+      font-size: .8rem;
+color: #676767;
+      cursor: pointer;
+      z-index: 10;
+      left: .6rem;
+      bottom: 1.125rem;
+
+      &::-ms-expand {
+        display: none;
+      }
+      `
+
 const TextInput = styled.input`
 position: absolute;
 background: transparent;
-padding: .25rem;
 width: 90%;
 border: none;
 z-index: 10;
+font-size: .8rem;
+color: #676767;
+margin-left: .5rem;
+bottom: 1.125rem;
 `
 
 const StyledDiv = styled.div`
@@ -325,7 +379,8 @@ const StyledDiv = styled.div`
       `
 
 const Label = styled.label`
-      font-size: .6rem;
+      font-size: .8rem;
+      color: #676767;
       z-index: 10;
       position: absolute;
       transition: all .25s;
@@ -337,37 +392,13 @@ const Label = styled.label`
   left: 0;
   bottom: 0;
   transform: translateY(-1.3rem);
-  scale: 0.8;
+  font-size: .5rem;
+  color: #0989F7;
 }
       `
 
-      const SelectDiv = styled.div`
-      margin: 1rem 1rem 0 0;
-      height: 2rem;
-      display: inline-flex;
-      align-items: center;
-      position: relative;
-      width: 10rem;
-      `
-
-      const Select = styled.select`
-      appearance: none;
-      background-color: transparent;
-      border: none;
-      width: 100%;
-      font-family: inherit;
-      color: grey;
-      font-size: .7rem;
-      cursor: pointer;
-      z-index: 10;
-
-      &::-ms-expand {
-        display: none;
-      }
-      `
-
 const SelectSpan = styled.span`
-right: 0;
+right: .5rem;
 margin-bottom: .35rem;
 font-size: 1.2rem;
 color: grey;
@@ -384,21 +415,26 @@ font-size: .7rem;
 const CheckboxLabel = styled.label`
 margin: .25rem 0 0 0;
 display: inline-block;
-font-size: .7rem;
-color: grey;
+font-size: .8rem;
+color: #676767;
 
 &.firstLabel {
-  margin-top: 2rem;
+  @media (max-width: 1024px) {
+    margin-top: 2rem;
+  }
 }
 `
 
 const TextLongerInput = styled.input`
 position: absolute;
 background: transparent;
-padding: .25rem;
+margin-left: .5rem;
 width: 95%;
 border: none;
 z-index: 10;
+font-size: .8rem;
+color: #676767;
+bottom: 1.125rem;
 `
 
 const StyledLongerDiv = styled.div`
@@ -410,6 +446,10 @@ border: 1px solid #0989F7;
 border-top: none;
 margin-top: .5rem;
 z-index: 1;
+`
+
+const CheckboxContainer = styled.div`
+width: 100%;
 `
 
 const Checkbox = styled.input`

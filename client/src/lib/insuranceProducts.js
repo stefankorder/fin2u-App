@@ -15,10 +15,6 @@ const insuranceProducts = [
         status: 0
     },
     {
-        name: 'Privathaftpflichtversicherung',
-        status: 0
-    },
-    {
         name: 'Hausratversicherung',
         status: 0
     },

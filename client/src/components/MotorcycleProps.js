@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export default function MotorcycleProps({userData, handleChange, focused, setFocused}) {
+export default function MotorcycleProps({userData, handleChange, focused, handleClick}) {
     if (userData.motorcycle) {
         return (
             <SubMenuDiv>
@@ -15,7 +15,7 @@ export default function MotorcycleProps({userData, handleChange, focused, setFoc
             name="motorcycleAge"
             value={userData.motorcycleAge}
             onChange={handleChange}
-            onClick={() => setFocused('motorcycleAge')}
+            onClick={(event) => handleClick(event, 'motorcycleAge')}
           />
           </HandleDiv>
 
@@ -29,7 +29,7 @@ export default function MotorcycleProps({userData, handleChange, focused, setFoc
             name="motorcycleValue"
             value={userData.motorcycleValue}
             onChange={handleChange}
-            onClick={() => setFocused('motorcycleValue')}
+            onClick={(event) => handleClick(event, 'motorcycleValue')}
           />
           </HandleDiv>
             </SubMenuDiv>
@@ -40,13 +40,14 @@ export default function MotorcycleProps({userData, handleChange, focused, setFoc
 }
 
 const SubMenuDiv = styled.div`
-width: 100%
+width: 100%;
+margin-left: .9rem;
+margin-bottom: .5rem;
 `
 
 const HandleDiv = styled.div`
 width: 50%;
 max-width: 191px;
-      margin-top: .5rem;
       height: 3rem;
       display: inline-flex;
       flex-direction: column;
@@ -55,7 +56,7 @@ max-width: 191px;
       position: relative;
       `
 
-const StyledDiv = styled.div`
+      const StyledDiv = styled.div`
       width: 90%;
       height: .5rem;
       background: transparent;
@@ -66,8 +67,9 @@ const StyledDiv = styled.div`
       z-index: 1;
       `
 
-const Label = styled.label`
-      font-size: .6rem;
+      const Label = styled.label`
+      font-size: .8rem;
+      color: #676767;
       z-index: 10;
       position: absolute;
       transition: all .25s;
@@ -79,15 +81,19 @@ const Label = styled.label`
   left: 0;
   bottom: 0;
   transform: translateY(-1.3rem);
-  scale: 0.8;
+  font-size: .5rem;
+  color: #0989F7;
 }
       `
 
-const TextInput = styled.input`
+      const TextInput = styled.input`
 position: absolute;
 background: transparent;
-padding: .25rem;
 width: 90%;
 border: none;
 z-index: 10;
+font-size: .8rem;
+color: #676767;
+margin-left: .5rem;
+bottom: 1.125rem;
 `

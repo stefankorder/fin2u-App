@@ -3,12 +3,12 @@ import styled from 'styled-components'
 export default function PetProps({userData, handleChange}) {
     if (userData.pet) {
         return (
-<DropdownDiv>
-<StyledLongerDiv />
-<DropdownLabel>
+<RadioDiv>
+<StyledLongerDiv>
+<Label>
               TIERART:
-              <DropdownLabel>
-                <Checkbox
+              <RadioLabel>
+                <Radio
                   type="radio"
                   name="petSpecies"
                   value="dog"
@@ -16,9 +16,9 @@ export default function PetProps({userData, handleChange}) {
                   onChange={handleChange}
                 />
                 HUND
-              </DropdownLabel>
-              <DropdownLabel>
-              <Checkbox
+              </RadioLabel>
+              <RadioLabel>
+              <Radio
                   type="radio"
                   name="petSpecies"
                   value="horse"
@@ -26,41 +26,55 @@ export default function PetProps({userData, handleChange}) {
                   onChange={handleChange}
                 />
                 PFERD
-              </DropdownLabel>
-              </DropdownLabel>
-            </DropdownDiv>
+              </RadioLabel>
+              </Label>
+              </StyledLongerDiv>
+            </RadioDiv>
         )
     } else {
         return ''
     }
 }
 
-const DropdownDiv = styled.div`
-margin: 0 .5rem 1rem .5rem;
-      height: 2rem;
-      display: flex;
-      align-items: center;
+const RadioDiv = styled.div`
+width: 100%;
+      margin-top: .5rem;
+      margin-bottom: .5rem;
+      height: 3rem;
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
       position: relative;
       `
 
 const StyledLongerDiv = styled.div`
-width: 11.5rem;
+width: 13rem;
 height: .5rem;
-position: absolute;
+background: transparent;
+position: relative;
 border: 1px solid #0989F7;
 border-top: none;
-margin-top: 1rem;
+margin-left: 1.5rem;
 z-index: 1;
 `
 
-const DropdownLabel = styled.p`
-margin-left: .25rem;
+const Label = styled.label`
+position: absolute;
+left: .35rem;
+bottom: 0;
       display: inline-block;
-      font-size: .7rem;
-      color: grey;
+      font-size: .8rem;
+      color: #676767;
       `
 
-const Checkbox = styled.input`
+const RadioLabel = styled.label`
+margin-left: .25rem;
+      display: inline-block;
+      font-size: .8rem;
+      color: #676767;
+      `
+
+const Radio = styled.input`
 margin: .25rem;
 width: 1rem;
 `
