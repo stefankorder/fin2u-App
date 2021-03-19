@@ -1,80 +1,80 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
-export default function PetProps({userData, handleChange}) {
-    if (userData.pet) {
-        return (
-<RadioDiv>
-<StyledLongerDiv>
-<Label>
-              TIERART:
-              <RadioLabel>
-                <Radio
-                  type="radio"
-                  name="petSpecies"
-                  value="dog"
-                  checked={userData.petSpecies === 'dog'}
-                  onChange={handleChange}
-                />
-                HUND
-              </RadioLabel>
-              <RadioLabel>
+export default function PetProps({ userData, handleChange }) {
+  if (userData.pet) {
+    return (
+      <RadioDiv>
+        <StyledLongerDiv>
+          <Label>
+            TIERART:
+            <RadioLabel>
               <Radio
-                  type="radio"
-                  name="petSpecies"
-                  value="horse"
-                  checked={userData.petSpecies === 'horse'}
-                  onChange={handleChange}
-                />
-                PFERD
-              </RadioLabel>
-              </Label>
-              </StyledLongerDiv>
-            </RadioDiv>
-        )
-    } else {
-        return ''
-    }
+                type="radio"
+                name="petSpecies"
+                value="dog"
+                checked={userData.petSpecies === "dog"}
+                onChange={handleChange}
+              />
+              HUND
+            </RadioLabel>
+            <RadioLabel>
+              <Radio
+                type="radio"
+                name="petSpecies"
+                value="horse"
+                checked={userData.petSpecies === "horse"}
+                onChange={handleChange}
+              />
+              PFERD
+            </RadioLabel>
+          </Label>
+        </StyledLongerDiv>
+      </RadioDiv>
+    );
+  } else {
+    return "";
+  }
 }
 
 const RadioDiv = styled.div`
-width: 100%;
-      margin-top: .5rem;
-      margin-bottom: .5rem;
-      height: 3rem;
-      display: inline-flex;
-      flex-direction: column;
-      justify-content: center;
-      position: relative;
-      `
+  width: 100%;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  height: 3rem;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+`;
 
 const StyledLongerDiv = styled.div`
-width: 13rem;
-height: .5rem;
-background: transparent;
-position: relative;
-border: 1px solid #0989F7;
-border-top: none;
-margin-left: 1.5rem;
-z-index: 1;
-`
+  width: 13rem;
+  height: 0.5rem;
+  background: transparent;
+  position: relative;
+  border: 1px solid #0989f7;
+  border-top: none;
+  margin-left: 1.5rem;
+  z-index: 1;
+`;
 
 const Label = styled.label`
-position: absolute;
-left: .35rem;
-bottom: 0;
-      display: inline-block;
-      font-size: .8rem;
-      color: #676767;
-      `
+  position: absolute;
+  left: 0.35rem;
+  bottom: 0;
+  display: inline-block;
+  font-size: 0.8rem;
+  color: #676767;
+`;
 
 const RadioLabel = styled.label`
-margin-left: .25rem;
-      display: inline-block;
-      font-size: .8rem;
-      color: #676767;
-      `
+  margin-left: 0.25rem;
+  display: inline-block;
+  font-size: 0.8rem;
+  color: #676767;
+`;
 
 const Radio = styled.input`
-margin: .25rem;
-width: 1rem;
-`
+  margin: 0.25rem;
+  width: 1rem;
+`;
