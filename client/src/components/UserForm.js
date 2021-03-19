@@ -12,11 +12,13 @@ import { ReactComponent as reset } from '../images/reset.svg'
 
 import setAge from '../services/setAge'
 import setUserNetIncome from '../services/setNetIncome';
+import getDropDownName from '../services/dropDownName';
 
 export default function UserForm({onSubmitForm}) {
 
     const [userData, setUserData] = useState(initialUserData)
     const [focused, setFocused] = useState('')
+    const [dropDownName, setDropDownName] = useState('')
 
     const handleChange = (event) => {
         const field = event.target;
@@ -28,6 +30,11 @@ export default function UserForm({onSubmitForm}) {
 
         setUserData({ ...userData, [field.name]: value });
       };
+
+      const dropChange = (value, field) => {
+        setUserData({ ...userData, [field]: value });
+        getDropDownName(value, setDropDownName)
+      }
 
     useEffect(() => {
         setAge(userData, setUserData)
@@ -73,7 +80,7 @@ function handleClick(event, value) {
 
       <HandleDiv>
     <StyledDiv>
-    <Label className={focused === 'name' || userData.name.length ? 'active' : ''} htmlFor="name">NAME</Label>
+    <Label className={focused === 'name' || userData.name ? 'active' : ''} htmlFor="name">NAME</Label>
     </StyledDiv>
           <TextInput
           className='name'
@@ -86,7 +93,7 @@ function handleClick(event, value) {
           </HandleDiv>
           <HandleDiv>
           <StyledDiv>
-          <Label className={focused === 'lastname' || userData.lastname.length ? 'active' : ''} htmlFor="lastname">NACHNAME</Label>
+          <Label className={focused === 'lastname' || userData.lastname ? 'active' : ''} htmlFor="lastname">NACHNAME</Label>
           </StyledDiv>
           <TextInput
           className='lastname'
@@ -100,7 +107,7 @@ function handleClick(event, value) {
 
           <HandleLongerDiv>
           <StyledLongerDiv>
-          <Label className={focused === 'birthday' || userData.birthday.length ? 'active' : ''} htmlFor="birthday">GEBURTSTAG</Label>
+          <Label className={focused === 'birthday' || userData.birthday ? 'active' : ''} htmlFor="birthday">GEBURTSTAG</Label>
           </StyledLongerDiv>
           <TextLongerInput
             className='birthday'
@@ -112,10 +119,19 @@ function handleClick(event, value) {
           />
           </HandleLongerDiv>
 
-          <SelectDiv>
+          <SelectDiv onClick={(event) => handleClick(event, 'relationship')}>
           <StyledLongerDiv>
-            <Label className={userData.relationship.length ? 'active' : ''} htmlFor="relationship">BEZIEHUNGSSTATUS</Label>
+            <Label className={userData.relationship ? 'active' : ''} htmlFor="relationship">BEZIEHUNGSSTATUS</Label>
+            <P>{userData.relationship ? dropDownName : ''}</P>
             </StyledLongerDiv>
+            <MenuDiv className={focused === 'relationship' ? 'active' : ''} >
+              <MenuP className={userData.relationship === 'single' ? 'active' : ''} onClick={() => dropChange('single', 'relationship')}>LEDIG</MenuP>
+              <MenuP className={userData.relationship === 'inRelationship' ? 'active' : ''} onClick={() => dropChange('inRelationship', 'relationship')}>LEBENSGEMEINSCHAFT</MenuP>
+              <MenuP className={userData.relationship === 'married' ? 'active' : ''} onClick={() => dropChange('married', 'relationship')}>VERHEIRATET</MenuP>
+              <MenuP className={userData.relationship === 'divorced' ? 'active' : ''} onClick={() => dropChange('divorced', 'relationship')}>GESCHIEDEN</MenuP>
+              <MenuP className={userData.relationship === 'widowed' ? 'active' : ''} onClick={() => dropChange('widowed', 'relationship')}>VERWITWET</MenuP>
+              <MenuP className={userData.relationship === '' ? 'red-block' : 'red-font'} onClick={() => setUserData({ ...userData, relationship: '' })}>ZURÜCKSETZEN</MenuP>
+            </MenuDiv>
           <Select
             name="relationship"
             value={userData.relationship}
@@ -129,13 +145,13 @@ function handleClick(event, value) {
             <Option value="divorced">GESCHIEDEN</Option>
             <Option value="widowed">VERWITWET</Option>
           </Select>
-          <SelectSpan>▾</SelectSpan>
+          <SelectSpan>{focused === 'relationship' ? '◂' : '▾'}</SelectSpan>
          </SelectDiv>
             
 
          <HandleLongerDiv>
          <StyledLongerDiv>
-          <Label className={focused === 'children' || userData.children.length ? 'active' : ''} htmlFor="children">ANZAHL DER KINDER</Label>
+          <Label className={focused === 'children' || userData.children ? 'active' : ''} htmlFor="children">ANZAHL DER KINDER</Label>
           </StyledLongerDiv>
           <TextLongerInput
             className='children'
@@ -147,10 +163,17 @@ function handleClick(event, value) {
           />
           </HandleLongerDiv>
 
-            <SelectDiv>
-            <StyledLongerDiv>
-            <Label className={userData.jobStatus.length ? 'active' : ''} htmlFor="jobStatus">BERUFSSTATUS</Label>
+         <SelectDiv onClick={(event) => handleClick(event, 'jobStatus')}>
+          <StyledLongerDiv>
+            <Label className={userData.jobStatus ? 'active' : ''} htmlFor="jobStatus">BERUFSSTATUS</Label>
+            <P>{userData.jobStatus ? dropDownName : ''}</P>
             </StyledLongerDiv>
+            <MenuDiv className={focused === 'jobStatus' ? 'active' : ''} >
+              <MenuP className={userData.jobStatus === 'employed' ? 'active' : ''} onClick={() => dropChange('employed', 'jobStatus')}>ANGESTELLT</MenuP>
+              <MenuP className={userData.jobStatus === 'selfEmployed' ? 'active' : ''} onClick={() => dropChange('selfEmployed', 'jobStatus')}>SELBSTSTÄNDIG</MenuP>
+              <MenuP className={userData.jobStatus === 'civilServants' ? 'active' : ''} onClick={() => dropChange('civilServants', 'jobStatus')}>VERBEAMTET</MenuP>
+              <MenuP className={userData.jobStatus === '' ? 'red-block' : 'red-font'} onClick={() => setUserData({ ...userData, jobStatus: '' })}>ZURÜCKSETZEN</MenuP>
+            </MenuDiv>
           <Select
             name="jobStatus"
             value={userData.jobStatus}
@@ -162,13 +185,13 @@ function handleClick(event, value) {
             <Option value="selfEmployed">SELBSTSTÄNDIG</Option>
             <Option value="civilServants">VERBEAMTET</Option>
           </Select>
-          <SelectSpan>▾</SelectSpan>
+          <SelectSpan>{focused === 'jobStatus' ? '◂' : '▾'}</SelectSpan>
          </SelectDiv>
         
 
          <HandleLongerDiv>
          <StyledLongerDiv>
-          <Label className={focused === 'income' || userData.income.length ? 'active' : ''} htmlFor="income">BRUTTOEINKOMMEN</Label>
+          <Label className={focused === 'income' || userData.income ? 'active' : ''} htmlFor="income">BRUTTOEINKOMMEN</Label>
           </StyledLongerDiv>
           <TextLongerInput
             className='income'
@@ -182,7 +205,7 @@ function handleClick(event, value) {
 
           <HandleLongerDiv>
           <StyledLongerDiv>
-          <Label className={focused === 'netIncome' || userData.netIncome.length ? 'active' : ''} htmlFor="netIncome">NETTOEINKOMMEN</Label>
+          <Label className={focused === 'netIncome' || userData.netIncome ? 'active' : ''} htmlFor="netIncome">NETTOEINKOMMEN</Label>
           </StyledLongerDiv>
           <TextLongerInput
             className='netIncome'
@@ -337,6 +360,7 @@ position: relative;
 `
 
 const Select = styled.select`
+display: none;
 position: absolute;
       appearance: none;
       background-color: transparent;
@@ -397,10 +421,20 @@ const Label = styled.label`
 }
       `
 
+const P = styled.p`
+font-size: .8rem;
+color: #676767;
+z-index: 10;
+position: absolute;
+transition: all .25s;
+left: .25rem;
+bottom: -.7rem;
+`
+
 const SelectSpan = styled.span`
-right: .5rem;
-margin-bottom: .35rem;
-font-size: 1.2rem;
+right: .7rem;
+bottom: .8rem;
+font-size: 1.5rem;
 color: grey;
 position: absolute;
 `
@@ -460,6 +494,8 @@ width: 1rem;
 const ButtonDiv = styled.div`
 margin-top: 2rem;
 width: 100%;
+display: flex;
+justify-content: center;
 `
 
 const ButtonSubmit = styled.button`
@@ -498,4 +534,51 @@ height: 14.5px;
 const Reset = styled(reset)`
 width: 17.31px;
 height: 12.59px;
+`
+
+
+const MenuDiv = styled.div`
+      font-size: .8rem;
+      display: none;
+      width: 95%;
+      z-index: 15;
+      position: absolute;
+      top: 2rem;
+      background: white;
+      &.active {
+        display: inline-block;
+      }
+      `
+
+const MenuP = styled.p`
+margin: 0;
+height: 1.5rem;
+border: .5px solid #0989F7;
+border-top: none;
+padding: .25rem;
+color: #0989F7;
+font-size: .8rem;
+
+&:hover {
+  background: #0989F7;
+color: white;
+}
+
+&.active {
+  background: #0989F7;
+color: white;
+}
+
+&.red-font {
+  color: #BA0D50;
+  border: .5px solid #BA0D50;
+border-top: none;
+}
+
+&.red-block {
+  background: #BA0D50;
+color: white;
+border: .5px solid #BA0D50;
+border-top: none;
+}
 `

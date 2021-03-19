@@ -7,7 +7,7 @@ export default function MotorcycleProps({userData, handleChange, focused, handle
 
 <HandleDiv>
 <StyledDiv>
-    <Label className={focused === 'motorcycleAge' || userData.motorcycleAge.length ? 'active' : ''} htmlFor="motorcycleAge">MOTORRADALTER</Label>
+    <Label className={focused === 'motorcycleAge' || userData.motorcycleAge ? 'active' : ''} htmlFor="motorcycleAge">MOTORRADALTER</Label>
     </StyledDiv>
           <TextInput
           className='motorcycleAge'
@@ -21,7 +21,7 @@ export default function MotorcycleProps({userData, handleChange, focused, handle
 
           <HandleDiv>
           <StyledDiv>
-    <Label className={focused === 'motorcycleValue' || userData.motorcycleValue.length ? 'active' : ''} htmlFor="motorcycleValue">MOTORRADWERT</Label>
+    <Label className={focused === 'motorcycleValue' || userData.motorcycleValue ? 'active' : ''} htmlFor="motorcycleValue">MOTORRADWERT</Label>
     </StyledDiv>
           <TextInput
           className='motorcycleValue'
@@ -46,8 +46,8 @@ margin-bottom: .5rem;
 `
 
 const HandleDiv = styled.div`
-width: 50%;
-max-width: 191px;
+width: 47.5%;
+max-width: 181.45px;
       height: 3rem;
       display: inline-flex;
       flex-direction: column;

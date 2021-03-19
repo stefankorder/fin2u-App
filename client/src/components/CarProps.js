@@ -6,7 +6,7 @@ export default function CarProps({userData, handleChange, focused, handleClick})
             <SubMenuDiv>
 <HandleDiv>
 <StyledDiv>
-          <Label className={focused === 'carAge' || userData.carAge.length ? 'active' : ''} htmlFor="carAge">FAHRZEUGALTER</Label>
+          <Label className={focused === 'carAge' || userData.carAge ? 'active' : ''} htmlFor="carAge">FAHRZEUGALTER</Label>
           </StyledDiv>
           <TextInput
             className='carAge'
@@ -20,7 +20,7 @@ export default function CarProps({userData, handleChange, focused, handleClick})
 
           <HandleDiv>
           <StyledDiv>
-          <Label className={focused === 'carValue' || userData.carValue.length ? 'active' : ''} htmlFor="carValue">FAHRZEUGWERT</Label>
+          <Label className={focused === 'carValue' || userData.carValue ? 'active' : ''} htmlFor="carValue">FAHRZEUGWERT</Label>
           </StyledDiv>
           <TextInput
             className='carValue'
@@ -45,8 +45,8 @@ margin-bottom: .5rem;
 `
 
 const HandleDiv = styled.div`
-width: 50%;
-max-width: 191px;
+width: 47.5%;
+max-width: 181.45px;
       height: 3rem;
       display: inline-flex;
       flex-direction: column;
