@@ -13,6 +13,7 @@ import { ReactComponent as reset } from "../images/reset.svg";
 import setAge from "../services/setAge";
 import setUserNetIncome from "../services/setNetIncome";
 import getDropDownName from "../services/dropDownName";
+import UserInsurances from "./UserInsurances";
 
 export default function UserForm({ onSubmitForm }) {
   const [userData, setUserData] = useState(initialUserData);
@@ -404,6 +405,8 @@ export default function UserForm({ onSubmitForm }) {
           </div>
         </CheckboxContainer>
 
+        <UserInsurances userData={userData} setUserData={setUserData} />
+
         <ButtonDiv>
           <ButtonSubmit type="submit" text="Add">
             <Submit />
@@ -672,9 +675,10 @@ const MenuP = styled.p`
   height: 1.5rem;
   border: 0.5px solid #0989f7;
   border-top: none;
-  padding: 0.25rem;
+  padding: 0.3rem 0.4rem 0.2rem;
   color: #0989f7;
   font-size: 0.8rem;
+  cursor: pointer;
 
   &:hover {
     background: #0989f7;

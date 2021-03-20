@@ -19,6 +19,7 @@ const initialUserData = {
   motorcycleAge: "",
   motorcycleValue: "",
   dangerousHobby: false,
+  insurancesAlreadyHave: [],
 };
 
 export default initialUserData;
