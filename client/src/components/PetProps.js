@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export default function PetProps({ userData, handleChange }) {
+export default function PetProps({ userData, handleChange, formValidation }) {
   if (userData.pet) {
     return (
       <RadioDiv>
@@ -28,6 +28,11 @@ export default function PetProps({ userData, handleChange }) {
               PFERD
             </RadioLabel>
           </Label>
+          {formValidation.includes("petSpecies") ? (
+            <ErrorText>Bitte eine Tierart wählen!</ErrorText>
+          ) : (
+            ""
+          )}
         </StyledLongerDiv>
       </RadioDiv>
     );
@@ -77,4 +82,12 @@ const RadioLabel = styled.label`
 const Radio = styled.input`
   margin: 0.25rem;
   width: 1rem;
+`;
+
+const ErrorText = styled.span`
+  position: absolute;
+  font-size: 0.6rem;
+  color: #ba0d50;
+  bottom: -0.9rem;
+  left: 0;
 `;

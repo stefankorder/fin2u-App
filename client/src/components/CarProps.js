@@ -5,6 +5,7 @@ export default function CarProps({
   handleChange,
   focused,
   handleClick,
+  formValidation,
 }) {
   if (userData.car) {
     return (
@@ -19,6 +20,11 @@ export default function CarProps({
             >
               FAHRZEUGALTER
             </Label>
+            {formValidation.includes("carAge") ? (
+              <ErrorText>Bitte geben Sie das Fahrzeugalter an!</ErrorText>
+            ) : (
+              ""
+            )}
           </StyledDiv>
           <TextInput
             className="carAge"
@@ -40,6 +46,11 @@ export default function CarProps({
             >
               FAHRZEUGWERT
             </Label>
+            {formValidation.includes("carValue") ? (
+              <ErrorText>Bitte gültigen Wert eingeben!</ErrorText>
+            ) : (
+              ""
+            )}
           </StyledDiv>
           <TextInput
             className="carValue"
@@ -113,4 +124,12 @@ const TextInput = styled.input`
   color: #676767;
   margin-left: 0.5rem;
   bottom: 1.125rem;
+`;
+
+const ErrorText = styled.span`
+  position: absolute;
+  font-size: 0.6rem;
+  color: #ba0d50;
+  bottom: -0.9rem;
+  left: 0;
 `;

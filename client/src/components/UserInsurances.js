@@ -2,10 +2,12 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import insuranceProducts from "../lib/insuranceProducts";
 
-export default function UserInsurances({ userData, setUserData }) {
-  const [insurancesAlreadyCompleted, setInsurancesAlreadyCompleted] = useState(
-    []
-  );
+export default function UserInsurances({
+  userData,
+  setUserData,
+  insurancesAlreadyCompleted,
+  setInsurancesAlreadyCompleted,
+}) {
   const [insuranceValues, setInsuranceValues] = useState([]);
 
   function onDeleteInsurance(insurancetoDelete) {

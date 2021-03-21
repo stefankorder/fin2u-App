@@ -1,10 +1,4 @@
-export default function setAge(data, setData) {
-  data.birthday.length === 10
-    ? setData({ ...data, age: userAge(data.birthday) })
-    : setData({ ...data, age: 0 });
-}
-
-function userAge(birthday) {
+export default function setAge(birthday) {
   const birthdaySplited = {
     day: +birthday.split(".")[0],
     month: +birthday.split(".")[1],

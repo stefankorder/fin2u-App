@@ -15,14 +15,111 @@ import setUserNetIncome from "../services/setNetIncome";
 import getDropDownName from "../services/dropDownName";
 import UserInsurances from "./UserInsurances";
 
-export default function UserForm({ onSubmitForm }) {
+export default function UserForm({ onSubmitForm, userToCalculate }) {
   const [userData, setUserData] = useState(initialUserData);
   const [focused, setFocused] = useState("");
-  const [dropDownName, setDropDownName] = useState("");
+  const [dropDownNameRelationship, setDropDownNameRelationship] = useState("");
+  const [dropDownNameWork, setDropDownNameWork] = useState("");
+  const [formValidation, setFormValidation] = useState([]);
+  const [insurancesAlreadyCompleted, setInsurancesAlreadyCompleted] = useState(
+    []
+  );
 
   const handleChange = (event) => {
     const field = event.target;
     let value = event.target.value;
+
+    if (field.name === "name" && value.length >= 3) {
+      const remainingValids = formValidation.filter(
+        (valid) => valid !== "name"
+      );
+      setFormValidation(remainingValids);
+    }
+
+    if (field.name === "lastname" && value.length >= 3) {
+      const remainingValids = formValidation.filter(
+        (valid) => valid !== "lastname"
+      );
+      setFormValidation(remainingValids);
+    }
+
+    if (field.name === "birthday") {
+      const UserAge = setAge(value);
+      if (UserAge >= 18 && UserAge < 100) {
+        const remainingValids = formValidation.filter(
+          (valid) => valid !== "birthday"
+        );
+        setFormValidation(remainingValids);
+      }
+    }
+
+    if (field.name === "children" && !isNaN(value) && value) {
+      const remainingValids = formValidation.filter(
+        (valid) => valid !== "children"
+      );
+      setFormValidation(remainingValids);
+    }
+
+    if (field.name === "income" && !isNaN(value) && value) {
+      const remainingValids = formValidation.filter(
+        (valid) => valid !== "income"
+      );
+      setFormValidation(remainingValids);
+    }
+
+    if (field.name === "netIncome" && !isNaN(value) && value) {
+      const remainingValids = formValidation.filter(
+        (valid) => valid !== "netIncome"
+      );
+      setFormValidation(remainingValids);
+    }
+
+    if (
+      field.name === "carAge" &&
+      !isNaN(value) &&
+      value &&
+      value < 100 &&
+      value >= 0
+    ) {
+      const remainingValids = formValidation.filter(
+        (valid) => valid !== "carAge"
+      );
+      setFormValidation(remainingValids);
+    }
+
+    if (field.name === "carValue" && !isNaN(value) && value) {
+      const remainingValids = formValidation.filter(
+        (valid) => valid !== "carValue"
+      );
+      setFormValidation(remainingValids);
+    }
+
+    if (field.name === "petSpecies" && value) {
+      const remainingValids = formValidation.filter(
+        (valid) => valid !== "petSpecies"
+      );
+      setFormValidation(remainingValids);
+    }
+
+    if (
+      field.name === "motorcycleAge" &&
+      !isNaN(value) &&
+      value &&
+      value < 100 &&
+      value >= 0
+    ) {
+      const remainingValids = formValidation.filter(
+        (valid) => valid !== "motorcycleAge"
+      );
+      setFormValidation(remainingValids);
+    }
+
+    if (field.name === "motorcycleValue" && !isNaN(value) && value) {
+      const remainingValids = formValidation.filter(
+        (valid) => valid !== "motorcycleValue"
+      );
+      setFormValidation(remainingValids);
+    }
 
     if (event.target.type === "checkbox") {
       value = event.target.checked;
@@ -33,22 +130,116 @@ export default function UserForm({ onSubmitForm }) {
 
   const dropChange = (value, field) => {
     setUserData({ ...userData, [field]: value });
-    getDropDownName(value, setDropDownName);
+    if (field === "relationship" && value) {
+      const remainingValids = formValidation.filter(
+        (valid) => valid !== "relationship"
+      );
+      setFormValidation(remainingValids);
+      getDropDownName(value, setDropDownNameRelationship);
+    }
+
+    if (field === "jobStatus" && value) {
+      const remainingValids = formValidation.filter(
+        (valid) => valid !== "jobStatus"
+      );
+      setFormValidation(remainingValids);
+      getDropDownName(value, setDropDownNameWork);
+    }
   };
 
   useEffect(() => {
-    setAge(userData, setUserData);
+    const UserAge = setAge(userData.birthday);
+    setUserData({ ...userData, age: UserAge });
   }, [userData.birthday]);
 
   useEffect(() => {
-    setUserNetIncome(userData, setUserData);
+    const userNetIncome = setUserNetIncome(userData.income, userData.jobStatus);
+    if (userData.jobStatus === "employed") {
+      setUserData({ ...userData, netIncome: userNetIncome });
+    }
+    if (!isNaN(userNetIncome)) {
+      const remainingValids = formValidation.filter(
+        (valid) => valid !== "netIncome"
+      );
+      setFormValidation(remainingValids);
+    }
   }, [userData.income]);
+
+  function validateForm() {
+    const validate = [];
+    if (userData.name.length < 3) {
+      validate.push("name");
+    }
+    if (userData.lastname.length < 3) {
+      validate.push("lastname");
+    }
+    if (userData.age < 18 || userData.age > 99 || !userData.age) {
+      validate.push("birthday");
+    }
+    if (!userData.relationship) {
+      validate.push("relationship");
+    }
+    if (isNaN(userData.children) || !userData.children) {
+      validate.push("children");
+    }
+    if (!userData.jobStatus) {
+      validate.push("jobStatus");
+    }
+    if (isNaN(userData.income) || !userData.income) {
+      validate.push("income");
+    }
+    if (isNaN(userData.netIncome) || !userData.netIncome) {
+      validate.push("netIncome");
+    }
+    if (userData.car) {
+      if (
+        isNaN(userData.carAge) ||
+        userData.carAge > 99 ||
+        userData.carAge < 0 ||
+        !userData.carAge
+      ) {
+        validate.push("carAge");
+      }
+      if (isNaN(userData.carValue) || !userData.carValue) {
+        validate.push("carValue");
+      }
+    }
+    if (userData.pet && !userData.petSpecies) {
+      validate.push("petSpecies");
+    }
+    if (userData.motorcycle) {
+      if (
+        isNaN(userData.motorcycleAge) ||
+        userData.motorcycleAge > 99 ||
+        userData.motorcycleAge < 0 ||
+        !userData.motorcycleAge
+      ) {
+        validate.push("motorcycleAge");
+      }
+      if (isNaN(userData.motorcycleValue) || !userData.motorcycleValue) {
+        validate.push("motorcycleValue");
+      }
+    }
+
+    if (!validate.length) {
+      validate.push("go");
+    }
+    setFormValidation(validate);
+  }
 
   function submitForm(event) {
     event.preventDefault();
-    onSubmitForm(userData);
-    setUserData(initialUserData);
+    validateForm();
   }
+
+  useEffect(() => {
+    if (formValidation.includes("go")) {
+      onSubmitForm(userData);
+      setUserData(initialUserData);
+      setFormValidation([]);
+      setInsurancesAlreadyCompleted([]);
+    }
+  }, [formValidation]);
 
   useEffect(() => {
     if (focused) {
@@ -72,6 +263,11 @@ export default function UserForm({ onSubmitForm }) {
     }
   }
 
+  function resetAllData() {
+    setUserData(initialUserData);
+    setInsurancesAlreadyCompleted([]);
+  }
+
   return (
     <ContainerBox>
       <Form onSubmit={submitForm}>
@@ -83,8 +279,13 @@ export default function UserForm({ onSubmitForm }) {
               className={focused === "name" || userData.name ? "active" : ""}
               htmlFor="name"
             >
-              NAME
+              VORNAME
             </Label>
+            {formValidation.includes("name") ? (
+              <ErrorText>Bitte mind. 3 Buchstaben eingeben!</ErrorText>
+            ) : (
+              ""
+            )}
           </StyledDiv>
           <TextInput
             className="name"
@@ -105,6 +306,11 @@ export default function UserForm({ onSubmitForm }) {
             >
               NACHNAME
             </Label>
+            {formValidation.includes("lastname") ? (
+              <ErrorText>Bitte mind. 3 Buchstaben eingeben!</ErrorText>
+            ) : (
+              ""
+            )}
           </StyledDiv>
           <TextInput
             className="lastname"
@@ -124,8 +330,15 @@ export default function UserForm({ onSubmitForm }) {
               }
               htmlFor="birthday"
             >
-              GEBURTSTAG
+              GEBURTSDATUM
             </Label>
+            {formValidation.includes("birthday") ? (
+              <ErrorText>
+                Kein gültiges Geburtsdatum! (Sie müssen mind. 18 sein)
+              </ErrorText>
+            ) : (
+              ""
+            )}
           </StyledLongerDiv>
           <TextLongerInput
             className="birthday"
@@ -145,7 +358,12 @@ export default function UserForm({ onSubmitForm }) {
             >
               BEZIEHUNGSSTATUS
             </Label>
-            <P>{userData.relationship ? dropDownName : ""}</P>
+            {formValidation.includes("relationship") ? (
+              <ErrorText>Bitte wählen Sie Ihren Beziehungsstatus!</ErrorText>
+            ) : (
+              ""
+            )}
+            <P>{userData.relationship ? dropDownNameRelationship : ""}</P>
           </StyledLongerDiv>
           <MenuDiv className={focused === "relationship" ? "active" : ""}>
             <MenuP
@@ -189,24 +407,8 @@ export default function UserForm({ onSubmitForm }) {
               ZURÜCKSETZEN
             </MenuP>
           </MenuDiv>
-          <Select
-            name="relationship"
-            value={userData.relationship}
-            onChange={handleChange}
-            required
-          >
-            <Option value=""></Option>
-            <Option value="single">LEDIG</Option>
-            <Option value="inRelationship">LEBENSGEMEINSCHAFT</Option>
-            <Option value="married">
-              VERHEIRATET / EINGETRAGENE LEBENSPARTNERSCHAFT
-            </Option>
-            <Option value="divorced">GESCHIEDEN</Option>
-            <Option value="widowed">VERWITWET</Option>
-          </Select>
           <SelectSpan>{focused === "relationship" ? "◂" : "▾"}</SelectSpan>
         </SelectDiv>
-
         <HandleLongerDiv>
           <StyledLongerDiv>
             <Label
@@ -217,6 +419,11 @@ export default function UserForm({ onSubmitForm }) {
             >
               ANZAHL DER KINDER
             </Label>
+            {formValidation.includes("children") ? (
+              <ErrorText>Bitte geben Sie eine Zahl an!</ErrorText>
+            ) : (
+              ""
+            )}
           </StyledLongerDiv>
           <TextLongerInput
             className="children"
@@ -236,7 +443,12 @@ export default function UserForm({ onSubmitForm }) {
             >
               BERUFSSTATUS
             </Label>
-            <P>{userData.jobStatus ? dropDownName : ""}</P>
+            {formValidation.includes("jobStatus") ? (
+              <ErrorText>Bitte wählen Sie Ihren Berufsstatus!</ErrorText>
+            ) : (
+              ""
+            )}
+            <P>{userData.jobStatus ? dropDownNameWork : ""}</P>
           </StyledLongerDiv>
           <MenuDiv className={focused === "jobStatus" ? "active" : ""}>
             <MenuP
@@ -264,17 +476,7 @@ export default function UserForm({ onSubmitForm }) {
               ZURÜCKSETZEN
             </MenuP>
           </MenuDiv>
-          <Select
-            name="jobStatus"
-            value={userData.jobStatus}
-            onChange={handleChange}
-            required
-          >
-            <Option value=""></Option>
-            <Option value="employed">ANGESTELLT</Option>
-            <Option value="selfEmployed">SELBSTSTÄNDIG</Option>
-            <Option value="civilServants">VERBEAMTET</Option>
-          </Select>
+
           <SelectSpan>{focused === "jobStatus" ? "◂" : "▾"}</SelectSpan>
         </SelectDiv>
 
@@ -288,6 +490,11 @@ export default function UserForm({ onSubmitForm }) {
             >
               BRUTTOEINKOMMEN
             </Label>
+            {formValidation.includes("income") ? (
+              <ErrorText>Bitte geben Sie Ihr Bruttoeinkommen an!</ErrorText>
+            ) : (
+              ""
+            )}
           </StyledLongerDiv>
           <TextLongerInput
             className="income"
@@ -309,6 +516,11 @@ export default function UserForm({ onSubmitForm }) {
             >
               NETTOEINKOMMEN
             </Label>
+            {formValidation.includes("netIncome") ? (
+              <ErrorText>Bitte geben Sie Ihr Nettoeinkommen an!</ErrorText>
+            ) : (
+              ""
+            )}
           </StyledLongerDiv>
           <TextLongerInput
             className="netIncome"
@@ -359,6 +571,7 @@ export default function UserForm({ onSubmitForm }) {
               handleChange={handleChange}
               handleClick={handleClick}
               focused={focused}
+              formValidation={formValidation}
             />
           </div>
           <div>
@@ -372,7 +585,11 @@ export default function UserForm({ onSubmitForm }) {
               HAUSTIER VORHANDEN?
             </CheckboxLabel>
 
-            <PetProps userData={userData} handleChange={handleChange} />
+            <PetProps
+              userData={userData}
+              handleChange={handleChange}
+              formValidation={formValidation}
+            />
           </div>
           <div>
             <CheckboxLabel>
@@ -390,6 +607,7 @@ export default function UserForm({ onSubmitForm }) {
               handleChange={handleChange}
               handleClick={handleClick}
               focused={focused}
+              formValidation={formValidation}
             />
           </div>
           <div>
@@ -405,18 +623,19 @@ export default function UserForm({ onSubmitForm }) {
           </div>
         </CheckboxContainer>
 
-        <UserInsurances userData={userData} setUserData={setUserData} />
+        <UserInsurances
+          userData={userData}
+          setUserData={setUserData}
+          insurancesAlreadyCompleted={insurancesAlreadyCompleted}
+          setInsurancesAlreadyCompleted={setInsurancesAlreadyCompleted}
+        />
 
         <ButtonDiv>
           <ButtonSubmit type="submit" text="Add">
             <Submit />
             <ButtonSpan>Los gehts!</ButtonSpan>
           </ButtonSubmit>
-          <ButtonReset
-            type="reset"
-            text="Reset"
-            onClick={() => setUserData(initialUserData)}
-          >
+          <ButtonReset type="reset" text="Reset" onClick={resetAllData}>
             <Reset />
             <ButtonSpan>Neustarten</ButtonSpan>
           </ButtonReset>
@@ -481,26 +700,6 @@ const SelectDiv = styled.div`
   position: relative;
 `;
 
-const Select = styled.select`
-  display: none;
-  position: absolute;
-  appearance: none;
-  background-color: transparent;
-  border: none;
-  width: 100%;
-  font-family: inherit;
-  font-size: 0.8rem;
-  color: #676767;
-  cursor: pointer;
-  z-index: 10;
-  left: 0.6rem;
-  bottom: 1.125rem;
-
-  &::-ms-expand {
-    display: none;
-  }
-`;
-
 const TextInput = styled.input`
   position: absolute;
   background: transparent;
@@ -542,6 +741,14 @@ const Label = styled.label`
   }
 `;
 
+const ErrorText = styled.span`
+  position: absolute;
+  font-size: 0.6rem;
+  color: #ba0d50;
+  bottom: -0.9rem;
+  left: 0;
+`;
+
 const P = styled.p`
   font-size: 0.8rem;
   color: #676767;
@@ -558,13 +765,6 @@ const SelectSpan = styled.span`
   font-size: 1.5rem;
   color: grey;
   position: absolute;
-`;
-
-const Option = styled.option`
-  padding: 0.125rem 0.25rem;
-  background: #0989f7;
-  color: white;
-  font-size: 0.7rem;
 `;
 
 const CheckboxLabel = styled.label`

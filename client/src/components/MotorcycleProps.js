@@ -5,6 +5,7 @@ export default function MotorcycleProps({
   handleChange,
   focused,
   handleClick,
+  formValidation,
 }) {
   if (userData.motorcycle) {
     return (
@@ -21,6 +22,11 @@ export default function MotorcycleProps({
             >
               MOTORRADALTER
             </Label>
+            {formValidation.includes("motorcycleAge") ? (
+              <ErrorText>Bitte geben Sie das Motorradalter an!</ErrorText>
+            ) : (
+              ""
+            )}
           </StyledDiv>
           <TextInput
             className="motorcycleAge"
@@ -44,6 +50,11 @@ export default function MotorcycleProps({
             >
               MOTORRADWERT
             </Label>
+            {formValidation.includes("motorcycleValue") ? (
+              <ErrorText>Bitte gültigen Wert eingeben!</ErrorText>
+            ) : (
+              ""
+            )}
           </StyledDiv>
           <TextInput
             className="motorcycleValue"
@@ -117,4 +128,12 @@ const TextInput = styled.input`
   color: #676767;
   margin-left: 0.5rem;
   bottom: 1.125rem;
+`;
+
+const ErrorText = styled.span`
+  position: absolute;
+  font-size: 0.6rem;
+  color: #ba0d50;
+  bottom: -0.9rem;
+  left: 0;
 `;
