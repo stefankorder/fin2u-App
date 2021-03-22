@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { ReactComponent as fin2u } from "../images/fin2u.svg";
+import { ReactComponent as fin2u } from "../images/fin2uLogo.svg";
 
 export default function Header() {
   return (

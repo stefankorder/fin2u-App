@@ -365,6 +365,9 @@ export default function UserForm({ onSubmitForm }) {
             )}
           </StyledLongerDiv>
           <TextLongerInput
+            placeholder={
+              focused === "birthday" && !userData.birthday && "TT.MM.JJJJ"
+            }
             className="birthday"
             type="text"
             name="birthday"
@@ -671,6 +674,7 @@ const ContainerBox = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0.5rem;
+  padding-bottom: 2rem;
 `;
 
 const H2 = styled.h2`
@@ -793,7 +797,7 @@ const SelectSpan = styled.span`
   right: 0.7rem;
   bottom: 0.8rem;
   font-size: 1.5rem;
-  color: grey;
+  color: #676767;
   position: absolute;
 `;
 

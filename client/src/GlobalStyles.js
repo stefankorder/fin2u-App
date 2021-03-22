@@ -29,6 +29,7 @@ export const GlobalStyles = createGlobalStyle`
 
 body {
   font-family: sans-serif;
+  background: whitesmoke;
 }
 
 select,

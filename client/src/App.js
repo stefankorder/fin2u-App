@@ -1,8 +1,11 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { Switch, Route } from "react-router-dom";
 
-import UserForm from "./components/UserForm";
+import Start from "./pages/Start";
+
 import Header from "./components/Header";
+import NavBar from "./components/NavBar";
 
 function App() {
   const [userToCalculate, setUserToCalculate] = useState("");
@@ -14,7 +17,15 @@ function App() {
   return (
     <AppContainer>
       <Header />
-      <UserForm onSubmitForm={onSubmitForm} />
+      <Switch>
+        <Route exact path="/">
+          <Start onSubmitForm={onSubmitForm} />
+        </Route>
+        <Route path="/about">
+          <Start onSubmitForm={onSubmitForm} />
+        </Route>
+      </Switch>
+      <NavBar />
     </AppContainer>
   );
 }
@@ -22,8 +33,13 @@ function App() {
 export default App;
 
 const AppContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto 1fr;
+  background: white;
   width: 100%;
-  height: 100%;
-  border-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
   box-shadow: 0 2px 11px 0 rgba(25, 50, 81, 0.2);
+  margin-bottom: 3.5rem;
 `;
