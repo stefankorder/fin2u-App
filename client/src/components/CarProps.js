@@ -7,68 +7,58 @@ export default function CarProps({
   handleClick,
   formValidation,
 }) {
-  if (userData.car) {
-    return (
-      <SubMenuDiv>
-        <HandleDiv>
-          <StyledDiv>
-            <Label
-              className={
-                focused === "carAge" || userData.carAge ? "active" : ""
-              }
-              htmlFor="carAge"
-            >
-              FAHRZEUGALTER
-            </Label>
-            {formValidation.includes("carAge") ? (
-              <ErrorText>Bitte geben Sie das Fahrzeugalter an!</ErrorText>
-            ) : (
-              ""
-            )}
-          </StyledDiv>
-          <TextInput
-            className="carAge"
-            type="text"
-            name="carAge"
-            value={userData.carAge}
-            onChange={handleChange}
-            onClick={(event) => handleClick(event, "carAge")}
-          />
-        </HandleDiv>
+  return (
+    <SubMenu>
+      <HandleDiv>
+        <StyledDiv>
+          <Label
+            className={(focused === "carAge" || userData.carAge) && "active"}
+            htmlFor="carAge"
+          >
+            FAHRZEUGALTER
+          </Label>
+          {formValidation.includes("carAge") && (
+            <ErrorText>Bitte geben Sie das Alter an!</ErrorText>
+          )}
+        </StyledDiv>
+        <TextInput
+          className="carAge"
+          type="text"
+          name="carAge"
+          value={userData.carAge}
+          onChange={handleChange}
+          onClick={(event) => handleClick(event, "carAge")}
+        />
+      </HandleDiv>
 
-        <HandleDiv>
-          <StyledDiv>
-            <Label
-              className={
-                focused === "carValue" || userData.carValue ? "active" : ""
-              }
-              htmlFor="carValue"
-            >
-              FAHRZEUGWERT
-            </Label>
-            {formValidation.includes("carValue") ? (
-              <ErrorText>Bitte gültigen Wert eingeben!</ErrorText>
-            ) : (
-              ""
-            )}
-          </StyledDiv>
-          <TextInput
-            className="carValue"
-            type="text"
-            name="carValue"
-            value={userData.carValue}
-            onChange={handleChange}
-            onClick={(event) => handleClick(event, "carValue")}
-          />
-        </HandleDiv>
-      </SubMenuDiv>
-    );
-  } else {
-    return "";
-  }
+      <HandleDiv>
+        <StyledDiv>
+          <Label
+            className={
+              (focused === "carValue" || userData.carValue) && "active"
+            }
+            htmlFor="carValue"
+          >
+            FAHRZEUGWERT
+          </Label>
+          {formValidation.includes("carValue") && (
+            <ErrorText>Bitte gültigen Wert eingeben!</ErrorText>
+          )}
+        </StyledDiv>
+        <TextInput
+          className="carValue"
+          type="text"
+          name="carValue"
+          value={userData.carValue}
+          onChange={handleChange}
+          onClick={(event) => handleClick(event, "carValue")}
+        />
+      </HandleDiv>
+    </SubMenu>
+  );
 }
 
-const SubMenuDiv = styled.div`
+const SubMenu = styled.div`
   width: 100%;
   margin-left: 0.9rem;
   margin-bottom: 0.5rem;

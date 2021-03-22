@@ -1,44 +1,38 @@
 import styled from "styled-components";
 
 export default function PetProps({ userData, handleChange, formValidation }) {
-  if (userData.pet) {
-    return (
-      <RadioDiv>
-        <StyledLongerDiv>
-          <Label>
-            TIERART:
-            <RadioLabel>
-              <Radio
-                type="radio"
-                name="petSpecies"
-                value="dog"
-                checked={userData.petSpecies === "dog"}
-                onChange={handleChange}
-              />
-              HUND
-            </RadioLabel>
-            <RadioLabel>
-              <Radio
-                type="radio"
-                name="petSpecies"
-                value="horse"
-                checked={userData.petSpecies === "horse"}
-                onChange={handleChange}
-              />
-              PFERD
-            </RadioLabel>
-          </Label>
-          {formValidation.includes("petSpecies") ? (
-            <ErrorText>Bitte eine Tierart wählen!</ErrorText>
-          ) : (
-            ""
-          )}
-        </StyledLongerDiv>
-      </RadioDiv>
-    );
-  } else {
-    return "";
-  }
+  return (
+    <RadioDiv>
+      <StyledLongerDiv>
+        <Label>
+          TIERART:
+          <RadioLabel>
+            <Radio
+              type="radio"
+              name="petSpecies"
+              value="dog"
+              checked={userData.petSpecies === "dog"}
+              onChange={handleChange}
+            />
+            HUND
+          </RadioLabel>
+          <RadioLabel>
+            <Radio
+              type="radio"
+              name="petSpecies"
+              value="horse"
+              checked={userData.petSpecies === "horse"}
+              onChange={handleChange}
+            />
+            PFERD
+          </RadioLabel>
+        </Label>
+        {formValidation.includes("petSpecies") && (
+          <ErrorText>Bitte eine Tierart wählen!</ErrorText>
+        )}
+      </StyledLongerDiv>
+    </RadioDiv>
+  );
 }
 
 const RadioDiv = styled.div`

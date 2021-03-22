@@ -15,7 +15,7 @@ import setUserNetIncome from "../services/setNetIncome";
 import getDropDownName from "../services/dropDownName";
 import UserInsurances from "./UserInsurances";
 
-export default function UserForm({ onSubmitForm, userToCalculate }) {
+export default function UserForm({ onSubmitForm }) {
   const [userData, setUserData] = useState(initialUserData);
   const [focused, setFocused] = useState("");
   const [dropDownNameRelationship, setDropDownNameRelationship] = useState("");
@@ -123,6 +123,35 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
 
     if (event.target.type === "checkbox") {
       value = event.target.checked;
+    }
+
+    if (field.name === "car" && !value) {
+      setUserData({
+        ...userData,
+        [field.name]: value,
+        carAge: "",
+        carValue: "",
+      });
+      return;
+    }
+
+    if (field.name === "motorcycle" && !value) {
+      setUserData({
+        ...userData,
+        [field.name]: value,
+        motorcycleAge: "",
+        motorcycleValue: "",
+      });
+      return;
+    }
+
+    if (field.name === "pet" && !value) {
+      setUserData({
+        ...userData,
+        [field.name]: value,
+        petSpecies: "",
+      });
+      return;
     }
 
     setUserData({ ...userData, [field.name]: value });
@@ -266,6 +295,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
   function resetAllData() {
     setUserData(initialUserData);
     setInsurancesAlreadyCompleted([]);
+    setFormValidation([]);
   }
 
   return (
@@ -276,15 +306,13 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
         <HandleDiv>
           <StyledDiv>
             <Label
-              className={focused === "name" || userData.name ? "active" : ""}
+              className={(focused === "name" || userData.name) && "active"}
               htmlFor="name"
             >
               VORNAME
             </Label>
-            {formValidation.includes("name") ? (
+            {formValidation.includes("name") && (
               <ErrorText>Bitte mind. 3 Buchstaben eingeben!</ErrorText>
-            ) : (
-              ""
             )}
           </StyledDiv>
           <TextInput
@@ -300,16 +328,14 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
           <StyledDiv>
             <Label
               className={
-                focused === "lastname" || userData.lastname ? "active" : ""
+                (focused === "lastname" || userData.lastname) && "active"
               }
               htmlFor="lastname"
             >
               NACHNAME
             </Label>
-            {formValidation.includes("lastname") ? (
+            {formValidation.includes("lastname") && (
               <ErrorText>Bitte mind. 3 Buchstaben eingeben!</ErrorText>
-            ) : (
-              ""
             )}
           </StyledDiv>
           <TextInput
@@ -326,18 +352,16 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
           <StyledLongerDiv>
             <Label
               className={
-                focused === "birthday" || userData.birthday ? "active" : ""
+                (focused === "birthday" || userData.birthday) && "active"
               }
               htmlFor="birthday"
             >
               GEBURTSDATUM
             </Label>
-            {formValidation.includes("birthday") ? (
+            {formValidation.includes("birthday") && (
               <ErrorText>
                 Kein gültiges Geburtsdatum! (Sie müssen mind. 18 sein)
               </ErrorText>
-            ) : (
-              ""
             )}
           </StyledLongerDiv>
           <TextLongerInput
@@ -350,50 +374,48 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
           />
         </HandleLongerDiv>
 
-        <SelectDiv onClick={(event) => handleClick(event, "relationship")}>
-          <StyledLongerDiv>
-            <Label
-              className={userData.relationship ? "active" : ""}
-              htmlFor="relationship"
-            >
-              BEZIEHUNGSSTATUS
-            </Label>
-            {formValidation.includes("relationship") ? (
-              <ErrorText>Bitte wählen Sie Ihren Beziehungsstatus!</ErrorText>
-            ) : (
-              ""
-            )}
-            <P>{userData.relationship ? dropDownNameRelationship : ""}</P>
-          </StyledLongerDiv>
-          <MenuDiv className={focused === "relationship" ? "active" : ""}>
+        <SelectDiv>
+          <Clickfield onClick={(event) => handleClick(event, "relationship")}>
+            <StyledLongerDiv>
+              <Label
+                className={userData.relationship && "active"}
+                htmlFor="relationship"
+              >
+                BEZIEHUNGSSTATUS
+              </Label>
+              {formValidation.includes("relationship") && (
+                <ErrorText>Bitte wählen Sie Ihren Beziehungsstatus!</ErrorText>
+              )}
+              <P>{userData.relationship && dropDownNameRelationship}</P>
+            </StyledLongerDiv>
+          </Clickfield>
+          <MenuDiv className={focused === "relationship" && "active"}>
             <MenuP
-              className={userData.relationship === "single" ? "active" : ""}
+              className={userData.relationship === "single" && "active"}
               onClick={() => dropChange("single", "relationship")}
             >
               LEDIG
             </MenuP>
             <MenuP
-              className={
-                userData.relationship === "inRelationship" ? "active" : ""
-              }
+              className={userData.relationship === "inRelationship" && "active"}
               onClick={() => dropChange("inRelationship", "relationship")}
             >
               LEBENSGEMEINSCHAFT
             </MenuP>
             <MenuP
-              className={userData.relationship === "married" ? "active" : ""}
+              className={userData.relationship === "married" && "active"}
               onClick={() => dropChange("married", "relationship")}
             >
               VERHEIRATET
             </MenuP>
             <MenuP
-              className={userData.relationship === "divorced" ? "active" : ""}
+              className={userData.relationship === "divorced" && "active"}
               onClick={() => dropChange("divorced", "relationship")}
             >
               GESCHIEDEN
             </MenuP>
             <MenuP
-              className={userData.relationship === "widowed" ? "active" : ""}
+              className={userData.relationship === "widowed" && "active"}
               onClick={() => dropChange("widowed", "relationship")}
             >
               VERWITWET
@@ -413,16 +435,14 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
           <StyledLongerDiv>
             <Label
               className={
-                focused === "children" || userData.children ? "active" : ""
+                (focused === "children" || userData.children) && "active"
               }
               htmlFor="children"
             >
               ANZAHL DER KINDER
             </Label>
-            {formValidation.includes("children") ? (
+            {formValidation.includes("children") && (
               <ErrorText>Bitte geben Sie eine Zahl an!</ErrorText>
-            ) : (
-              ""
             )}
           </StyledLongerDiv>
           <TextLongerInput
@@ -435,36 +455,36 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
           />
         </HandleLongerDiv>
 
-        <SelectDiv onClick={(event) => handleClick(event, "jobStatus")}>
-          <StyledLongerDiv>
-            <Label
-              className={userData.jobStatus ? "active" : ""}
-              htmlFor="jobStatus"
-            >
-              BERUFSSTATUS
-            </Label>
-            {formValidation.includes("jobStatus") ? (
-              <ErrorText>Bitte wählen Sie Ihren Berufsstatus!</ErrorText>
-            ) : (
-              ""
-            )}
-            <P>{userData.jobStatus ? dropDownNameWork : ""}</P>
-          </StyledLongerDiv>
-          <MenuDiv className={focused === "jobStatus" ? "active" : ""}>
+        <SelectDiv>
+          <Clickfield onClick={(event) => handleClick(event, "jobStatus")}>
+            <StyledLongerDiv>
+              <Label
+                className={userData.jobStatus && "active"}
+                htmlFor="jobStatus"
+              >
+                BERUFSSTATUS
+              </Label>
+              {formValidation.includes("jobStatus") && (
+                <ErrorText>Bitte wählen Sie Ihren Berufsstatus!</ErrorText>
+              )}
+              <P>{userData.jobStatus && dropDownNameWork}</P>
+            </StyledLongerDiv>
+          </Clickfield>
+          <MenuDiv className={focused === "jobStatus" && "active"}>
             <MenuP
-              className={userData.jobStatus === "employed" ? "active" : ""}
+              className={userData.jobStatus === "employed" && "active"}
               onClick={() => dropChange("employed", "jobStatus")}
             >
               ANGESTELLT
             </MenuP>
             <MenuP
-              className={userData.jobStatus === "selfEmployed" ? "active" : ""}
+              className={userData.jobStatus === "selfEmployed" && "active"}
               onClick={() => dropChange("selfEmployed", "jobStatus")}
             >
               SELBSTSTÄNDIG
             </MenuP>
             <MenuP
-              className={userData.jobStatus === "civilServants" ? "active" : ""}
+              className={userData.jobStatus === "civilServants" && "active"}
               onClick={() => dropChange("civilServants", "jobStatus")}
             >
               VERBEAMTET
@@ -483,17 +503,13 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
         <HandleLongerDiv>
           <StyledLongerDiv>
             <Label
-              className={
-                focused === "income" || userData.income ? "active" : ""
-              }
+              className={(focused === "income" || userData.income) && "active"}
               htmlFor="income"
             >
               BRUTTOEINKOMMEN
             </Label>
-            {formValidation.includes("income") ? (
+            {formValidation.includes("income") && (
               <ErrorText>Bitte geben Sie Ihr Bruttoeinkommen an!</ErrorText>
-            ) : (
-              ""
             )}
           </StyledLongerDiv>
           <TextLongerInput
@@ -510,16 +526,14 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
           <StyledLongerDiv>
             <Label
               className={
-                focused === "netIncome" || userData.netIncome ? "active" : ""
+                (focused === "netIncome" || userData.netIncome) && "active"
               }
               htmlFor="netIncome"
             >
               NETTOEINKOMMEN
             </Label>
-            {formValidation.includes("netIncome") ? (
+            {formValidation.includes("netIncome") && (
               <ErrorText>Bitte geben Sie Ihr Nettoeinkommen an!</ErrorText>
-            ) : (
-              ""
             )}
           </StyledLongerDiv>
           <TextLongerInput
@@ -566,13 +580,15 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
               AUTO VORHANDEN?
             </CheckboxLabel>
 
-            <CarProps
-              userData={userData}
-              handleChange={handleChange}
-              handleClick={handleClick}
-              focused={focused}
-              formValidation={formValidation}
-            />
+            {userData.car && (
+              <CarProps
+                userData={userData}
+                handleChange={handleChange}
+                handleClick={handleClick}
+                focused={focused}
+                formValidation={formValidation}
+              />
+            )}
           </div>
           <div>
             <CheckboxLabel>
@@ -585,11 +601,13 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
               HAUSTIER VORHANDEN?
             </CheckboxLabel>
 
-            <PetProps
-              userData={userData}
-              handleChange={handleChange}
-              formValidation={formValidation}
-            />
+            {userData.pet && (
+              <PetProps
+                userData={userData}
+                handleChange={handleChange}
+                formValidation={formValidation}
+              />
+            )}
           </div>
           <div>
             <CheckboxLabel>
@@ -602,13 +620,15 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
               MOTORRAD VORHANDEN?
             </CheckboxLabel>
 
-            <MotorcycleProps
-              userData={userData}
-              handleChange={handleChange}
-              handleClick={handleClick}
-              focused={focused}
-              formValidation={formValidation}
-            />
+            {userData.motorcycle && (
+              <MotorcycleProps
+                userData={userData}
+                handleChange={handleChange}
+                handleClick={handleClick}
+                focused={focused}
+                formValidation={formValidation}
+              />
+            )}
           </div>
           <div>
             <CheckboxLabel>
@@ -698,6 +718,16 @@ const SelectDiv = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
+`;
+
+const Clickfield = styled.div`
+  width: 100%;
+  height: 100%;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
 `;
 
 const TextInput = styled.input`

@@ -4,13 +4,13 @@ import { ReactComponent as fin2u } from "../images/fin2u.svg";
 
 export default function Header() {
   return (
-    <ContainerDiv>
+    <Container>
       <Logo />
-    </ContainerDiv>
+    </Container>
   );
 }
 
-const ContainerDiv = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -19,4 +19,5 @@ const ContainerDiv = styled.div`
 const Logo = styled(fin2u)`
   width: 49.87px;
   height: 23.17px;
+  margin: 0.5rem;
 `;

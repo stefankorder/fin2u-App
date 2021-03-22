@@ -7,72 +7,62 @@ export default function MotorcycleProps({
   handleClick,
   formValidation,
 }) {
-  if (userData.motorcycle) {
-    return (
-      <SubMenuDiv>
-        <HandleDiv>
-          <StyledDiv>
-            <Label
-              className={
-                focused === "motorcycleAge" || userData.motorcycleAge
-                  ? "active"
-                  : ""
-              }
-              htmlFor="motorcycleAge"
-            >
-              MOTORRADALTER
-            </Label>
-            {formValidation.includes("motorcycleAge") ? (
-              <ErrorText>Bitte geben Sie das Motorradalter an!</ErrorText>
-            ) : (
-              ""
-            )}
-          </StyledDiv>
-          <TextInput
-            className="motorcycleAge"
-            type="text"
-            name="motorcycleAge"
-            value={userData.motorcycleAge}
-            onChange={handleChange}
-            onClick={(event) => handleClick(event, "motorcycleAge")}
-          />
-        </HandleDiv>
+  return (
+    <SubMenu>
+      <HandleDiv>
+        <StyledDiv>
+          <Label
+            className={
+              (focused === "motorcycleAge" || userData.motorcycleAge) &&
+              "active"
+            }
+            htmlFor="motorcycleAge"
+          >
+            MOTORRADALTER
+          </Label>
+          {formValidation.includes("motorcycleAge") && (
+            <ErrorText>Bitte geben Sie das Alter an!</ErrorText>
+          )}
+        </StyledDiv>
+        <TextInput
+          className="motorcycleAge"
+          type="text"
+          name="motorcycleAge"
+          value={userData.motorcycleAge}
+          onChange={handleChange}
+          onClick={(event) => handleClick(event, "motorcycleAge")}
+        />
+      </HandleDiv>
 
-        <HandleDiv>
-          <StyledDiv>
-            <Label
-              className={
-                focused === "motorcycleValue" || userData.motorcycleValue
-                  ? "active"
-                  : ""
-              }
-              htmlFor="motorcycleValue"
-            >
-              MOTORRADWERT
-            </Label>
-            {formValidation.includes("motorcycleValue") ? (
-              <ErrorText>Bitte gültigen Wert eingeben!</ErrorText>
-            ) : (
-              ""
-            )}
-          </StyledDiv>
-          <TextInput
-            className="motorcycleValue"
-            type="text"
-            name="motorcycleValue"
-            value={userData.motorcycleValue}
-            onChange={handleChange}
-            onClick={(event) => handleClick(event, "motorcycleValue")}
-          />
-        </HandleDiv>
-      </SubMenuDiv>
-    );
-  } else {
-    return "";
-  }
+      <HandleDiv>
+        <StyledDiv>
+          <Label
+            className={
+              (focused === "motorcycleValue" || userData.motorcycleValue) &&
+              "active"
+            }
+            htmlFor="motorcycleValue"
+          >
+            MOTORRADWERT
+          </Label>
+          {formValidation.includes("motorcycleValue") && (
+            <ErrorText>Bitte gültigen Wert eingeben!</ErrorText>
+          )}
+        </StyledDiv>
+        <TextInput
+          className="motorcycleValue"
+          type="text"
+          name="motorcycleValue"
+          value={userData.motorcycleValue}
+          onChange={handleChange}
+          onClick={(event) => handleClick(event, "motorcycleValue")}
+        />
+      </HandleDiv>
+    </SubMenu>
+  );
 }
 
-const SubMenuDiv = styled.div`
+const SubMenu = styled.div`
   width: 100%;
   margin-left: 0.9rem;
   margin-bottom: 0.5rem;

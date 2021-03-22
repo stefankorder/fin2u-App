@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
+
 import insuranceProducts from "../lib/insuranceProducts";
 
 export default function UserInsurances({
@@ -35,7 +36,7 @@ export default function UserInsurances({
         WELCHE VERSICHERUNGEN HABEN SIE BEREITS?
       </Label>
 
-      {insurancesAlreadyCompleted.length ? (
+      {insurancesAlreadyCompleted.length > 0 && (
         <TagContainer>
           {insurancesAlreadyCompleted?.map((insurance) => {
             return (
@@ -48,8 +49,6 @@ export default function UserInsurances({
             );
           })}
         </TagContainer>
-      ) : (
-        ""
       )}
 
       {insurancesAlreadyCompleted.length !== 10 ? (
