@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
 :root {
@@ -21,24 +21,18 @@ export const GlobalStyles = createGlobalStyle`
   --secondary-500: hsl(173,100%,10%);
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 body {
   font-family: sans-serif;
-  font-size: 1.25rem;
 }
 
 select,
   input {
-    padding: 0.25rem;
-    border-bottom: .5px solid black;
-    border-left: .5px dashed black;
-    border-right: .5px dashed black;
-    border-top: none;
-    margin: .5rem;
-    width: 5rem;
     outline: none;
   }
 
