@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Switch, Route } from "react-router-dom";
 
 import Start from "./pages/Start";
+
+import insuranceProducts from "./lib/insuranceProducts";
 
 import Header from "./components/Header";
 import NavBar from "./components/NavBar";
@@ -11,8 +13,33 @@ function App() {
   const [userToCalculate, setUserToCalculate] = useState("");
 
   function onSubmitForm(userData) {
-    setUserToCalculate(userData);
+    fetch("http://localhost:4000/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    })
+      .then((result) => result.json())
+      .then((user) => setUserToCalculate(user))
+      .catch((error) => console.error(error.message));
   }
+
+  //Diesen UseEffect noch anpassen!
+
+  useEffect(() => {
+    insuranceProducts.forEach((insurance) => {
+      fetch("http://localhost:4000/insurance", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(insurance),
+      }).catch((error) => console.error(error.message));
+    });
+  }, []);
+
+  console.log(userToCalculate, 999);
 
   return (
     <AppContainer>
