@@ -11,6 +11,7 @@ import NavBar from "./components/NavBar";
 
 function App() {
   const [userToCalculate, setUserToCalculate] = useState("");
+  const [insurances, setInsurances] = useState([]);
 
   function onSubmitForm(userData) {
     fetch("http://localhost:4000/user", {
@@ -25,9 +26,8 @@ function App() {
       .catch((error) => console.error(error.message));
   }
 
-  //Diesen UseEffect noch anpassen!
-
   useEffect(() => {
+    const fetchedInsurances = [];
     insuranceProducts.forEach((insurance) => {
       fetch("http://localhost:4000/insurance", {
         method: "POST",
@@ -35,9 +35,17 @@ function App() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(insurance),
-      }).catch((error) => console.error(error.message));
+      })
+        .then((result) => result.json())
+        .then((insurance) => {
+          fetchedInsurances.push(insurance);
+          setInsurances(fetchedInsurances);
+        })
+        .catch((error) => console.error(error.message));
     });
   }, []);
+
+  console.log(insurances, 888);
 
   console.log(userToCalculate, 999);
 

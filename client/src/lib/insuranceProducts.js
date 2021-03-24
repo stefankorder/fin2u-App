@@ -37,8 +37,23 @@ const insuranceProducts = [
     status: 0,
   },
   {
-    value: "vehicle",
-    name: "KFZ-Versicherung",
+    value: "partialCarInsurance",
+    name: "KFZ-Teilkasko",
+    status: 0,
+  },
+  {
+    value: "vehicleFullyComprehensive",
+    name: "KFZ-Vollkasko",
+    status: 0,
+  },
+  {
+    value: "partiallyComprehensiveMotorcycleInsurance",
+    name: "Motorrad-Teilkasko",
+    status: 0,
+  },
+  {
+    value: "fullyComprehensiveMotorcycleInsurance",
+    name: "Motorrad-Vollkasko",
     status: 0,
   },
   {
@@ -54,6 +69,11 @@ const insuranceProducts = [
   {
     value: "privateHealthInsurance",
     name: "Private Krankenversicherung",
+    status: 0,
+  },
+  {
+    value: "pensionInsurance",
+    name: "Private Rentenversicherung",
     status: 0,
   },
 ];

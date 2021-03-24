@@ -85,7 +85,7 @@ server.post("/insurance", async (request, response) => {
   const insurance = await Insurance.findOne({ value });
 
   if (insurance !== null && insurance.value === newInsurance.value) {
-    response.json("Die Versicherung gibt es bereits auf der Datenbank");
+    response.json(insurance);
   } else {
     const resault = await newInsurance.save();
 
@@ -95,10 +95,219 @@ server.post("/insurance", async (request, response) => {
 
 //GET INSURANCES
 
-server.get("/insurances", async (request, response) => {
+server.get("/insurances/:userId", async (request, response) => {
+  const IdToFind = request.params.userId;
+
   const insurances = await Insurance.find();
 
-  response.json(insurances);
+  const user = await User.findOne({ _id: IdToFind });
+
+  // Berechnungen
+
+  const newInsurances = [];
+
+  // Privathaftpflicht
+
+  const personalLiabilityInsurance = insurances.find(
+    (insurance) => insurance.value === "personalLiability"
+  );
+  if (!user.insurancesAlreadyHave.includes("personalLiability")) {
+    personalLiabilityInsurance.status = 3;
+  } else {
+    personalLiabilityInsurance.status = 0;
+  }
+  newInsurances.push(personalLiabilityInsurance);
+
+  // Tierhalterhaftpflicht
+
+  const animalKeeperInsurance = insurances.find(
+    (insurance) => insurance.value === "animalKeeper"
+  );
+  if (user.pet && !user.insurancesAlreadyHave.includes("animalKeeper")) {
+    animalKeeperInsurance.status = 3;
+  } else {
+    animalKeeperInsurance.status = 0;
+  }
+  newInsurances.push(animalKeeperInsurance);
+
+  // Hausratversicherung
+
+  const householdItemsInsurance = insurances.find(
+    (insurance) => insurance.value === "householdItems"
+  );
+  if (!user.insurancesAlreadyHave.includes("householdItems")) {
+    if (user.valuables) {
+      householdItemsInsurance.status = 3;
+    } else {
+      householdItemsInsurance.status = 1;
+    }
+  } else {
+    householdItemsInsurance.status = 0;
+  }
+  newInsurances.push(householdItemsInsurance);
+
+  // Wohngebäudeversicherung
+
+  const residentialBuildingInsurance = insurances.find(
+    (insurance) => insurance.value === "residentialBuilding"
+  );
+  if (
+    user.houseOwner &&
+    !user.insurancesAlreadyHave.includes("residentialBuilding")
+  ) {
+    residentialBuildingInsurance.status = 3;
+  } else {
+    residentialBuildingInsurance.status = 0;
+  }
+  newInsurances.push(residentialBuildingInsurance);
+
+  // Unfallversicherung
+
+  const accidentInsurance = insurances.find(
+    (insurance) => insurance.value === "accident"
+  );
+  if (!user.insurancesAlreadyHave.includes("accident")) {
+    if (user.dangerousHobby) {
+      accidentInsurance.status = 3;
+    } else {
+      accidentInsurance.status = 1;
+    }
+  } else {
+    accidentInsurance.status = 0;
+  }
+  newInsurances.push(accidentInsurance);
+
+  // Rechtsschutzversicherung
+
+  const legalProtectionInsurance = insurances.find(
+    (insurance) => insurance.value === "legalProtection"
+  );
+  if (!user.insurancesAlreadyHave.includes("legalProtection")) {
+    if (user.jobStatus === "employed" || user.houseOwner) {
+      legalProtectionInsurance.status = 3;
+    } else {
+      legalProtectionInsurance.status = 2;
+    }
+  } else {
+    legalProtectionInsurance.status = 0;
+  }
+  newInsurances.push(legalProtectionInsurance);
+
+  // KFZ-Teilkasko
+
+  const partialCarInsurance = insurances.find(
+    (insurance) => insurance.value === "partialCarInsurance"
+  );
+  if (user.car && !user.insurancesAlreadyHave.includes("partialCarInsurance")) {
+    if (user.insurancesAlreadyHave.includes("vehicleFullyComprehensive")) {
+      partialCarInsurance.status = 0;
+    }
+    if (
+      (user.carAge > 4 && user.carAge < 10) ||
+      (user.carValue > 2999 && user.carAge < 10000)
+    ) {
+      partialCarInsurance.status = 2;
+    }
+    if (user.carValue < 3000) {
+      partialCarInsurance.status = 1;
+    } else {
+      partialCarInsurance.status = 0;
+    }
+  } else {
+    partialCarInsurance.status = 0;
+  }
+  newInsurances.push(partialCarInsurance);
+
+  // KFZ-Vollkasko
+
+  const vehicleFullyComprehensiveInsurance = insurances.find(
+    (insurance) => insurance.value === "vehicleFullyComprehensive"
+  );
+  if (
+    user.car &&
+    !user.insurancesAlreadyHave.includes("vehicleFullyComprehensive")
+  ) {
+    if (user.carAge < 5 || user.carValue > 9999) {
+      vehicleFullyComprehensiveInsurance.status = 3;
+    }
+    if (
+      ((user.carAge > 4 && user.carAge < 10) ||
+        (user.carValue > 2999 && user.carValue < 10000)) &&
+      user.insurancesAlreadyHave.includes("partialCarInsurance")
+    ) {
+      vehicleFullyComprehensiveInsurance.status = 1;
+    }
+    if (
+      ((user.carAge > 4 && user.carAge < 10) ||
+        (user.carValue > 2999 && user.carValue < 10000)) &&
+      !user.insurancesAlreadyHave.includes("partialCarInsurance")
+    ) {
+      vehicleFullyComprehensiveInsurance.status = 2;
+    } else {
+      vehicleFullyComprehensiveInsurance.status = 1;
+    }
+  } else {
+    vehicleFullyComprehensiveInsurance.status = 0;
+  }
+  newInsurances.push(vehicleFullyComprehensiveInsurance);
+
+  // Motorrad-Teilkasko
+
+  const partiallyComprehensiveMotorcycleInsurance = insurances.find(
+    (insurance) =>
+      insurance.value === "partiallyComprehensiveMotorcycleInsurance"
+  );
+  if (
+    user.motorcycle &&
+    !user.insurancesAlreadyHave.includes(
+      "partiallyComprehensiveMotorcycleInsurance"
+    )
+  ) {
+    if (
+      user.insurancesAlreadyHave.includes(
+        "fullyComprehensiveMotorcycleInsurance"
+      )
+    ) {
+      partiallyComprehensiveMotorcycleInsurance.status = 0;
+    }
+    if (
+      user.motorcycleAge < 5 ||
+      (user.motorcycleValue > 2999 && user.motorcycleValue < 12000)
+    ) {
+      partiallyComprehensiveMotorcycleInsurance.status = 3;
+    }
+    if (user.motorcycleValue < 3000) {
+      partiallyComprehensiveMotorcycleInsurance.status = 1;
+    } else {
+      partiallyComprehensiveMotorcycleInsurance.status = 0;
+    }
+  } else {
+    partiallyComprehensiveMotorcycleInsurance.status = 0;
+  }
+  newInsurances.push(partiallyComprehensiveMotorcycleInsurance);
+
+  // Motorrad-Vollkasko
+
+  const fullyComprehensiveMotorcycleInsurance = insurances.find(
+    (insurance) => insurance.value === "fullyComprehensiveMotorcycleInsurance"
+  );
+  if (
+    user.motorcycle &&
+    !user.insurancesAlreadyHave.includes(
+      "fullyComprehensiveMotorcycleInsurance"
+    )
+  ) {
+    if (user.motorcycleValue > 11999) {
+      fullyComprehensiveMotorcycleInsurance.status = 3;
+    } else {
+      fullyComprehensiveMotorcycleInsurance.status = 1;
+    }
+  } else {
+    fullyComprehensiveMotorcycleInsurance.status = 0;
+  }
+  newInsurances.push(fullyComprehensiveMotorcycleInsurance);
+
+  response.json(newInsurances);
 });
 
 server.listen(4000, () => console.log("Server started"));
