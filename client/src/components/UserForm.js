@@ -6,6 +6,7 @@ import PetProps from "./PetProps";
 import MotorcycleProps from "./MotorcycleProps";
 
 import initialUserData from "../lib/userData";
+import insuranceProducts from "../lib/insuranceProducts";
 
 import { ReactComponent as submit } from "../images/submit.svg";
 import { ReactComponent as reset } from "../images/reset.svg";
@@ -15,15 +16,31 @@ import setUserNetIncome from "../services/setNetIncome";
 import getDropDownName from "../services/dropDownName";
 import UserInsurances from "./UserInsurances";
 
-export default function UserForm({ onSubmitForm }) {
-  const [userData, setUserData] = useState(initialUserData);
+export default function UserForm({ onSubmitForm, userToCalculate }) {
+  const [userData, setUserData] = useState(
+    userToCalculate ? userToCalculate : initialUserData
+  );
   const [focused, setFocused] = useState("");
-  const [dropDownNameRelationship, setDropDownNameRelationship] = useState("");
-  const [dropDownNameWork, setDropDownNameWork] = useState("");
+  const [dropDownNameRelationship, setDropDownNameRelationship] = useState(
+    userToCalculate ? getDropDownName(userToCalculate.relationship) : ""
+  );
+  const [dropDownNameWork, setDropDownNameWork] = useState(
+    userToCalculate ? getDropDownName(userToCalculate.jobStatus) : ""
+  );
   const [formValidation, setFormValidation] = useState([]);
   const [insurancesAlreadyCompleted, setInsurancesAlreadyCompleted] = useState(
-    []
+    userToCalculate ? insurancesToDisplay() : []
   );
+
+  function insurancesToDisplay() {
+    const insurancesDisplay = [];
+    insuranceProducts.forEach(({ value, name }) => {
+      if (userToCalculate.insurancesAlreadyHave.includes(value)) {
+        insurancesDisplay.push({ name, value });
+      }
+    });
+    return insurancesDisplay;
+  }
 
   const handleChange = (event) => {
     const field = event.target;
@@ -164,7 +181,8 @@ export default function UserForm({ onSubmitForm }) {
         (valid) => valid !== "relationship"
       );
       setFormValidation(remainingValids);
-      getDropDownName(value, setDropDownNameRelationship);
+      const dropName = getDropDownName(value);
+      setDropDownNameRelationship(dropName);
     }
 
     if (field === "jobStatus" && value) {
@@ -172,7 +190,8 @@ export default function UserForm({ onSubmitForm }) {
         (valid) => valid !== "jobStatus"
       );
       setFormValidation(remainingValids);
-      getDropDownName(value, setDropDownNameWork);
+      const dropName = getDropDownName(value);
+      setDropDownNameWork(dropName);
     }
   };
 
@@ -208,7 +227,7 @@ export default function UserForm({ onSubmitForm }) {
     if (!userData.relationship) {
       validate.push("relationship");
     }
-    if (isNaN(userData.children) || !userData.children) {
+    if (isNaN(userData.children) || userData.children === "") {
       validate.push("children");
     }
     if (!userData.jobStatus) {
@@ -264,9 +283,7 @@ export default function UserForm({ onSubmitForm }) {
   useEffect(() => {
     if (formValidation.includes("go")) {
       onSubmitForm(userData);
-      setUserData(initialUserData);
       setFormValidation([]);
-      setInsurancesAlreadyCompleted([]);
     }
   }, [formValidation]);
 
@@ -438,7 +455,10 @@ export default function UserForm({ onSubmitForm }) {
           <StyledLongerDiv>
             <Label
               className={
-                (focused === "children" || userData.children) && "active"
+                (focused === "children" ||
+                  userData.children ||
+                  userData.children === 0) &&
+                "active"
               }
               htmlFor="children"
             >

@@ -11,23 +11,25 @@ export default function NavBar() {
   return (
     <Container>
       <Nav>
-        <StyledNavLink
-          className="start"
-          onClick={() => setActive("start")}
-          exact
-          to="/"
-        >
-          <Start className={active === "start" && "active"} />
-          <Span className={active === "start" && "active"}>START</Span>
-        </StyledNavLink>
-        <StyledNavLink
-          className="about"
-          onClick={() => setActive("about")}
-          to="/about"
-        >
-          <Fin2u className={active === "about" && "active"} />
-          <Span className={active === "about" && "active"}>ÜBER UNS</Span>
-        </StyledNavLink>
+        <NavContainer>
+          <StyledNavLink
+            className="start"
+            onClick={() => setActive("start")}
+            exact
+            to="/"
+          >
+            <Start className={active === "start" && "active"} />
+            <Span className={active === "start" && "active"}>START</Span>
+          </StyledNavLink>
+          <StyledNavLink
+            className="about"
+            onClick={() => setActive("about")}
+            to="/about"
+          >
+            <Fin2u className={active === "about" && "active"} />
+            <Span className={active === "about" && "active"}>ÜBER UNS</Span>
+          </StyledNavLink>
+        </NavContainer>
 
         <Up href="#">
           <UpSVG />
@@ -43,22 +45,27 @@ const Container = styled.div`
   bottom: 0;
   right: 0;
   background: whitesmoke;
+  z-index: 20;
+  height: 8vh;
+  padding: 0 0.5rem 0.5rem 0.5rem;
 `;
 
 const Nav = styled.nav`
-  margin: 0 0.5rem 0.5rem 0.5rem;
   background: white;
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
-  display: grid;
-  grid-template-columns: 4rem 4rem auto 1fr;
-  grid-template-rows: 1fr;
-  grid-template-areas: "setStart setAbout . setUp";
-  height: 3rem;
-  border-top: 1px solid #52514f;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-items: start;
+  height: 100%;
+  border-top: 1px solid #52514f;
   box-shadow: 0 2px 11px 0 rgba(25, 50, 81, 0.2);
+`;
+
+const NavContainer = styled.div`
+  width: 8rem;
+  display: flex;
+  height: 100%;
 `;
 
 const StyledNavLink = styled(NavLink)`
