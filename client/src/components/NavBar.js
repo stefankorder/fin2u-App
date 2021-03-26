@@ -46,7 +46,7 @@ const Container = styled.div`
   right: 0;
   background: whitesmoke;
   z-index: 20;
-  height: 8vh;
+  height: 3.5rem;
   padding: 0 0.5rem 0.5rem 0.5rem;
 `;
 

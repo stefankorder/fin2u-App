@@ -8,12 +8,14 @@ import insuranceProducts from "./lib/insuranceProducts";
 
 import Header from "./components/Header";
 import NavBar from "./components/NavBar";
+import StartPage from "./components/StartPage";
 
 function App() {
   //const apiServerURL = process.env.REACT_APP_API_SERVER_URL;
   const [userToCalculate, setUserToCalculate] = useState("");
   const [insurances, setInsurances] = useState([]);
   const [componentToDisplay, setComponentToDisplay] = useState("form");
+  const [startPage, setStartPage] = useState("start");
 
   function onSubmitForm(userData) {
     fetch("http://localhost:4000/user", {
@@ -67,29 +69,32 @@ function App() {
   }, [insurances]);
 
   return (
-    <AppContainer>
-      <Header />
-      <Switch>
-        <Route exact path="/">
-          <Start
-            onSubmitForm={onSubmitForm}
-            insurances={insurances}
-            userToCalculate={userToCalculate}
-            componentToDisplay={componentToDisplay}
-            setComponentToDisplay={setComponentToDisplay}
-          />
-        </Route>
-        <Route path="/about">
-          <Start
-            onSubmitForm={onSubmitForm}
-            insurances={insurances}
-            userToCalculate={userToCalculate}
-            componentToDisplay={componentToDisplay}
-            setComponentToDisplay={setComponentToDisplay}
-          />
-        </Route>
-      </Switch>
-      <NavBar />
+    <AppContainer className={startPage === "start" && "active"}>
+      {startPage === "start" && <StartPage setStartPage={setStartPage} />}
+      {startPage === "go" && <Header />}
+      {startPage === "go" && (
+        <Switch>
+          <Route exact path="/">
+            <Start
+              onSubmitForm={onSubmitForm}
+              insurances={insurances}
+              userToCalculate={userToCalculate}
+              componentToDisplay={componentToDisplay}
+              setComponentToDisplay={setComponentToDisplay}
+            />
+          </Route>
+          <Route path="/about">
+            <Start
+              onSubmitForm={onSubmitForm}
+              insurances={insurances}
+              userToCalculate={userToCalculate}
+              componentToDisplay={componentToDisplay}
+              setComponentToDisplay={setComponentToDisplay}
+            />
+          </Route>
+        </Switch>
+      )}
+      {startPage === "go" && <NavBar />}
     </AppContainer>
   );
 }
@@ -102,6 +107,11 @@ const AppContainer = styled.div`
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   box-shadow: 0 2px 11px 0 rgba(25, 50, 81, 0.2);
-  height: 92vh;
+  height: 100vh;
+  padding-bottom: 3.5rem;
   overflow: auto;
+
+  &.active {
+    border-radius: 10px;
+  }
 `;
