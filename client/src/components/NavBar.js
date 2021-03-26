@@ -1,33 +1,22 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import { useState } from "react";
 
 import { ReactComponent as up } from "../images/up.svg";
 import { ReactComponent as start } from "../images/start.svg";
 import { ReactComponent as fin2u } from "../images/fin2u.svg";
 
 export default function NavBar() {
-  const [active, setActive] = useState("start");
   return (
     <Container>
       <Nav>
         <NavContainer>
-          <StyledNavLink
-            className="start"
-            onClick={() => setActive("start")}
-            exact
-            to="/"
-          >
-            <Start className={active === "start" && "active"} />
-            <Span className={active === "start" && "active"}>START</Span>
+          <StyledNavLink to="/start">
+            <Start />
+            <Span>START</Span>
           </StyledNavLink>
-          <StyledNavLink
-            className="about"
-            onClick={() => setActive("about")}
-            to="/about"
-          >
-            <Fin2u className={active === "about" && "active"} />
-            <Span className={active === "about" && "active"}>ÜBER UNS</Span>
+          <StyledNavLink to="/about">
+            <Fin2u />
+            <Span>ÜBER UNS</Span>
           </StyledNavLink>
         </NavContainer>
 
@@ -59,7 +48,7 @@ const Nav = styled.nav`
   align-items: center;
   height: 100%;
   border-top: 1px solid #52514f;
-  box-shadow: 0 2px 11px 0 rgba(25, 50, 81, 0.2);
+  box-shadow: 0 2px 5px 0 rgba(25, 50, 81, 0.2);
 `;
 
 const NavContainer = styled.div`
@@ -82,12 +71,13 @@ const StyledNavLink = styled(NavLink)`
     border-top: 1px solid #0989f7;
   }
 
-  &.start {
-    grid-area: setStart;
+  &.active span {
+    color: #0989f7;
   }
 
-  &.about {
-    grid-area: setAbout;
+  &.active svg {
+    stroke: none;
+    fill: #0989f7;
   }
 `;
 
@@ -114,11 +104,6 @@ const Start = styled(start)`
   height: 24px;
   stroke: none;
   fill: #52514f;
-
-  &.active {
-    stroke: none;
-    fill: #0989f7;
-  }
 `;
 
 const Fin2u = styled(fin2u)`
@@ -127,18 +112,9 @@ const Fin2u = styled(fin2u)`
   fill: #fff;
   stroke: none;
   fill: #52514f;
-
-  &.active {
-    stroke: none;
-    fill: #0989f7;
-  }
 `;
 
 const Span = styled.span`
   margin-top: 0.25rem;
   color: #52514f;
-
-  &.active {
-    color: #0989f7;
-  }
 `;

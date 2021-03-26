@@ -318,7 +318,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
   return (
     <ContainerBox>
       <Form onSubmit={submitForm}>
-        <H2>Bitte geben Sie Ihre Daten ein:</H2>
+        <H2>Bitte gebe deine Daten ein:</H2>
 
         <HandleDiv>
           <StyledDiv>
@@ -377,7 +377,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
             </Label>
             {formValidation.includes("birthday") && (
               <ErrorText>
-                Kein gültiges Geburtsdatum! (Sie müssen mind. 18 sein)
+                Kein gültiges Geburtsdatum! (Du musst mind. 18 sein)
               </ErrorText>
             )}
           </StyledLongerDiv>
@@ -404,7 +404,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
                 BEZIEHUNGSSTATUS
               </Label>
               {formValidation.includes("relationship") && (
-                <ErrorText>Bitte wählen Sie Ihren Beziehungsstatus!</ErrorText>
+                <ErrorText>Bitte wähle deinen Beziehungsstatus!</ErrorText>
               )}
               <P>{userData.relationship && dropDownNameRelationship}</P>
             </StyledLongerDiv>
@@ -414,31 +414,31 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
               className={userData.relationship === "single" && "active"}
               onClick={() => dropChange("single", "relationship")}
             >
-              LEDIG
+              ledig
             </MenuP>
             <MenuP
               className={userData.relationship === "inRelationship" && "active"}
               onClick={() => dropChange("inRelationship", "relationship")}
             >
-              LEBENSGEMEINSCHAFT
+              Lebensgemeinschaft
             </MenuP>
             <MenuP
               className={userData.relationship === "married" && "active"}
               onClick={() => dropChange("married", "relationship")}
             >
-              VERHEIRATET
+              verheiratet
             </MenuP>
             <MenuP
               className={userData.relationship === "divorced" && "active"}
               onClick={() => dropChange("divorced", "relationship")}
             >
-              GESCHIEDEN
+              geschieden
             </MenuP>
             <MenuP
               className={userData.relationship === "widowed" && "active"}
               onClick={() => dropChange("widowed", "relationship")}
             >
-              VERWITWET
+              verwitwet
             </MenuP>
             <MenuP
               className={
@@ -446,7 +446,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
               }
               onClick={() => setUserData({ ...userData, relationship: "" })}
             >
-              ZURÜCKSETZEN
+              zurücksetzen
             </MenuP>
           </MenuDiv>
           <SelectSpan>{focused === "relationship" ? "◂" : "▾"}</SelectSpan>
@@ -465,7 +465,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
               ANZAHL DER KINDER
             </Label>
             {formValidation.includes("children") && (
-              <ErrorText>Bitte geben Sie eine Zahl an!</ErrorText>
+              <ErrorText>Bitte gebe eine Zahl ein!</ErrorText>
             )}
           </StyledLongerDiv>
           <TextLongerInput
@@ -488,7 +488,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
                 BERUFSSTATUS
               </Label>
               {formValidation.includes("jobStatus") && (
-                <ErrorText>Bitte wählen Sie Ihren Berufsstatus!</ErrorText>
+                <ErrorText>Bitte wähle deinen Berufsstatus!</ErrorText>
               )}
               <P>{userData.jobStatus && dropDownNameWork}</P>
             </StyledLongerDiv>
@@ -498,25 +498,25 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
               className={userData.jobStatus === "employed" && "active"}
               onClick={() => dropChange("employed", "jobStatus")}
             >
-              ANGESTELLT
+              angestellt
             </MenuP>
             <MenuP
               className={userData.jobStatus === "selfEmployed" && "active"}
               onClick={() => dropChange("selfEmployed", "jobStatus")}
             >
-              SELBSTSTÄNDIG
+              selbstständig
             </MenuP>
             <MenuP
               className={userData.jobStatus === "civilServants" && "active"}
               onClick={() => dropChange("civilServants", "jobStatus")}
             >
-              VERBEAMTET
+              verbeamtet
             </MenuP>
             <MenuP
               className={userData.jobStatus === "" ? "red-block" : "red-font"}
               onClick={() => setUserData({ ...userData, jobStatus: "" })}
             >
-              ZURÜCKSETZEN
+              zurücksetzen
             </MenuP>
           </MenuDiv>
 
@@ -532,7 +532,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
               BRUTTOEINKOMMEN
             </Label>
             {formValidation.includes("income") && (
-              <ErrorText>Bitte geben Sie Ihr Bruttoeinkommen an!</ErrorText>
+              <ErrorText>Bitte gebe dein Bruttoeinkommen an!</ErrorText>
             )}
           </StyledLongerDiv>
           <TextLongerInput
@@ -556,7 +556,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
               NETTOEINKOMMEN
             </Label>
             {formValidation.includes("netIncome") && (
-              <ErrorText>Bitte geben Sie Ihr Nettoeinkommen an!</ErrorText>
+              <ErrorText>Bitte gebe dein Nettoeinkommen an!</ErrorText>
             )}
           </StyledLongerDiv>
           <TextLongerInput
@@ -867,7 +867,7 @@ const Checkbox = styled.input`
 `;
 
 const ButtonDiv = styled.div`
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -883,6 +883,7 @@ const ButtonSubmit = styled.button`
   background: #2e9003;
   border-radius: 10px;
   height: 1.5rem;
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 `;
 
 const ButtonReset = styled.button`
@@ -895,6 +896,7 @@ const ButtonReset = styled.button`
   background: #ba0d50;
   border-radius: 10px;
   height: 1.5rem;
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 `;
 
 const ButtonSpan = styled.span`

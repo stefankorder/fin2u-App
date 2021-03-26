@@ -20,7 +20,8 @@ export default function setUserNetIncome(userIncome, jobStatus) {
         vorsorgeAlter -
         vorsorgeSonstige
     );
-    return taxEmployed(income, calcIncome, userIncome);
+    const incomeToDisplay = taxEmployed(income, calcIncome, userIncome);
+    return Math.floor(incomeToDisplay);
   }
 }
 

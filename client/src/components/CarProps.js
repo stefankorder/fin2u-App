@@ -18,7 +18,7 @@ export default function CarProps({
             FAHRZEUGALTER
           </Label>
           {formValidation.includes("carAge") && (
-            <ErrorText>Bitte geben Sie das Alter an!</ErrorText>
+            <ErrorText>Bitte gebe das Alter an!</ErrorText>
           )}
         </StyledDiv>
         <TextInput

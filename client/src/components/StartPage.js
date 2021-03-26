@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import { NavLink } from "react-router-dom";
 
 import { ReactComponent as fin2uf } from "../images/fin2uLogof.svg";
 import { ReactComponent as fin2uin } from "../images/fin2uLogoin.svg";
@@ -14,7 +15,9 @@ export default function StartPage({ setStartPage }) {
         <LogoIn />
         <LogoF />
       </LogoContainer>
-      <Button onClick={() => setStartPage("go")}>Loslegen!</Button>
+      <NavLink to="/start">
+        <Button onClick={() => setStartPage("go")}>Loslegen!</Button>
+      </NavLink>
     </Container>
   );
 }
@@ -153,9 +156,7 @@ const Button = styled.button`
   background: #0989f7;
   border-radius: 10px;
   animation: ${bounce} 5s ease-in infinite;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
-    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 `;
 
 const LogoContainer = styled.div`
@@ -164,6 +165,7 @@ const LogoContainer = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
+  width: 100%;
 `;
 
 const LogoF = styled(fin2uf)`
@@ -173,6 +175,7 @@ const LogoF = styled(fin2uf)`
   opacity: 0;
   width: 199.48px;
   height: 92.68px;
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 `;
 
 const LogoIn = styled(fin2uin)`
@@ -182,6 +185,7 @@ const LogoIn = styled(fin2uin)`
   opacity: 0;
   width: 199.48px;
   height: 92.68px;
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 `;
 
 const Logo2 = styled(fin2u2)`
@@ -192,6 +196,7 @@ const Logo2 = styled(fin2u2)`
   opacity: 0;
   width: 199.48px;
   height: 92.68px;
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 `;
 
 const LogoU = styled(fin2uu)`
@@ -201,4 +206,5 @@ const LogoU = styled(fin2uu)`
   opacity: 0;
   width: 199.48px;
   height: 92.68px;
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 `;

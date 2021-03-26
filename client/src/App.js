@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Switch, Route } from "react-router-dom";
 
 import Start from "./pages/Start";
+import About from "./pages/About";
 
 import insuranceProducts from "./lib/insuranceProducts";
 
@@ -61,40 +62,33 @@ function App() {
         headers: {
           "Content-Type": "application/json",
         },
-      })
-        .then((result) => result.json())
-        .then((user) => console.log(user, 4444))
-        .catch((error) => console.error(error.message));
+      }).catch((error) => console.error(error.message));
     }
   }, [insurances]);
 
   return (
     <AppContainer className={startPage === "start" && "active"}>
-      {startPage === "start" && <StartPage setStartPage={setStartPage} />}
-      {startPage === "go" && <Header />}
-      {startPage === "go" && (
-        <Switch>
-          <Route exact path="/">
-            <Start
-              onSubmitForm={onSubmitForm}
-              insurances={insurances}
-              userToCalculate={userToCalculate}
-              componentToDisplay={componentToDisplay}
-              setComponentToDisplay={setComponentToDisplay}
-            />
-          </Route>
-          <Route path="/about">
-            <Start
-              onSubmitForm={onSubmitForm}
-              insurances={insurances}
-              userToCalculate={userToCalculate}
-              componentToDisplay={componentToDisplay}
-              setComponentToDisplay={setComponentToDisplay}
-            />
-          </Route>
-        </Switch>
-      )}
-      {startPage === "go" && <NavBar />}
+      <Header />
+
+      <Switch>
+        <Route exact path="/">
+          <StartPage setStartPage={setStartPage} />
+        </Route>
+        <Route path="/start">
+          <Start
+            onSubmitForm={onSubmitForm}
+            insurances={insurances}
+            userToCalculate={userToCalculate}
+            componentToDisplay={componentToDisplay}
+            setComponentToDisplay={setComponentToDisplay}
+          />
+        </Route>
+        <Route path="/about">
+          <About />
+        </Route>
+      </Switch>
+
+      <NavBar />
     </AppContainer>
   );
 }
@@ -106,10 +100,12 @@ const AppContainer = styled.div`
   width: 100%;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
-  box-shadow: 0 2px 11px 0 rgba(25, 50, 81, 0.2);
-  height: 100vh;
+  box-shadow: 0 2px 5px 0 rgba(25, 50, 81, 0.2);
+  height: 97.25vh;
   padding-bottom: 3.5rem;
   overflow: auto;
+
+  //nachfolgends wird evtl. nicht benötigt
 
   &.active {
     border-radius: 10px;

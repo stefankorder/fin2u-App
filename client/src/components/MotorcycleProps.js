@@ -21,7 +21,7 @@ export default function MotorcycleProps({
             MOTORRADALTER
           </Label>
           {formValidation.includes("motorcycleAge") && (
-            <ErrorText>Bitte geben Sie das Alter an!</ErrorText>
+            <ErrorText>Bitte gebe das Alter an!</ErrorText>
           )}
         </StyledDiv>
         <TextInput

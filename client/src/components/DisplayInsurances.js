@@ -22,40 +22,44 @@ export default function DisplayInsurances({
 
   return (
     <ContainerBox>
-      {insurancesStatus0.length > 0 && (
+      <H2>Hier ist dein Ergebnis:</H2>
+      {insurancesStatus3.length > 0 && (
         <InsuranceContainer>
-          <H2>
-            Diese Versicherungen haben Sie schon oder benötigen Sie nicht!
-          </H2>
-          {insurancesStatus0.map(({ name }) => {
+          <Label>BRAUCHST DU AUF JEDEN FALL!</Label>
+          {insurancesStatus3.map(({ name }) => {
             return <Tag>{name}</Tag>;
           })}
-        </InsuranceContainer>
-      )}
-      {insurancesStatus1.length > 0 && (
-        <InsuranceContainer>
-          <H2>Diese Versicherungen könnten sinnvoll sein!</H2>
-          {insurancesStatus1.map(({ name }) => {
-            return <Tag>{name}</Tag>;
-          })}
+          <StyledLongerDiv />
         </InsuranceContainer>
       )}
       {insurancesStatus2.length > 0 && (
         <InsuranceContainer>
-          <H2>Diese Versicherungen sind mit sicherheit sinnvoll!</H2>
+          <Label>MIT SICHERHEIT SINNVOLL!</Label>
           {insurancesStatus2.map(({ name }) => {
             return <Tag>{name}</Tag>;
           })}
+          <StyledLongerDiv />
         </InsuranceContainer>
       )}
-      {insurancesStatus3.length > 0 && (
+      {insurancesStatus1.length > 0 && (
         <InsuranceContainer>
-          <H2>Diese Versicherungen sollten Sie dringend abschließen!</H2>
-          {insurancesStatus3.map(({ name }) => {
+          <Label>KÖNNTE SINNVOLL SEIN!</Label>
+          {insurancesStatus1.map(({ name }) => {
             return <Tag>{name}</Tag>;
           })}
+          <StyledLongerDiv />
         </InsuranceContainer>
       )}
+      {insurancesStatus0.length > 0 && (
+        <InsuranceContainer>
+          <Label>HAST DU BEREITS ODER BENÖTIGST DU NICHT!</Label>
+          {insurancesStatus0.map(({ name }) => {
+            return <Tag>{name}</Tag>;
+          })}
+          <StyledLongerDiv />
+        </InsuranceContainer>
+      )}
+
       <ButtonReset
         type="reset"
         text="Reset"
@@ -79,12 +83,32 @@ const ContainerBox = styled.div`
 const InsuranceContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  position: relative;
+  padding-bottom: 0.25rem;
+`;
+
+const StyledLongerDiv = styled.div`
+  width: 100%;
+  height: 0.5rem;
+  background: transparent;
+  position: absolute;
+  border: 1px solid #0989f7;
+  border-top: none;
+  z-index: 1;
+  bottom: 0;
 `;
 
 const H2 = styled.h2`
   width: 100%;
   font-size: 0.9rem;
-  margin: 1rem 0.4rem 1rem 0.4rem;
+  margin: 1rem 0.4rem 0 0.4rem;
+`;
+
+const Label = styled.label`
+  font-size: 0.8rem;
+  width: 100%;
+  margin: 2.5rem 0.4rem 1rem 0.4rem;
+  color: #52514f;
 `;
 
 const Tag = styled.span`
@@ -95,6 +119,7 @@ const Tag = styled.span`
   margin: 0.2rem;
   padding: 0.4rem 0.4rem 0.2rem;
   border-radius: 5px;
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 `;
 
 const ButtonReset = styled.button`
@@ -110,6 +135,7 @@ const ButtonReset = styled.button`
   border-radius: 10px;
   height: 1.25rem;
   font-size: 0.6rem;
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 `;
 
 const ButtonSpan = styled.span`

@@ -33,25 +33,10 @@ export default function UserInsurances({
   return (
     <>
       <Label htmlFor="insurancesAlreadyCompleted">
-        WELCHE VERSICHERUNGEN HABEN SIE BEREITS?
+        WELCHE VERSICHERUNGEN HAST DU BEREITS?
       </Label>
 
-      {insurancesAlreadyCompleted.length > 0 && (
-        <TagContainer>
-          {insurancesAlreadyCompleted?.map((insurance) => {
-            return (
-              <Tag key={insurance.value}>
-                {insurance.name}
-                <DeleteSpan onClick={() => onDeleteInsurance(insurance.value)}>
-                  &times;
-                </DeleteSpan>
-              </Tag>
-            );
-          })}
-        </TagContainer>
-      )}
-
-      {insurancesAlreadyCompleted.length !== 10 ? (
+      {insurancesAlreadyCompleted.length !== insuranceProducts.length ? (
         <Select name="insurancesAlreadyCompleted">
           {insuranceProducts?.map(({ name, value }) => {
             if (insuranceValues.includes(value)) {
@@ -78,6 +63,23 @@ export default function UserInsurances({
           Zurücksetzen
         </Button>
       )}
+
+      {insurancesAlreadyCompleted.length > 0 && (
+        <TagContainer>
+          {insurancesAlreadyCompleted?.map((insurance) => {
+            return (
+              <Tag
+                onClick={() => onDeleteInsurance(insurance.value)}
+                key={insurance.value}
+              >
+                {insurance.name}
+                <DeleteSpan>&times;</DeleteSpan>
+              </Tag>
+            );
+          })}
+          <StyledLongerDiv />
+        </TagContainer>
+      )}
     </>
   );
 }
@@ -85,7 +87,8 @@ export default function UserInsurances({
 const Label = styled.label`
   font-size: 0.8rem;
   width: 100%;
-  margin: 2.5rem 0.4rem 0.5rem 0.4rem;
+  margin: 2.5rem 0.4rem 1.5rem 0.4rem;
+  color: #52514f;
 `;
 
 const Select = styled.div`
@@ -115,8 +118,21 @@ const Option = styled.p`
 const TagContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin: 0.5rem 0.4rem 1rem 0.4rem;
+  margin: 1.5rem 0.4rem 0 0.4rem;
   width: 100%;
+  position: relative;
+  padding-bottom: 0.25rem;
+`;
+
+const StyledLongerDiv = styled.div`
+  width: 100%;
+  height: 0.5rem;
+  background: transparent;
+  position: absolute;
+  border: 1px solid #0989f7;
+  border-top: none;
+  z-index: 1;
+  bottom: 0;
 `;
 
 const Tag = styled.span`
@@ -126,6 +142,7 @@ const Tag = styled.span`
   margin: 0.2rem;
   padding: 0.4rem 0.4rem 0.2rem;
   border-radius: 5px;
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 `;
 
 const DeleteSpan = styled.span`
@@ -142,4 +159,5 @@ const Button = styled.button`
   padding: 0.2rem 0.4rem 0.2rem;
   border-radius: 5px;
   cursor: pointer;
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 `;
