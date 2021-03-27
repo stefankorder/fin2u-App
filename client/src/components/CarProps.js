@@ -28,6 +28,7 @@ export default function CarProps({
           value={userData.carAge}
           onChange={handleChange}
           onClick={(event) => handleClick(event, "carAge")}
+          selected={focused === "carAge"}
         />
       </HandleDiv>
 
@@ -52,6 +53,7 @@ export default function CarProps({
           value={userData.carValue}
           onChange={handleChange}
           onClick={(event) => handleClick(event, "carValue")}
+          selected={focused === "carValue"}
         />
       </HandleDiv>
     </SubMenu>
@@ -112,8 +114,13 @@ const TextInput = styled.input`
   z-index: 10;
   font-size: 0.8rem;
   color: #676767;
-  margin-left: 0.5rem;
   bottom: 1.125rem;
+  outline: none;
+
+  &:focus {
+    border-bottom: 2px solid #0989f7
+      ${(prop) => prop.selected && "border-bottom: 0"};
+  }
 `;
 
 const ErrorText = styled.span`

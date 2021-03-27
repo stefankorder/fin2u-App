@@ -181,7 +181,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
-  padding-bottom: 2rem;
+  padding-bottom: 3.5rem;
 `;
 
 const H1 = styled.h2`

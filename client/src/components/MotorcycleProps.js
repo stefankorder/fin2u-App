@@ -31,6 +31,7 @@ export default function MotorcycleProps({
           value={userData.motorcycleAge}
           onChange={handleChange}
           onClick={(event) => handleClick(event, "motorcycleAge")}
+          selected={focused === "motorcycleAge"}
         />
       </HandleDiv>
 
@@ -56,6 +57,7 @@ export default function MotorcycleProps({
           value={userData.motorcycleValue}
           onChange={handleChange}
           onClick={(event) => handleClick(event, "motorcycleValue")}
+          selected={focused === "motorcycleValue"}
         />
       </HandleDiv>
     </SubMenu>
@@ -116,8 +118,13 @@ const TextInput = styled.input`
   z-index: 10;
   font-size: 0.8rem;
   color: #676767;
-  margin-left: 0.5rem;
   bottom: 1.125rem;
+  outline: none;
+
+  &:focus {
+    border-bottom: 2px solid #0989f7
+      ${(prop) => prop.selected && "border-bottom: 0"};
+  }
 `;
 
 const ErrorText = styled.span`

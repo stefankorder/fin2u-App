@@ -15,7 +15,9 @@ export default function StartPage() {
         <LogoIn />
         <LogoF />
       </LogoContainer>
-      <Button to="/start">Loslegen!</Button>
+      <Button tabIndex="0" to="/start">
+        Loslegen!
+      </Button>
     </Container>
   );
 }
@@ -159,7 +161,12 @@ const Button = styled(Link)`
   background: #0989f7;
   border-radius: 10px;
   animation: ${bounce} 5s ease-in infinite;
+  outline: none;
   filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
+
+  &:focus {
+    background: #2e9003;
+  }
 `;
 
 const LogoContainer = styled.div`

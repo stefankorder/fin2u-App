@@ -18,6 +18,21 @@ export default function UserInsurances({
     setInsurancesAlreadyCompleted(insurancesToKeep);
   }
 
+  function handleKeyDown(field, event, value, name) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      if (field === "insuranceOption") {
+        setInsurancesAlreadyCompleted([
+          ...insurancesAlreadyCompleted,
+          { value, name },
+        ]);
+      }
+      if (field === "insuranceTag") {
+        onDeleteInsurance(value);
+      }
+    }
+  }
+
   useEffect(() => {
     setInsuranceValues(
       insurancesAlreadyCompleted.map((insurance) => insurance.value)
@@ -37,14 +52,18 @@ export default function UserInsurances({
       </Label>
 
       {insurancesAlreadyCompleted.length !== insuranceProducts.length ? (
-        <Select name="insurancesAlreadyCompleted">
+        <Select tabIndex="-1" name="insurancesAlreadyCompleted">
           {insuranceProducts?.map(({ name, value }) => {
             if (insuranceValues.includes(value)) {
               return "";
             } else {
               return (
                 <Option
+                  tabIndex="0"
                   key={value}
+                  onKeyDown={(event) =>
+                    handleKeyDown("insuranceOption", event, value, name)
+                  }
                   onClick={() =>
                     setInsurancesAlreadyCompleted([
                       ...insurancesAlreadyCompleted,
@@ -69,7 +88,11 @@ export default function UserInsurances({
           {insurancesAlreadyCompleted?.map((insurance) => {
             return (
               <Tag
+                tabIndex="0"
                 onClick={() => onDeleteInsurance(insurance.value)}
+                onKeyDown={(event) =>
+                  handleKeyDown("insuranceTag", event, insurance.value)
+                }
                 key={insurance.value}
               >
                 {insurance.name}
@@ -108,8 +131,14 @@ const Option = styled.p`
   padding: 0.2rem 0.4rem 0.2rem;
   margin: 0;
   cursor: pointer;
+  outline: none;
 
   &:hover {
+    background: #0989f7;
+    color: white;
+  }
+
+  &:focus {
     background: #0989f7;
     color: white;
   }
@@ -142,7 +171,13 @@ const Tag = styled.span`
   margin: 0.2rem;
   padding: 0.4rem 0.4rem 0.2rem;
   border-radius: 5px;
+  outline: none;
+  cursor: pointer;
   filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
+
+  &:focus {
+    background: #ba0d50;
+  }
 `;
 
 const DeleteSpan = styled.span`
@@ -158,6 +193,15 @@ const Button = styled.button`
   margin: 0 auto;
   padding: 0.2rem 0.4rem 0.2rem;
   border-radius: 5px;
+  outline: none;
   cursor: pointer;
   filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
+
+  &:focus {
+    background: #0989f7;
+  }
+
+  &:hover {
+    background: #0989f7;
+  }
 `;

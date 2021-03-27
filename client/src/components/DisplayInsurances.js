@@ -78,6 +78,7 @@ const ContainerBox = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
+  padding-bottom: 3.5rem;
 `;
 
 const InsuranceContainer = styled.div`
@@ -135,7 +136,13 @@ const ButtonReset = styled.button`
   border-radius: 10px;
   height: 1.25rem;
   font-size: 0.6rem;
+  outline: none;
+  cursor: pointer;
   filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
+
+  &:focus {
+    background: #0989f7;
+  }
 `;
 
 const ButtonSpan = styled.span`

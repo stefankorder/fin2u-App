@@ -111,7 +111,6 @@ const AppContainer = styled.div`
   border-top-left-radius: 10px;
   box-shadow: 0 2px 5px 0 rgba(25, 50, 81, 0.2);
   height: 97.25vh;
-  padding-bottom: 3.5rem;
   overflow: auto;
 
   &.active {
