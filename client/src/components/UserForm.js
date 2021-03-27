@@ -395,7 +395,10 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
         </HandleLongerDiv>
 
         <SelectDiv>
-          <Clickfield onClick={(event) => handleClick(event, "relationship")}>
+          <Clickfield
+            tabIndex="0"
+            onClick={(event) => handleClick(event, "relationship")}
+          >
             <StyledLongerDiv>
               <Label
                 className={userData.relationship && "active"}
@@ -479,7 +482,10 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
         </HandleLongerDiv>
 
         <SelectDiv>
-          <Clickfield onClick={(event) => handleClick(event, "jobStatus")}>
+          <Clickfield
+            tabIndex="0"
+            onClick={(event) => handleClick(event, "jobStatus")}
+          >
             <StyledLongerDiv>
               <Label
                 className={userData.jobStatus && "active"}

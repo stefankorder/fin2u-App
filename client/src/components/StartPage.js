@@ -1,12 +1,12 @@
 import styled, { keyframes } from "styled-components";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { ReactComponent as fin2uf } from "../images/fin2uLogof.svg";
 import { ReactComponent as fin2uin } from "../images/fin2uLogoin.svg";
 import { ReactComponent as fin2u2 } from "../images/fin2uLogo2.svg";
 import { ReactComponent as fin2uu } from "../images/fin2uLogou.svg";
 
-export default function StartPage({ setStartPage }) {
+export default function StartPage() {
   return (
     <Container>
       <LogoContainer>
@@ -15,9 +15,7 @@ export default function StartPage({ setStartPage }) {
         <LogoIn />
         <LogoF />
       </LogoContainer>
-      <NavLink to="/start">
-        <Button onClick={() => setStartPage("go")}>Loslegen!</Button>
-      </NavLink>
+      <Button to="/start">Loslegen!</Button>
     </Container>
   );
 }
@@ -147,7 +145,12 @@ const Container = styled.div`
   height: 100%;
 `;
 
-const Button = styled.button`
+const Button = styled(Link)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
   width: 10rem;
   height: 3rem;
   font-size: 1.5rem;

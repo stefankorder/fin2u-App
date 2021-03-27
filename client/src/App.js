@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Switch, Route } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  useLocation,
+  useHistory,
+  Redirect,
+} from "react-router-dom";
 
 import Start from "./pages/Start";
 import About from "./pages/About";
@@ -16,7 +22,9 @@ function App() {
   const [userToCalculate, setUserToCalculate] = useState("");
   const [insurances, setInsurances] = useState([]);
   const [componentToDisplay, setComponentToDisplay] = useState("form");
-  const [startPage, setStartPage] = useState("start");
+
+  const location = useLocation();
+  const history = useHistory();
 
   function onSubmitForm(userData) {
     fetch("http://localhost:4000/user", {
@@ -67,12 +75,13 @@ function App() {
   }, [insurances]);
 
   return (
-    <AppContainer className={startPage === "start" && "active"}>
-      <Header />
+    <AppContainer className={location.pathname === "/" && "active"}>
+      {location.pathname !== "/" && <Header />}
 
       <Switch>
+        {history.action === "POP" && <Redirect to="/" />}
         <Route exact path="/">
-          <StartPage setStartPage={setStartPage} />
+          <StartPage />
         </Route>
         <Route path="/start">
           <Start
@@ -88,7 +97,7 @@ function App() {
         </Route>
       </Switch>
 
-      <NavBar />
+      {location.pathname !== "/" && <NavBar />}
     </AppContainer>
   );
 }
@@ -104,8 +113,6 @@ const AppContainer = styled.div`
   height: 97.25vh;
   padding-bottom: 3.5rem;
   overflow: auto;
-
-  //nachfolgends wird evtl. nicht benötigt
 
   &.active {
     border-radius: 10px;
