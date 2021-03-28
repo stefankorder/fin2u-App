@@ -31,13 +31,10 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
   const [insurancesAlreadyCompleted, setInsurancesAlreadyCompleted] = useState(
     userToCalculate ? insurancesToDisplay() : []
   );
-
   const [selectedTagIndex, setSelectedTagIndex] = useState({
     relationship: -1,
     jobStatus: -1,
   });
-
-  const [selected, setSelected] = useState("");
 
   function insurancesToDisplay() {
     const insurancesDisplay = [];
@@ -407,8 +404,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
     if (
       focused ||
       selectedTagIndex.relationship > -1 ||
-      selectedTagIndex.jobStatus > -1 ||
-      selected
+      selectedTagIndex.jobStatus > -1
     ) {
       window.addEventListener("click", handleClick);
 
@@ -416,7 +412,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
         window.removeEventListener("click", handleClick);
       };
     }
-  }, [focused, selectedTagIndex, selected]);
+  }, [focused, selectedTagIndex]);
 
   function handleClick(event, value) {
     event.stopPropagation();
@@ -425,8 +421,6 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
       relationship: -1,
       jobStatus: -1,
     });
-
-    setSelected("");
 
     if (value) {
       setFocused(value);
@@ -465,11 +459,10 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
             type="text"
             name="name"
             value={userData.name}
-            onFocus={() => setSelected("")}
+            onFocus={() => setFocused("name")}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             onClick={(event) => handleClick(event, "name")}
-            selected={focused === "name"}
           />
         </HandleDiv>
         <HandleDiv>
@@ -491,11 +484,10 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
             type="text"
             name="lastname"
             value={userData.lastname}
-            onFocus={() => setSelected("")}
+            onFocus={() => setFocused("lastname")}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             onClick={(event) => handleClick(event, "lastname")}
-            selected={focused === "lastname"}
           />
         </HandleDiv>
 
@@ -523,21 +515,19 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
             type="text"
             name="birthday"
             value={userData.birthday}
-            onFocus={() => setSelected("")}
+            onFocus={() => setFocused("birthday")}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             onClick={(event) => handleClick(event, "birthday")}
-            selected={focused === "birthday"}
           />
         </HandleLongerDiv>
 
         <SelectDiv>
           <Clickfield
             tabIndex="0"
-            onFocus={() => setSelected("")}
+            onFocus={() => setFocused("relationship")}
             onKeyDown={(event) => handleKeyDown(event, "relationship")}
             onClick={(event) => handleClick(event, "relationship")}
-            selected={focused === "relationship"}
           >
             <StyledSelectDiv>
               <Label
@@ -650,19 +640,17 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
             type="text"
             name="children"
             value={userData.children}
-            onFocus={() => setSelected("")}
+            onFocus={() => setFocused("children")}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             onClick={(event) => handleClick(event, "children")}
-            selected={focused === "children"}
           />
         </HandleLongerDiv>
 
         <SelectDiv>
           <Clickfield
-            selected={focused === "jobStatus"}
             tabIndex="0"
-            onFocus={() => setSelected("")}
+            onFocus={() => setFocused("jobStatus")}
             onKeyDown={(event) => handleKeyDown(event, "jobStatus")}
             onClick={(event) => handleClick(event, "jobStatus")}
           >
@@ -750,11 +738,10 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
             type="text"
             name="income"
             value={userData.income}
-            onFocus={() => setSelected("")}
+            onFocus={() => setFocused("income")}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             onClick={(event) => handleClick(event, "income")}
-            selected={focused === "income"}
           />
         </HandleLongerDiv>
 
@@ -777,7 +764,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
             type="text"
             name="netIncome"
             value={userData.netIncome}
-            onFocus={() => setSelected("")}
+            onFocus={() => setFocused("netIncome")}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             onClick={(event) => handleClick(event, "netIncome")}
@@ -788,8 +775,8 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
           <div>
             <CheckboxLabel
               tabIndex="0"
-              onFocus={() => setSelected("houseOwner")}
-              selected={selected === "houseOwner"}
+              onFocus={() => setFocused("houseOwner")}
+              selected={focused === "houseOwner"}
               checked={userData.houseOwner}
               className="firstLabel"
               onKeyDown={(event) => handleKeyDown(event, "houseOwner")}
@@ -806,8 +793,8 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
           <div>
             <CheckboxLabel
               tabIndex="0"
-              onFocus={() => setSelected("valuables")}
-              selected={selected === "valuables"}
+              onFocus={() => setFocused("valuables")}
+              selected={focused === "valuables"}
               checked={userData.valuables}
               onKeyDown={(event) => handleKeyDown(event, "valuables")}
             >
@@ -823,8 +810,8 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
           <div>
             <CheckboxLabel
               tabIndex="0"
-              onFocus={() => setSelected("car")}
-              selected={selected === "car"}
+              onFocus={() => setFocused("car")}
+              selected={focused === "car"}
               checked={userData.car}
               onKeyDown={(event) => handleKeyDown(event, "car")}
             >
@@ -844,15 +831,15 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
                 handleClick={handleClick}
                 focused={focused}
                 formValidation={formValidation}
-                setSelected={setSelected}
+                setFocused={setFocused}
               />
             )}
           </div>
           <div>
             <CheckboxLabel
               tabIndex="0"
-              onFocus={() => setSelected("pet")}
-              selected={selected === "pet"}
+              onFocus={() => setFocused("pet")}
+              selected={focused === "pet"}
               checked={userData.pet}
               onKeyDown={(event) => handleKeyDown(event, "pet")}
             >
@@ -871,15 +858,15 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
                 handleChange={handleChange}
                 formValidation={formValidation}
                 handleKeyDown={handleKeyDown}
-                setSelected={setSelected}
+                setFocused={setFocused}
               />
             )}
           </div>
           <div>
             <CheckboxLabel
               tabIndex="0"
-              onFocus={() => setSelected("motorcycle")}
-              selected={selected === "motorcycle"}
+              onFocus={() => setFocused("motorcycle")}
+              selected={focused === "motorcycle"}
               checked={userData.motorcycle}
               onKeyDown={(event) => handleKeyDown(event, "motorcycle")}
             >
@@ -899,15 +886,15 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
                 handleClick={handleClick}
                 focused={focused}
                 formValidation={formValidation}
-                setSelected={setSelected}
+                setFocused={setFocused}
               />
             )}
           </div>
           <div>
             <CheckboxLabel
               tabIndex="0"
-              onFocus={() => setSelected("dangerousHobby")}
-              selected={selected === "dangerousHobby"}
+              onFocus={() => setFocused("dangerousHobby")}
+              selected={focused === "dangerousHobby"}
               checked={userData.dangerousHobby}
               onKeyDown={(event) => handleKeyDown(event, "dangerousHobby")}
             >
@@ -925,22 +912,18 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
         <UserInsurances
           userData={userData}
           setUserData={setUserData}
-          setSelected={setSelected}
+          setFocused={setFocused}
           insurancesAlreadyCompleted={insurancesAlreadyCompleted}
           setInsurancesAlreadyCompleted={setInsurancesAlreadyCompleted}
         />
 
         <ButtonDiv>
-          <ButtonSubmit
-            onFocus={() => setSelected("")}
-            type="submit"
-            text="Add"
-          >
+          <ButtonSubmit onFocus={() => setFocused("")} type="submit" text="Add">
             <Submit />
             <ButtonSpan>Los gehts!</ButtonSpan>
           </ButtonSubmit>
           <ButtonReset
-            onFocus={() => setSelected("")}
+            onFocus={() => setFocused("")}
             type="reset"
             text="Reset"
             onClick={resetAllData}
@@ -1004,8 +987,6 @@ const SelectDiv = styled.div`
   margin: 0.5rem 0 0 0.25rem;
   height: 3rem;
   display: inline-flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
   position: relative;
 `;
@@ -1030,16 +1011,13 @@ const SelectSpan = styled.span`
 
 const Clickfield = styled.div`
   width: 95%;
+  margin-top: 0.25rem;
   height: 1.5rem;
   display: inline-flex;
   align-items: flex-end;
   justify-content: space-between;
   position: absolute;
   outline: none;
-
-  &:focus {
-    border: 2px solid #0989f7 ${(prop) => prop.selected && "border: none"};
-  }
 `;
 
 const TextInput = styled.input`
@@ -1053,10 +1031,6 @@ const TextInput = styled.input`
   bottom: 1.125rem;
   padding: 0.25rem;
   padding-left: 0.4rem;
-
-  &:focus {
-    border: 2px solid #0989f7 ${(prop) => prop.selected && "border: none"};
-  }
 `;
 
 const StyledDiv = styled.div`
@@ -1164,10 +1138,6 @@ const TextLongerInput = styled.input`
   bottom: 1.125rem;
   padding: 0.25rem;
   padding-left: 0.4rem;
-
-  &:focus {
-    border: 2px solid #0989f7 ${(prop) => prop.selected && "border: none"};
-  }
 `;
 
 const StyledLongerDiv = styled.div`
@@ -1250,7 +1220,7 @@ const MenuDiv = styled.div`
   width: 95%;
   z-index: 15;
   position: absolute;
-  top: 2.25rem;
+  top: 1.75rem;
   background: white;
   &.active {
     display: inline-block;

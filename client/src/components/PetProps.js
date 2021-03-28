@@ -5,7 +5,7 @@ export default function PetProps({
   handleChange,
   formValidation,
   handleKeyDown,
-  setSelected,
+  setFocused,
 }) {
   return (
     <RadioDiv>
@@ -18,7 +18,7 @@ export default function PetProps({
               name="petSpecies"
               value="dog"
               checked={userData.petSpecies === "dog"}
-              onFocus={() => setSelected("")}
+              onFocus={() => setFocused("")}
               onChange={handleChange}
               onKeyDown={handleKeyDown}
             />
@@ -30,7 +30,7 @@ export default function PetProps({
               name="petSpecies"
               value="horse"
               checked={userData.petSpecies === "horse"}
-              onFocus={() => setSelected("")}
+              onFocus={() => setFocused("")}
               onChange={handleChange}
               onKeyDown={handleKeyDown}
             />

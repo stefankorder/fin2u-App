@@ -54,28 +54,27 @@ const blur = keyframes`
 
 const fadeInRight = keyframes`
 0% {
-  margin-right: -100%;
+  transform: translate(100%);
 }
 
 50% {
-  margin-right: 2rem;
+  transform: translate(-2rem);
   opacity: 1;
 }
 
 100% {
-  margin-right: 0;
+  transform: translate(0rem);
   opacity: 1;
 }
 `;
 
 const fadeInLeft = keyframes`
 0% {
-  margin-right: 100%;
-    
+  transform: translate(-100%);
 }
 
 100% {
-  margin-right: 0;
+  transform: translate(0rem);
   opacity: 1;
 }
 `;

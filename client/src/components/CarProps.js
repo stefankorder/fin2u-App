@@ -6,7 +6,7 @@ export default function CarProps({
   focused,
   handleClick,
   formValidation,
-  setSelected,
+  setFocused,
 }) {
   return (
     <SubMenu>
@@ -28,9 +28,8 @@ export default function CarProps({
           name="carAge"
           value={userData.carAge}
           onChange={handleChange}
-          onFocus={() => setSelected("")}
+          onFocus={() => setFocused("carAge")}
           onClick={(event) => handleClick(event, "carAge")}
-          selected={focused === "carAge"}
         />
       </HandleDiv>
 
@@ -54,9 +53,8 @@ export default function CarProps({
           name="carValue"
           value={userData.carValue}
           onChange={handleChange}
-          onFocus={() => setSelected("")}
+          onFocus={() => setFocused("carValue")}
           onClick={(event) => handleClick(event, "carValue")}
-          selected={focused === "carValue"}
         />
       </HandleDiv>
     </SubMenu>
@@ -119,10 +117,6 @@ const TextInput = styled.input`
   bottom: 1.125rem;
   padding: 0.25rem;
   padding-left: 0.4rem;
-
-  &:focus {
-    border: 2px solid #0989f7 ${(prop) => prop.selected && "border: none"};
-  }
 `;
 
 const ErrorText = styled.span`

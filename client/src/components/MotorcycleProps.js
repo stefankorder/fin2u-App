@@ -6,7 +6,7 @@ export default function MotorcycleProps({
   focused,
   handleClick,
   formValidation,
-  setSelected,
+  setFocused,
 }) {
   return (
     <SubMenu>
@@ -30,10 +30,9 @@ export default function MotorcycleProps({
           type="text"
           name="motorcycleAge"
           value={userData.motorcycleAge}
-          onFocus={() => setSelected("")}
+          onFocus={() => setFocused("motorcycleAge")}
           onChange={handleChange}
           onClick={(event) => handleClick(event, "motorcycleAge")}
-          selected={focused === "motorcycleAge"}
         />
       </HandleDiv>
 
@@ -57,10 +56,9 @@ export default function MotorcycleProps({
           type="text"
           name="motorcycleValue"
           value={userData.motorcycleValue}
-          onFocus={() => setSelected("")}
+          onFocus={() => setFocused("motorcycleValue")}
           onChange={handleChange}
           onClick={(event) => handleClick(event, "motorcycleValue")}
-          selected={focused === "motorcycleValue"}
         />
       </HandleDiv>
     </SubMenu>
@@ -123,10 +121,6 @@ const TextInput = styled.input`
   bottom: 1.125rem;
   padding: 0.25rem;
   padding-left: 0.4rem;
-
-  &:focus {
-    border: 2px solid #0989f7 ${(prop) => prop.selected && "border: none"};
-  }
 `;
 
 const ErrorText = styled.span`
