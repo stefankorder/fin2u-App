@@ -141,7 +141,7 @@ const ButtonReset = styled.button`
   filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 
   &:focus {
-    background: #0989f7;
+    border: 3px solid #0989f7;
   }
 `;
 

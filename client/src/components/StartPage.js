@@ -165,7 +165,7 @@ const Button = styled(Link)`
   filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 
   &:focus {
-    background: #2e9003;
+    border: 3px solid #52514f;
   }
 `;
 

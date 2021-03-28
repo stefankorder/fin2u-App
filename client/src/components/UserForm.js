@@ -37,6 +37,8 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
     jobStatus: -1,
   });
 
+  const [selected, setSelected] = useState("");
+
   function insurancesToDisplay() {
     const insurancesDisplay = [];
     insuranceProducts.forEach(({ value, name }) => {
@@ -87,22 +89,22 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
         jobStatus: -1,
       });
 
-      if (event.target.name === "houseOwner") {
+      if (field === "houseOwner") {
         setUserData({ ...userData, houseOwner: !userData.houseOwner });
       }
-      if (event.target.name === "valuables") {
+      if (field === "valuables") {
         setUserData({ ...userData, valuables: !userData.valuables });
       }
-      if (event.target.name === "car") {
+      if (field === "car") {
         setUserData({ ...userData, car: !userData.car });
       }
-      if (event.target.name === "pet") {
+      if (field === "pet") {
         setUserData({ ...userData, pet: !userData.pet });
       }
-      if (event.target.name === "motorcycle") {
+      if (field === "motorcycle") {
         setUserData({ ...userData, motorcycle: !userData.motorcycle });
       }
-      if (event.target.name === "dangerousHobby") {
+      if (field === "dangerousHobby") {
         setUserData({ ...userData, dangerousHobby: !userData.dangerousHobby });
       }
       if (event.target.name === "petSpecies") {
@@ -405,7 +407,8 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
     if (
       focused ||
       selectedTagIndex.relationship > -1 ||
-      selectedTagIndex.jobStatus > -1
+      selectedTagIndex.jobStatus > -1 ||
+      selected
     ) {
       window.addEventListener("click", handleClick);
 
@@ -413,7 +416,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
         window.removeEventListener("click", handleClick);
       };
     }
-  }, [focused, selectedTagIndex]);
+  }, [focused, selectedTagIndex, selected]);
 
   function handleClick(event, value) {
     event.stopPropagation();
@@ -422,6 +425,8 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
       relationship: -1,
       jobStatus: -1,
     });
+
+    setSelected("");
 
     if (value) {
       setFocused(value);
@@ -460,6 +465,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
             type="text"
             name="name"
             value={userData.name}
+            onFocus={() => setSelected("")}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             onClick={(event) => handleClick(event, "name")}
@@ -485,6 +491,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
             type="text"
             name="lastname"
             value={userData.lastname}
+            onFocus={() => setSelected("")}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             onClick={(event) => handleClick(event, "lastname")}
@@ -516,6 +523,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
             type="text"
             name="birthday"
             value={userData.birthday}
+            onFocus={() => setSelected("")}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             onClick={(event) => handleClick(event, "birthday")}
@@ -526,11 +534,12 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
         <SelectDiv>
           <Clickfield
             tabIndex="0"
+            onFocus={() => setSelected("")}
             onKeyDown={(event) => handleKeyDown(event, "relationship")}
             onClick={(event) => handleClick(event, "relationship")}
             selected={focused === "relationship"}
           >
-            <StyledLongerDiv>
+            <StyledSelectDiv>
               <Label
                 className={userData.relationship && "active"}
                 htmlFor="relationship"
@@ -541,7 +550,13 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
                 <ErrorText>Bitte wähle deinen Beziehungsstatus!</ErrorText>
               )}
               <P>{userData.relationship && dropDownNameRelationship}</P>
-            </StyledLongerDiv>
+              <SelectSpan>
+                {focused === "relationship" ||
+                selectedTagIndex.relationship > -1
+                  ? "◂"
+                  : "▾"}
+              </SelectSpan>
+            </StyledSelectDiv>
           </Clickfield>
           <MenuDiv
             className={
@@ -612,7 +627,6 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
               zurücksetzen
             </MenuP>
           </MenuDiv>
-          <SelectSpan>{focused === "relationship" ? "◂" : "▾"}</SelectSpan>
         </SelectDiv>
         <HandleLongerDiv>
           <StyledLongerDiv>
@@ -636,6 +650,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
             type="text"
             name="children"
             value={userData.children}
+            onFocus={() => setSelected("")}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             onClick={(event) => handleClick(event, "children")}
@@ -647,10 +662,11 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
           <Clickfield
             selected={focused === "jobStatus"}
             tabIndex="0"
+            onFocus={() => setSelected("")}
             onKeyDown={(event) => handleKeyDown(event, "jobStatus")}
             onClick={(event) => handleClick(event, "jobStatus")}
           >
-            <StyledLongerDiv>
+            <StyledSelectDiv>
               <Label
                 className={userData.jobStatus && "active"}
                 htmlFor="jobStatus"
@@ -661,7 +677,12 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
                 <ErrorText>Bitte wähle deinen Berufsstatus!</ErrorText>
               )}
               <P>{userData.jobStatus && dropDownNameWork}</P>
-            </StyledLongerDiv>
+              <SelectSpan>
+                {focused === "jobStatus" || selectedTagIndex.jobStatus > -1
+                  ? "◂"
+                  : "▾"}
+              </SelectSpan>
+            </StyledSelectDiv>
           </Clickfield>
           <MenuDiv
             className={
@@ -710,12 +731,10 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
               zurücksetzen
             </MenuP>
           </MenuDiv>
-
-          <SelectSpan>{focused === "jobStatus" ? "◂" : "▾"}</SelectSpan>
         </SelectDiv>
 
         <HandleLongerDiv>
-          <StyledLongerDiv>
+          <StyledLongerDiv selected={focused === "income"}>
             <Label
               className={(focused === "income" || userData.income) && "active"}
               htmlFor="income"
@@ -731,6 +750,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
             type="text"
             name="income"
             value={userData.income}
+            onFocus={() => setSelected("")}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             onClick={(event) => handleClick(event, "income")}
@@ -757,46 +777,62 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
             type="text"
             name="netIncome"
             value={userData.netIncome}
+            onFocus={() => setSelected("")}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             onClick={(event) => handleClick(event, "netIncome")}
-            selected={focused === "netIncome"}
           />
         </HandleLongerDiv>
 
         <CheckboxContainer>
           <div>
-            <CheckboxLabel className="firstLabel">
+            <CheckboxLabel
+              tabIndex="0"
+              onFocus={() => setSelected("houseOwner")}
+              selected={selected === "houseOwner"}
+              checked={userData.houseOwner}
+              className="firstLabel"
+              onKeyDown={(event) => handleKeyDown(event, "houseOwner")}
+            >
               <Checkbox
                 type="checkbox"
                 name="houseOwner"
                 checked={userData.houseOwner}
                 onChange={handleChange}
-                onKeyDown={handleKeyDown}
               />
               SELBSTBEWOHNTES EIGENTUMSHAUS?
             </CheckboxLabel>
           </div>
           <div>
-            <CheckboxLabel>
+            <CheckboxLabel
+              tabIndex="0"
+              onFocus={() => setSelected("valuables")}
+              selected={selected === "valuables"}
+              checked={userData.valuables}
+              onKeyDown={(event) => handleKeyDown(event, "valuables")}
+            >
               <Checkbox
                 type="checkbox"
                 name="valuables"
                 checked={userData.valuables}
                 onChange={handleChange}
-                onKeyDown={handleKeyDown}
               />
               WERTGEGENSTÄNDE VORHANDEN?
             </CheckboxLabel>
           </div>
           <div>
-            <CheckboxLabel>
+            <CheckboxLabel
+              tabIndex="0"
+              onFocus={() => setSelected("car")}
+              selected={selected === "car"}
+              checked={userData.car}
+              onKeyDown={(event) => handleKeyDown(event, "car")}
+            >
               <Checkbox
                 type="checkbox"
                 name="car"
                 checked={userData.car}
                 onChange={handleChange}
-                onKeyDown={handleKeyDown}
               />
               AUTO VORHANDEN?
             </CheckboxLabel>
@@ -808,17 +844,23 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
                 handleClick={handleClick}
                 focused={focused}
                 formValidation={formValidation}
+                setSelected={setSelected}
               />
             )}
           </div>
           <div>
-            <CheckboxLabel>
+            <CheckboxLabel
+              tabIndex="0"
+              onFocus={() => setSelected("pet")}
+              selected={selected === "pet"}
+              checked={userData.pet}
+              onKeyDown={(event) => handleKeyDown(event, "pet")}
+            >
               <Checkbox
                 type="checkbox"
                 name="pet"
                 checked={userData.pet}
                 onChange={handleChange}
-                onKeyDown={handleKeyDown}
               />
               HAUSTIER VORHANDEN?
             </CheckboxLabel>
@@ -829,17 +871,23 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
                 handleChange={handleChange}
                 formValidation={formValidation}
                 handleKeyDown={handleKeyDown}
+                setSelected={setSelected}
               />
             )}
           </div>
           <div>
-            <CheckboxLabel>
+            <CheckboxLabel
+              tabIndex="0"
+              onFocus={() => setSelected("motorcycle")}
+              selected={selected === "motorcycle"}
+              checked={userData.motorcycle}
+              onKeyDown={(event) => handleKeyDown(event, "motorcycle")}
+            >
               <Checkbox
                 type="checkbox"
                 name="motorcycle"
                 checked={userData.motorcycle}
                 onChange={handleChange}
-                onKeyDown={handleKeyDown}
               />
               MOTORRAD VORHANDEN?
             </CheckboxLabel>
@@ -851,17 +899,23 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
                 handleClick={handleClick}
                 focused={focused}
                 formValidation={formValidation}
+                setSelected={setSelected}
               />
             )}
           </div>
           <div>
-            <CheckboxLabel>
+            <CheckboxLabel
+              tabIndex="0"
+              onFocus={() => setSelected("dangerousHobby")}
+              selected={selected === "dangerousHobby"}
+              checked={userData.dangerousHobby}
+              onKeyDown={(event) => handleKeyDown(event, "dangerousHobby")}
+            >
               <Checkbox
                 type="checkbox"
                 name="dangerousHobby"
                 checked={userData.dangerousHobby}
                 onChange={handleChange}
-                onKeyDown={handleKeyDown}
               />
               GEFÄHRLICHES HOBBY? (Z.B. TAUCHEN)
             </CheckboxLabel>
@@ -871,16 +925,26 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
         <UserInsurances
           userData={userData}
           setUserData={setUserData}
+          setSelected={setSelected}
           insurancesAlreadyCompleted={insurancesAlreadyCompleted}
           setInsurancesAlreadyCompleted={setInsurancesAlreadyCompleted}
         />
 
         <ButtonDiv>
-          <ButtonSubmit type="submit" text="Add">
+          <ButtonSubmit
+            onFocus={() => setSelected("")}
+            type="submit"
+            text="Add"
+          >
             <Submit />
             <ButtonSpan>Los gehts!</ButtonSpan>
           </ButtonSubmit>
-          <ButtonReset type="reset" text="Reset" onClick={resetAllData}>
+          <ButtonReset
+            onFocus={() => setSelected("")}
+            type="reset"
+            text="Reset"
+            onClick={resetAllData}
+          >
             <Reset />
             <ButtonSpan>Neustarten</ButtonSpan>
           </ButtonReset>
@@ -946,19 +1010,35 @@ const SelectDiv = styled.div`
   position: relative;
 `;
 
-const Clickfield = styled.div`
+const StyledSelectDiv = styled.div`
   width: 100%;
-  height: 100%;
+  height: 0.5rem;
+  background: transparent;
+  position: relative;
+  border: 1px solid #0989f7;
+  border-top: none;
+  z-index: 1;
+`;
+
+const SelectSpan = styled.span`
+  right: 0.25rem;
+  bottom: -0.25rem;
+  font-size: 1.5rem;
+  color: #676767;
+  position: absolute;
+`;
+
+const Clickfield = styled.div`
+  width: 95%;
+  height: 1.5rem;
   display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+  justify-content: space-between;
   position: absolute;
   outline: none;
 
   &:focus {
-    border-left: 2px solid #0989f7
-      ${(prop) => prop.selected && "border-left: 0"};
+    border: 2px solid #0989f7 ${(prop) => prop.selected && "border: none"};
   }
 `;
 
@@ -971,10 +1051,11 @@ const TextInput = styled.input`
   font-size: 0.8rem;
   color: #676767;
   bottom: 1.125rem;
+  padding: 0.25rem;
+  padding-left: 0.4rem;
 
   &:focus {
-    border-bottom: 2px solid #0989f7
-      ${(prop) => prop.selected && "border-bottom: 0"};
+    border: 2px solid #0989f7 ${(prop) => prop.selected && "border: none"};
   }
 `;
 
@@ -985,7 +1066,6 @@ const StyledDiv = styled.div`
   position: relative;
   border: 1px solid #0989f7;
   border-top: none;
-  margin-top: 0.5rem;
   z-index: 1;
 `;
 
@@ -1025,25 +1105,52 @@ const P = styled.p`
   bottom: -0.7rem;
 `;
 
-const SelectSpan = styled.span`
-  right: 0.7rem;
-  bottom: 0.8rem;
-  font-size: 1.5rem;
-  color: #676767;
-  position: absolute;
-`;
-
 const CheckboxLabel = styled.label`
   margin: 0.25rem 0 0 0;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   font-size: 0.8rem;
   color: #676767;
+  position: relative;
+  outline: none;
 
   &.firstLabel {
     @media (max-width: 1024px) {
       margin-top: 2rem;
     }
   }
+
+  ::before {
+    content: "";
+    display: inline-block;
+    margin-right: 0.25rem;
+
+    height: 16px;
+    width: 16px;
+
+    border: 1px solid #0989f7;
+
+    ${(prop) => prop.selected && "outline: #0989f7 solid 2px;"}
+  }
+
+  &::after {
+    content: "" ${(prop) => !prop.checked && "content: none "};
+    display: inline-block;
+    position: absolute;
+    height: 6px;
+    width: 9px;
+    border-left: 2px solid;
+    border-bottom: 2px solid;
+    color: #0989f7;
+    left: 4px;
+    top: 4px;
+
+    transform: rotate(-45deg);
+  }
+`;
+
+const Checkbox = styled.input`
+  display: none;
 `;
 
 const TextLongerInput = styled.input`
@@ -1055,10 +1162,11 @@ const TextLongerInput = styled.input`
   font-size: 0.8rem;
   color: #676767;
   bottom: 1.125rem;
+  padding: 0.25rem;
+  padding-left: 0.4rem;
 
   &:focus {
-    border-bottom: 2px solid #0989f7
-      ${(prop) => prop.selected && "border-bottom: 0"};
+    border: 2px solid #0989f7 ${(prop) => prop.selected && "border: none"};
   }
 `;
 
@@ -1069,21 +1177,12 @@ const StyledLongerDiv = styled.div`
   position: relative;
   border: 1px solid #0989f7;
   border-top: none;
-  margin-top: 0.5rem;
   z-index: 1;
 `;
 
 const CheckboxContainer = styled.div`
   width: 100%;
-`;
-
-const Checkbox = styled.input`
-  margin: 0.25rem;
-  width: 1rem;
-
-  &:focus {
-    outline: 1px solid #0989f7;
-  }
+  margin: 0 0.5rem;
 `;
 
 const ButtonDiv = styled.div`
@@ -1108,7 +1207,7 @@ const ButtonSubmit = styled.button`
   filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 
   &:focus {
-    background: #0989f7;
+    border: 3px solid #0989f7;
   }
 `;
 
@@ -1127,7 +1226,7 @@ const ButtonReset = styled.button`
   filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 
   &:focus {
-    background: #0989f7;
+    border: 3px solid #0989f7;
   }
 `;
 
@@ -1151,7 +1250,7 @@ const MenuDiv = styled.div`
   width: 95%;
   z-index: 15;
   position: absolute;
-  top: 2rem;
+  top: 2.25rem;
   background: white;
   &.active {
     display: inline-block;

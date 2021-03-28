@@ -8,6 +8,7 @@ export default function UserInsurances({
   setUserData,
   insurancesAlreadyCompleted,
   setInsurancesAlreadyCompleted,
+  setSelected,
 }) {
   const [insuranceValues, setInsuranceValues] = useState([]);
 
@@ -61,6 +62,7 @@ export default function UserInsurances({
                 <Option
                   tabIndex="0"
                   key={value}
+                  onFocus={() => setSelected("")}
                   onKeyDown={(event) =>
                     handleKeyDown("insuranceOption", event, value, name)
                   }
@@ -89,6 +91,7 @@ export default function UserInsurances({
             return (
               <Tag
                 tabIndex="0"
+                onFocus={() => setSelected("")}
                 onClick={() => onDeleteInsurance(insurance.value)}
                 onKeyDown={(event) =>
                   handleKeyDown("insuranceTag", event, insurance.value)

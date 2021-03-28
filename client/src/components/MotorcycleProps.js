@@ -6,6 +6,7 @@ export default function MotorcycleProps({
   focused,
   handleClick,
   formValidation,
+  setSelected,
 }) {
   return (
     <SubMenu>
@@ -29,6 +30,7 @@ export default function MotorcycleProps({
           type="text"
           name="motorcycleAge"
           value={userData.motorcycleAge}
+          onFocus={() => setSelected("")}
           onChange={handleChange}
           onClick={(event) => handleClick(event, "motorcycleAge")}
           selected={focused === "motorcycleAge"}
@@ -55,6 +57,7 @@ export default function MotorcycleProps({
           type="text"
           name="motorcycleValue"
           value={userData.motorcycleValue}
+          onFocus={() => setSelected("")}
           onChange={handleChange}
           onClick={(event) => handleClick(event, "motorcycleValue")}
           selected={focused === "motorcycleValue"}
@@ -88,7 +91,6 @@ const StyledDiv = styled.div`
   position: relative;
   border: 1px solid #0989f7;
   border-top: none;
-  margin-top: 0.5rem;
   z-index: 1;
 `;
 
@@ -119,11 +121,11 @@ const TextInput = styled.input`
   font-size: 0.8rem;
   color: #676767;
   bottom: 1.125rem;
-  outline: none;
+  padding: 0.25rem;
+  padding-left: 0.4rem;
 
   &:focus {
-    border-bottom: 2px solid #0989f7
-      ${(prop) => prop.selected && "border-bottom: 0"};
+    border: 2px solid #0989f7 ${(prop) => prop.selected && "border: none"};
   }
 `;
 
