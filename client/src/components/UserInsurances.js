@@ -12,6 +12,18 @@ export default function UserInsurances({
 }) {
   const [insuranceValues, setInsuranceValues] = useState([]);
 
+  useEffect(() => {
+    setInsuranceValues(
+      insurancesAlreadyCompleted.map((insurance) => insurance.value)
+    );
+    setUserData({
+      ...userData,
+      insurancesAlreadyHave: insurancesAlreadyCompleted.map(
+        (insurance) => insurance.value
+      ),
+    });
+  }, [insurancesAlreadyCompleted]);
+
   function onDeleteInsurance(insurancetoDelete) {
     const insurancesToKeep = insurancesAlreadyCompleted.filter(
       (insurance) => insurance.value !== insurancetoDelete
@@ -33,18 +45,6 @@ export default function UserInsurances({
       }
     }
   }
-
-  useEffect(() => {
-    setInsuranceValues(
-      insurancesAlreadyCompleted.map((insurance) => insurance.value)
-    );
-    setUserData({
-      ...userData,
-      insurancesAlreadyHave: insurancesAlreadyCompleted.map(
-        (insurance) => insurance.value
-      ),
-    });
-  }, [insurancesAlreadyCompleted]);
 
   return (
     <>

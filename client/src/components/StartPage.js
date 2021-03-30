@@ -1,10 +1,10 @@
 import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 
-import { ReactComponent as fin2uf } from "../images/fin2uLogof.svg";
-import { ReactComponent as fin2uin } from "../images/fin2uLogoin.svg";
-import { ReactComponent as fin2u2 } from "../images/fin2uLogo2.svg";
-import { ReactComponent as fin2uu } from "../images/fin2uLogou.svg";
+import { ReactComponent as Fin2uf } from "../images/fin2uLogof.svg";
+import { ReactComponent as Fin2uin } from "../images/fin2uLogoin.svg";
+import { ReactComponent as Fin2u2 } from "../images/fin2uLogo2.svg";
+import { ReactComponent as Fin2uu } from "../images/fin2uLogou.svg";
 
 export default function StartPage() {
   return (
@@ -177,7 +177,7 @@ const LogoContainer = styled.div`
   width: 100%;
 `;
 
-const LogoF = styled(fin2uf)`
+const LogoF = styled(Fin2uf)`
   position: absolute;
   animation: ${fadeInLeft} 0.5s ease-in, ${fallDown} 0.5s linear 1.75s;
   animation-fill-mode: forwards;
@@ -187,7 +187,7 @@ const LogoF = styled(fin2uf)`
   filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 `;
 
-const LogoIn = styled(fin2uin)`
+const LogoIn = styled(Fin2uin)`
   position: absolute;
   animation: ${fadeInLeft} 0.5s ease-in 0.5s, ${fallDown} 0.5s linear 1.75s;
   animation-fill-mode: forwards;
@@ -197,7 +197,7 @@ const LogoIn = styled(fin2uin)`
   filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 `;
 
-const Logo2 = styled(fin2u2)`
+const Logo2 = styled(Fin2u2)`
   position: absolute;
   animation: ${opacityIn} 1.5s ease-in 1s, ${fallDown} 0.5s linear 1.75s,
     ${blur} 5s ease-in infinite 2.25s;
@@ -208,7 +208,7 @@ const Logo2 = styled(fin2u2)`
   filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 `;
 
-const LogoU = styled(fin2uu)`
+const LogoU = styled(Fin2uu)`
   position: absolute;
   animation: ${fadeInRight} 0.5s linear 1.5s;
   animation-fill-mode: forwards;

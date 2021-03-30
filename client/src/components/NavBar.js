@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
-import { ReactComponent as up } from "../images/up.svg";
-import { ReactComponent as start } from "../images/start.svg";
-import { ReactComponent as fin2u } from "../images/fin2u.svg";
+import { ReactComponent as Up } from "../images/up.svg";
+import { ReactComponent as Start } from "../images/start.svg";
+import { ReactComponent as Fin2u } from "../images/fin2u.svg";
 
 export default function NavBar() {
   return (
@@ -20,9 +20,9 @@ export default function NavBar() {
           </StyledNavLink>
         </NavContainer>
 
-        <Up href="#">
-          <UpSVG />
-        </Up>
+        <UpLink href="#">
+          <Up />
+        </UpLink>
       </Nav>
     </Container>
   );
@@ -67,6 +67,13 @@ const StyledNavLink = styled(NavLink)`
   font-size: 0.6rem;
   text-decoration: none;
 
+  svg {
+    width: 33px;
+    height: 24px;
+    stroke: none;
+    fill: #52514f;
+  }
+
   &.active {
     border-top: 1px solid #0989f7;
   }
@@ -81,7 +88,7 @@ const StyledNavLink = styled(NavLink)`
   }
 `;
 
-const Up = styled.a`
+const UpLink = styled.a`
   grid-area: setUp;
   background: #52514f;
   height: 24px;
@@ -92,26 +99,11 @@ const Up = styled.a`
   margin-right: 1rem;
   border-radius: 10px;
   justify-self: end;
-`;
 
-const UpSVG = styled(up)`
-  width: 16px;
-  height: 14px;
-`;
-
-const Start = styled(start)`
-  width: 33px;
-  height: 24px;
-  stroke: none;
-  fill: #52514f;
-`;
-
-const Fin2u = styled(fin2u)`
-  width: 33px;
-  height: 24px;
-  fill: #fff;
-  stroke: none;
-  fill: #52514f;
+  svg {
+    width: 16px;
+    height: 14px;
+  }
 `;
 
 const Span = styled.span`

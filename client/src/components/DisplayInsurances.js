@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-import { ReactComponent as reset } from "../images/reset.svg";
+import { ReactComponent as Reset } from "../images/reset.svg";
 
 export default function DisplayInsurances({
   insurances,
@@ -140,6 +140,11 @@ const ButtonReset = styled.button`
   cursor: pointer;
   filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 
+  svg {
+    width: 17.31px;
+    height: 12.59px;
+  }
+
   &:focus {
     border: 3px solid #0989f7;
   }
@@ -147,9 +152,4 @@ const ButtonReset = styled.button`
 
 const ButtonSpan = styled.span`
   margin-left: 0.25rem;
-`;
-
-const Reset = styled(reset)`
-  width: 17.31px;
-  height: 12.59px;
 `;

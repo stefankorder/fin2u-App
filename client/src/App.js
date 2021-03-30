@@ -18,26 +18,9 @@ import NavBar from "./components/NavBar";
 import StartPage from "./components/StartPage";
 
 function App() {
-  //const apiServerURL = process.env.REACT_APP_API_SERVER_URL;
   const [userToCalculate, setUserToCalculate] = useState("");
   const [insurances, setInsurances] = useState([]);
   const [componentToDisplay, setComponentToDisplay] = useState("form");
-
-  const location = useLocation();
-  const history = useHistory();
-
-  function onSubmitForm(userData) {
-    fetch("http://localhost:4000/user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    })
-      .then((result) => result.json())
-      .then((user) => setUserToCalculate(user))
-      .catch((error) => console.error(error.message));
-  }
 
   useEffect(() => {
     insuranceProducts.forEach((insurance) => {
@@ -57,7 +40,7 @@ function App() {
         .then((result) => result.json())
         .then((loadInsurances) => setInsurances(loadInsurances))
         .then(() => {
-          setComponentToDisplay("value");
+          setComponentToDisplay("solution");
         })
         .catch((error) => console.error(error.message));
     }
@@ -73,6 +56,22 @@ function App() {
       }).catch((error) => console.error(error.message));
     }
   }, [insurances]);
+
+  const location = useLocation();
+  const history = useHistory();
+
+  function onSubmitForm(userData) {
+    fetch("http://localhost:4000/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    })
+      .then((result) => result.json())
+      .then((user) => setUserToCalculate(user))
+      .catch((error) => console.error(error.message));
+  }
 
   return (
     <AppContainer className={location.pathname === "/" && "active"}>

@@ -8,8 +8,8 @@ import MotorcycleProps from "./MotorcycleProps";
 import initialUserData from "../lib/userData";
 import insuranceProducts from "../lib/insuranceProducts";
 
-import { ReactComponent as submit } from "../images/submit.svg";
-import { ReactComponent as reset } from "../images/reset.svg";
+import { ReactComponent as Submit } from "../images/submit.svg";
+import { ReactComponent as Reset } from "../images/reset.svg";
 
 import setAge from "../services/setAge";
 import setUserNetIncome from "../services/setNetIncome";
@@ -36,6 +36,45 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
     jobStatus: -1,
   });
 
+  useEffect(() => {
+    const UserAge = setAge(userData.birthday);
+    setUserData({ ...userData, age: UserAge });
+  }, [userData.birthday]);
+
+  useEffect(() => {
+    const userNetIncome = setUserNetIncome(userData.income, userData.jobStatus);
+    if (userData.jobStatus === "employed") {
+      setUserData({ ...userData, netIncome: userNetIncome });
+    }
+    if (!isNaN(userNetIncome)) {
+      const remainingValids = formValidation.filter(
+        (valid) => valid !== "netIncome"
+      );
+      setFormValidation(remainingValids);
+    }
+  }, [userData.income]);
+
+  useEffect(() => {
+    if (formValidation.includes("go")) {
+      onSubmitForm(userData);
+      setFormValidation([]);
+    }
+  }, [formValidation]);
+
+  useEffect(() => {
+    if (
+      focused ||
+      selectedTagIndex.relationship > -1 ||
+      selectedTagIndex.jobStatus > -1
+    ) {
+      window.addEventListener("click", handleClick);
+
+      return () => {
+        window.removeEventListener("click", handleClick);
+      };
+    }
+  }, [focused, selectedTagIndex]);
+
   function insurancesToDisplay() {
     const insurancesDisplay = [];
     insuranceProducts.forEach(({ value, name }) => {
@@ -46,7 +85,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
     return insurancesDisplay;
   }
 
-  const handleKeyDown = (event, field) => {
+  function handleKeyDown(event, field) {
     if (event.key === "Enter") {
       event.preventDefault();
       if (field === "relationship" && selectedTagIndex.relationship === 0) {
@@ -153,7 +192,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
       });
       setFocused("");
     }
-  };
+  }
 
   function handleChange(event) {
     const field = event.target;
@@ -287,7 +326,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
     setUserData({ ...userData, [field.name]: value });
   }
 
-  const dropChange = (value, field) => {
+  function dropChange(value, field) {
     setUserData({ ...userData, [field]: value });
     if (field === "relationship" && value) {
       const remainingValids = formValidation.filter(
@@ -306,25 +345,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
       const dropName = getDropDownName(value);
       setDropDownNameWork(dropName);
     }
-  };
-
-  useEffect(() => {
-    const UserAge = setAge(userData.birthday);
-    setUserData({ ...userData, age: UserAge });
-  }, [userData.birthday]);
-
-  useEffect(() => {
-    const userNetIncome = setUserNetIncome(userData.income, userData.jobStatus);
-    if (userData.jobStatus === "employed") {
-      setUserData({ ...userData, netIncome: userNetIncome });
-    }
-    if (!isNaN(userNetIncome)) {
-      const remainingValids = formValidation.filter(
-        (valid) => valid !== "netIncome"
-      );
-      setFormValidation(remainingValids);
-    }
-  }, [userData.income]);
+  }
 
   function validateForm() {
     const validate = [];
@@ -392,27 +413,6 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
     event.preventDefault();
     validateForm();
   }
-
-  useEffect(() => {
-    if (formValidation.includes("go")) {
-      onSubmitForm(userData);
-      setFormValidation([]);
-    }
-  }, [formValidation]);
-
-  useEffect(() => {
-    if (
-      focused ||
-      selectedTagIndex.relationship > -1 ||
-      selectedTagIndex.jobStatus > -1
-    ) {
-      window.addEventListener("click", handleClick);
-
-      return () => {
-        window.removeEventListener("click", handleClick);
-      };
-    }
-  }, [focused, selectedTagIndex]);
 
   function handleClick(event, value) {
     event.stopPropagation();
@@ -548,13 +548,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
               </SelectSpan>
             </StyledSelectDiv>
           </Clickfield>
-          <MenuDiv
-            className={
-              (focused === "relationship" ||
-                selectedTagIndex.relationship > -1) &&
-              "active"
-            }
-          >
+          <MenuDiv className={focused === "relationship" && "active"}>
             <MenuP
               className={
                 (userData.relationship === "single" ||
@@ -672,12 +666,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
               </SelectSpan>
             </StyledSelectDiv>
           </Clickfield>
-          <MenuDiv
-            className={
-              (focused === "jobStatus" || selectedTagIndex.jobStatus > -1) &&
-              "active"
-            }
-          >
+          <MenuDiv className={focused === "jobStatus" && "active"}>
             <MenuP
               className={
                 (userData.jobStatus === "employed" ||
@@ -1179,6 +1168,11 @@ const ButtonSubmit = styled.button`
   &:focus {
     border: 3px solid #0989f7;
   }
+
+  svg {
+    width: 14.5px;
+    height: 14.5px;
+  }
 `;
 
 const ButtonReset = styled.button`
@@ -1198,20 +1192,15 @@ const ButtonReset = styled.button`
   &:focus {
     border: 3px solid #0989f7;
   }
+
+  svg {
+    width: 17.31px;
+    height: 12.59px;
+  }
 `;
 
 const ButtonSpan = styled.span`
   margin-left: 0.25rem;
-`;
-
-const Submit = styled(submit)`
-  width: 14.5px;
-  height: 14.5px;
-`;
-
-const Reset = styled(reset)`
-  width: 17.31px;
-  height: 12.59px;
 `;
 
 const MenuDiv = styled.div`
