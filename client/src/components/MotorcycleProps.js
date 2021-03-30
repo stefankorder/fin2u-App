@@ -6,6 +6,7 @@ export default function MotorcycleProps({
   focused,
   handleClick,
   formValidation,
+  setFocused,
 }) {
   return (
     <SubMenu>
@@ -21,7 +22,7 @@ export default function MotorcycleProps({
             MOTORRADALTER
           </Label>
           {formValidation.includes("motorcycleAge") && (
-            <ErrorText>Bitte geben Sie das Alter an!</ErrorText>
+            <ErrorText>Bitte gebe das Alter an!</ErrorText>
           )}
         </StyledDiv>
         <TextInput
@@ -29,6 +30,7 @@ export default function MotorcycleProps({
           type="text"
           name="motorcycleAge"
           value={userData.motorcycleAge}
+          onFocus={() => setFocused("motorcycleAge")}
           onChange={handleChange}
           onClick={(event) => handleClick(event, "motorcycleAge")}
         />
@@ -54,6 +56,7 @@ export default function MotorcycleProps({
           type="text"
           name="motorcycleValue"
           value={userData.motorcycleValue}
+          onFocus={() => setFocused("motorcycleValue")}
           onChange={handleChange}
           onClick={(event) => handleClick(event, "motorcycleValue")}
         />
@@ -86,7 +89,6 @@ const StyledDiv = styled.div`
   position: relative;
   border: 1px solid #0989f7;
   border-top: none;
-  margin-top: 0.5rem;
   z-index: 1;
 `;
 
@@ -116,8 +118,9 @@ const TextInput = styled.input`
   z-index: 10;
   font-size: 0.8rem;
   color: #676767;
-  margin-left: 0.5rem;
   bottom: 1.125rem;
+  padding: 0.25rem;
+  padding-left: 0.4rem;
 `;
 
 const ErrorText = styled.span`

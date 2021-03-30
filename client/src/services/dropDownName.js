@@ -1,30 +1,30 @@
-export default function getDropDownName(value, setValue) {
+export default function getDropDownName(value) {
   if (value === "single") {
-    setValue("LEDIG");
+    return "ledig";
   }
 
   if (value === "inRelationship") {
-    setValue("LEBENSGEMEINSCHAFT");
+    return "Lebensgemeinschaft";
   }
 
   if (value === "married") {
-    setValue("VERHEIRATET");
+    return "verheiratet";
   }
 
   if (value === "divorced") {
-    setValue("GESCHIEDEN");
+    return "geschieden";
   }
 
   if (value === "widowed") {
-    setValue("VERWITWET");
+    return "verwitwet";
   }
   if (value === "employed") {
-    setValue("ANGESTELLT");
+    return "angestellt";
   }
   if (value === "selfEmployed") {
-    setValue("SELBSTSTÄNDIG");
+    return "selbstständig";
   }
   if (value === "civilServants") {
-    setValue("VERBEAMTET");
+    return "verbeamtet";
   }
 }

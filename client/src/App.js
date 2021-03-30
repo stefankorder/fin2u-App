@@ -1,31 +1,102 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Switch, Route } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  useLocation,
+  useHistory,
+  Redirect,
+} from "react-router-dom";
 
 import Start from "./pages/Start";
+import About from "./pages/About";
+
+import insuranceProducts from "./lib/insuranceProducts";
 
 import Header from "./components/Header";
 import NavBar from "./components/NavBar";
+import StartPage from "./components/StartPage";
 
 function App() {
   const [userToCalculate, setUserToCalculate] = useState("");
+  const [insurances, setInsurances] = useState([]);
+  const [componentToDisplay, setComponentToDisplay] = useState("form");
+
+  useEffect(() => {
+    insuranceProducts.forEach((insurance) => {
+      fetch("http://localhost:4000/insurance", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(insurance),
+      }).catch((error) => console.error(error.message));
+    });
+  }, []);
+
+  useEffect(() => {
+    if (userToCalculate) {
+      fetch("http://localhost:4000/insurances/" + userToCalculate._id)
+        .then((result) => result.json())
+        .then((loadInsurances) => setInsurances(loadInsurances))
+        .then(() => {
+          setComponentToDisplay("solution");
+        })
+        .catch((error) => console.error(error.message));
+    }
+  }, [userToCalculate]);
+
+  useEffect(() => {
+    if (insurances.length > 0) {
+      fetch("http://localhost:4000/user/" + userToCalculate._id, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).catch((error) => console.error(error.message));
+    }
+  }, [insurances]);
+
+  const location = useLocation();
+  const history = useHistory();
 
   function onSubmitForm(userData) {
-    setUserToCalculate(userData);
+    fetch("http://localhost:4000/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    })
+      .then((result) => result.json())
+      .then((user) => setUserToCalculate(user))
+      .catch((error) => console.error(error.message));
   }
 
   return (
-    <AppContainer>
-      <Header />
+    <AppContainer className={location.pathname === "/" && "active"}>
+      {location.pathname !== "/" && <Header />}
+
       <Switch>
+        {history.action === "POP" && <Redirect to="/" />}
         <Route exact path="/">
-          <Start onSubmitForm={onSubmitForm} />
+          <StartPage />
+        </Route>
+        <Route path="/start">
+          <Start
+            onSubmitForm={onSubmitForm}
+            insurances={insurances}
+            userToCalculate={userToCalculate}
+            componentToDisplay={componentToDisplay}
+            setComponentToDisplay={setComponentToDisplay}
+          />
         </Route>
         <Route path="/about">
-          <Start onSubmitForm={onSubmitForm} />
+          <About />
         </Route>
       </Switch>
-      <NavBar />
+
+      {location.pathname !== "/" && <NavBar />}
     </AppContainer>
   );
 }
@@ -33,13 +104,15 @@ function App() {
 export default App;
 
 const AppContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr auto 1fr;
   background: white;
   width: 100%;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
-  box-shadow: 0 2px 11px 0 rgba(25, 50, 81, 0.2);
-  margin-bottom: 3.5rem;
+  box-shadow: 0 2px 5px 0 rgba(25, 50, 81, 0.2);
+  height: 97.25vh;
+  overflow: auto;
+
+  &.active {
+    border-radius: 10px;
+  }
 `;

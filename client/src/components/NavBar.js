@@ -1,37 +1,28 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import { useState } from "react";
 
-import { ReactComponent as up } from "../images/up.svg";
-import { ReactComponent as start } from "../images/start.svg";
-import { ReactComponent as fin2u } from "../images/fin2u.svg";
+import { ReactComponent as Up } from "../images/up.svg";
+import { ReactComponent as Start } from "../images/start.svg";
+import { ReactComponent as Fin2u } from "../images/fin2u.svg";
 
 export default function NavBar() {
-  const [active, setActive] = useState("start");
   return (
     <Container>
       <Nav>
-        <StyledNavLink
-          className="start"
-          onClick={() => setActive("start")}
-          exact
-          to="/"
-        >
-          <Start className={active === "start" && "active"} />
-          <Span className={active === "start" && "active"}>START</Span>
-        </StyledNavLink>
-        <StyledNavLink
-          className="about"
-          onClick={() => setActive("about")}
-          to="/about"
-        >
-          <Fin2u className={active === "about" && "active"} />
-          <Span className={active === "about" && "active"}>ÜBER UNS</Span>
-        </StyledNavLink>
+        <NavContainer>
+          <StyledNavLink to="/start">
+            <Start />
+            <Span>START</Span>
+          </StyledNavLink>
+          <StyledNavLink to="/about">
+            <Fin2u />
+            <Span>ÜBER UNS</Span>
+          </StyledNavLink>
+        </NavContainer>
 
-        <Up href="#">
-          <UpSVG />
-        </Up>
+        <UpLink href="#">
+          <Up />
+        </UpLink>
       </Nav>
     </Container>
   );
@@ -43,22 +34,27 @@ const Container = styled.div`
   bottom: 0;
   right: 0;
   background: whitesmoke;
+  z-index: 20;
+  height: 3.5rem;
+  padding: 0 0.5rem 0.5rem 0.5rem;
 `;
 
 const Nav = styled.nav`
-  margin: 0 0.5rem 0.5rem 0.5rem;
   background: white;
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
-  display: grid;
-  grid-template-columns: 4rem 4rem auto 1fr;
-  grid-template-rows: 1fr;
-  grid-template-areas: "setStart setAbout . setUp";
-  height: 3rem;
-  border-top: 1px solid #52514f;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-items: start;
-  box-shadow: 0 2px 11px 0 rgba(25, 50, 81, 0.2);
+  height: 100%;
+  border-top: 1px solid #52514f;
+  box-shadow: 0 2px 5px 0 rgba(25, 50, 81, 0.2);
+`;
+
+const NavContainer = styled.div`
+  width: 8rem;
+  display: flex;
+  height: 100%;
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -71,20 +67,28 @@ const StyledNavLink = styled(NavLink)`
   font-size: 0.6rem;
   text-decoration: none;
 
+  svg {
+    width: 33px;
+    height: 24px;
+    stroke: none;
+    fill: #52514f;
+  }
+
   &.active {
     border-top: 1px solid #0989f7;
   }
 
-  &.start {
-    grid-area: setStart;
+  &.active span {
+    color: #0989f7;
   }
 
-  &.about {
-    grid-area: setAbout;
+  &.active svg {
+    stroke: none;
+    fill: #0989f7;
   }
 `;
 
-const Up = styled.a`
+const UpLink = styled.a`
   grid-area: setUp;
   background: #52514f;
   height: 24px;
@@ -95,43 +99,14 @@ const Up = styled.a`
   margin-right: 1rem;
   border-radius: 10px;
   justify-self: end;
-`;
 
-const UpSVG = styled(up)`
-  width: 16px;
-  height: 14px;
-`;
-
-const Start = styled(start)`
-  width: 33px;
-  height: 24px;
-  stroke: none;
-  fill: #52514f;
-
-  &.active {
-    stroke: none;
-    fill: #0989f7;
-  }
-`;
-
-const Fin2u = styled(fin2u)`
-  width: 33px;
-  height: 24px;
-  fill: #fff;
-  stroke: none;
-  fill: #52514f;
-
-  &.active {
-    stroke: none;
-    fill: #0989f7;
+  svg {
+    width: 16px;
+    height: 14px;
   }
 `;
 
 const Span = styled.span`
   margin-top: 0.25rem;
   color: #52514f;
-
-  &.active {
-    color: #0989f7;
-  }
 `;

@@ -6,6 +6,7 @@ export default function CarProps({
   focused,
   handleClick,
   formValidation,
+  setFocused,
 }) {
   return (
     <SubMenu>
@@ -18,7 +19,7 @@ export default function CarProps({
             FAHRZEUGALTER
           </Label>
           {formValidation.includes("carAge") && (
-            <ErrorText>Bitte geben Sie das Alter an!</ErrorText>
+            <ErrorText>Bitte gebe das Alter an!</ErrorText>
           )}
         </StyledDiv>
         <TextInput
@@ -27,6 +28,7 @@ export default function CarProps({
           name="carAge"
           value={userData.carAge}
           onChange={handleChange}
+          onFocus={() => setFocused("carAge")}
           onClick={(event) => handleClick(event, "carAge")}
         />
       </HandleDiv>
@@ -51,6 +53,7 @@ export default function CarProps({
           name="carValue"
           value={userData.carValue}
           onChange={handleChange}
+          onFocus={() => setFocused("carValue")}
           onClick={(event) => handleClick(event, "carValue")}
         />
       </HandleDiv>
@@ -82,7 +85,6 @@ const StyledDiv = styled.div`
   position: relative;
   border: 1px solid #0989f7;
   border-top: none;
-  margin-top: 0.5rem;
   z-index: 1;
 `;
 
@@ -112,8 +114,9 @@ const TextInput = styled.input`
   z-index: 10;
   font-size: 0.8rem;
   color: #676767;
-  margin-left: 0.5rem;
   bottom: 1.125rem;
+  padding: 0.25rem;
+  padding-left: 0.4rem;
 `;
 
 const ErrorText = styled.span`

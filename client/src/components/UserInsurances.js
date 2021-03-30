@@ -8,15 +8,9 @@ export default function UserInsurances({
   setUserData,
   insurancesAlreadyCompleted,
   setInsurancesAlreadyCompleted,
+  setFocused,
 }) {
   const [insuranceValues, setInsuranceValues] = useState([]);
-
-  function onDeleteInsurance(insurancetoDelete) {
-    const insurancesToKeep = insurancesAlreadyCompleted.filter(
-      (insurance) => insurance.value !== insurancetoDelete
-    );
-    setInsurancesAlreadyCompleted(insurancesToKeep);
-  }
 
   useEffect(() => {
     setInsuranceValues(
@@ -30,36 +24,48 @@ export default function UserInsurances({
     });
   }, [insurancesAlreadyCompleted]);
 
+  function onDeleteInsurance(insurancetoDelete) {
+    const insurancesToKeep = insurancesAlreadyCompleted.filter(
+      (insurance) => insurance.value !== insurancetoDelete
+    );
+    setInsurancesAlreadyCompleted(insurancesToKeep);
+  }
+
+  function handleKeyDown(field, event, value, name) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      if (field === "insuranceOption") {
+        setInsurancesAlreadyCompleted([
+          ...insurancesAlreadyCompleted,
+          { value, name },
+        ]);
+      }
+      if (field === "insuranceTag") {
+        onDeleteInsurance(value);
+      }
+    }
+  }
+
   return (
     <>
       <Label htmlFor="insurancesAlreadyCompleted">
-        WELCHE VERSICHERUNGEN HABEN SIE BEREITS?
+        WELCHE VERSICHERUNGEN HAST DU BEREITS?
       </Label>
 
-      {insurancesAlreadyCompleted.length > 0 && (
-        <TagContainer>
-          {insurancesAlreadyCompleted?.map((insurance) => {
-            return (
-              <Tag key={insurance.value}>
-                {insurance.name}
-                <DeleteSpan onClick={() => onDeleteInsurance(insurance.value)}>
-                  &times;
-                </DeleteSpan>
-              </Tag>
-            );
-          })}
-        </TagContainer>
-      )}
-
-      {insurancesAlreadyCompleted.length !== 10 ? (
-        <Select name="insurancesAlreadyCompleted">
+      {insurancesAlreadyCompleted.length !== insuranceProducts.length ? (
+        <Select tabIndex="-1" name="insurancesAlreadyCompleted">
           {insuranceProducts?.map(({ name, value }) => {
             if (insuranceValues.includes(value)) {
               return "";
             } else {
               return (
                 <Option
+                  tabIndex="0"
                   key={value}
+                  onFocus={() => setFocused("")}
+                  onKeyDown={(event) =>
+                    handleKeyDown("insuranceOption", event, value, name)
+                  }
                   onClick={() =>
                     setInsurancesAlreadyCompleted([
                       ...insurancesAlreadyCompleted,
@@ -78,6 +84,28 @@ export default function UserInsurances({
           Zurücksetzen
         </Button>
       )}
+
+      {insurancesAlreadyCompleted.length > 0 && (
+        <TagContainer>
+          {insurancesAlreadyCompleted?.map((insurance) => {
+            return (
+              <Tag
+                tabIndex="0"
+                onFocus={() => setFocused("")}
+                onClick={() => onDeleteInsurance(insurance.value)}
+                onKeyDown={(event) =>
+                  handleKeyDown("insuranceTag", event, insurance.value)
+                }
+                key={insurance.value}
+              >
+                {insurance.name}
+                <DeleteSpan>&times;</DeleteSpan>
+              </Tag>
+            );
+          })}
+          <StyledLongerDiv />
+        </TagContainer>
+      )}
     </>
   );
 }
@@ -85,7 +113,8 @@ export default function UserInsurances({
 const Label = styled.label`
   font-size: 0.8rem;
   width: 100%;
-  margin: 2.5rem 0.4rem 0.5rem 0.4rem;
+  margin: 2.5rem 0.4rem 1.5rem 0.4rem;
+  color: #52514f;
 `;
 
 const Select = styled.div`
@@ -105,8 +134,14 @@ const Option = styled.p`
   padding: 0.2rem 0.4rem 0.2rem;
   margin: 0;
   cursor: pointer;
+  outline: none;
 
   &:hover {
+    background: #0989f7;
+    color: white;
+  }
+
+  &:focus {
     background: #0989f7;
     color: white;
   }
@@ -115,8 +150,21 @@ const Option = styled.p`
 const TagContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin: 0.5rem 0.4rem 1rem 0.4rem;
+  margin: 1.5rem 0.4rem 0 0.4rem;
   width: 100%;
+  position: relative;
+  padding-bottom: 0.25rem;
+`;
+
+const StyledLongerDiv = styled.div`
+  width: 100%;
+  height: 0.5rem;
+  background: transparent;
+  position: absolute;
+  border: 1px solid #0989f7;
+  border-top: none;
+  z-index: 1;
+  bottom: 0;
 `;
 
 const Tag = styled.span`
@@ -126,6 +174,13 @@ const Tag = styled.span`
   margin: 0.2rem;
   padding: 0.4rem 0.4rem 0.2rem;
   border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
+
+  &:focus {
+    background: #ba0d50;
+  }
 `;
 
 const DeleteSpan = styled.span`
@@ -141,5 +196,15 @@ const Button = styled.button`
   margin: 0 auto;
   padding: 0.2rem 0.4rem 0.2rem;
   border-radius: 5px;
+  outline: none;
   cursor: pointer;
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
+
+  &:focus {
+    background: #0989f7;
+  }
+
+  &:hover {
+    background: #0989f7;
+  }
 `;

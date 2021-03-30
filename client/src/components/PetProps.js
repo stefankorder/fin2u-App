@@ -1,6 +1,12 @@
 import styled from "styled-components";
 
-export default function PetProps({ userData, handleChange, formValidation }) {
+export default function PetProps({
+  userData,
+  handleChange,
+  formValidation,
+  handleKeyDown,
+  setFocused,
+}) {
   return (
     <RadioDiv>
       <StyledLongerDiv>
@@ -12,7 +18,9 @@ export default function PetProps({ userData, handleChange, formValidation }) {
               name="petSpecies"
               value="dog"
               checked={userData.petSpecies === "dog"}
+              onFocus={() => setFocused("")}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
             />
             HUND
           </RadioLabel>
@@ -22,7 +30,9 @@ export default function PetProps({ userData, handleChange, formValidation }) {
               name="petSpecies"
               value="horse"
               checked={userData.petSpecies === "horse"}
+              onFocus={() => setFocused("")}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
             />
             PFERD
           </RadioLabel>
@@ -76,6 +86,10 @@ const RadioLabel = styled.label`
 const Radio = styled.input`
   margin: 0.25rem;
   width: 1rem;
+
+  &:focus {
+    outline: 1px solid #0989f7;
+  }
 `;
 
 const ErrorText = styled.span`
