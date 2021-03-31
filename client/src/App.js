@@ -6,7 +6,6 @@ import {
   useLocation,
   useHistory,
   Redirect,
-  useParams,
 } from "react-router-dom";
 
 import Start from "./pages/Start";
@@ -23,8 +22,6 @@ function App() {
   const [userToCalculate, setUserToCalculate] = useState("");
   const [insurances, setInsurances] = useState([]);
   const [componentToDisplay, setComponentToDisplay] = useState("form");
-
-  const { id } = useParams();
 
   useEffect(() => {
     insuranceProducts.forEach((insurance) => {

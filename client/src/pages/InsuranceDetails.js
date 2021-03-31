@@ -1,7 +1,5 @@
 import { useParams, Link } from "react-router-dom";
 
-import InsuranceDetailsIncapacity from "../components/InsuranceDetailsIncapacity";
-
 export default function InsuranceDetails({ insurances, userToCalculate }) {
   const { id } = useParams();
 
@@ -11,12 +9,8 @@ export default function InsuranceDetails({ insurances, userToCalculate }) {
 
   return (
     <>
-      {insuranceToDetail.value === "incapacity" && (
-        <InsuranceDetailsIncapacity
-          userToCalculate={userToCalculate}
-          insuranceToDetail={insuranceToDetail}
-        />
-      )}
+      <h1>{insuranceToDetail.name} </h1>
+      <p>{insuranceToDetail.text}</p>
 
       <Link to="/start">ZURÜCK</Link>
     </>

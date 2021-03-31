@@ -4,6 +4,7 @@ const insurenceSchema = {
   value: String,
   name: String,
   status: Number,
+  text: String,
 };
 const Insurance = mongoose.model("AppInsurances", insurenceSchema);
 
