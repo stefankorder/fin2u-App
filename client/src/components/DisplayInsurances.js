@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import { ReactComponent as Reset } from "../images/reset.svg";
+import { ReactComponent as Back } from "../images/reset.svg";
 
 export default function DisplayInsurances({
   insurances,
@@ -62,25 +62,21 @@ export default function DisplayInsurances({
         </InsuranceContainer>
       )}
 
-      <ButtonReset
-        type="reset"
-        text="Reset"
-        onClick={() => setComponentToDisplay("form")}
-      >
-        <Reset />
+      <ButtonBack onClick={() => setComponentToDisplay("form")}>
+        <Back />
         <ButtonSpan>Zurück</ButtonSpan>
-      </ButtonReset>
+      </ButtonBack>
     </ContainerBox>
   );
 }
 
 const ContainerBox = styled.div`
   background: white;
-  width: 100%;
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
   padding-bottom: 3.5rem;
+  max-width: 1024px;
 `;
 
 const InsuranceContainer = styled.div`
@@ -102,7 +98,6 @@ const StyledLongerDiv = styled.div`
 `;
 
 const H2 = styled.h2`
-  width: 100%;
   font-size: 0.9rem;
   margin: 1rem 0.4rem 0 0.4rem;
 `;
@@ -110,7 +105,7 @@ const H2 = styled.h2`
 const Label = styled.label`
   font-size: 0.8rem;
   width: 100%;
-  margin: 2.5rem 0.4rem 1rem 0.4rem;
+  margin: 1.5rem 0.4rem 1rem 0.4rem;
   color: #52514f;
 `;
 
@@ -126,7 +121,7 @@ const Tag = styled(Link)`
   filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 `;
 
-const ButtonReset = styled.button`
+const ButtonBack = styled.button`
   align-self: flex-start;
   display: inline-flex;
   align-items: center;

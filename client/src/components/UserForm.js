@@ -530,10 +530,9 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
 const ContainerBox = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   padding: 0.5rem;
   padding-bottom: 3.5rem;
+  max-width: 1024px;
 `;
 
 const H2 = styled.h2`

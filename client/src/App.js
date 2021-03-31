@@ -111,6 +111,9 @@ function App() {
 export default App;
 
 const AppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background: white;
   width: 100%;
   border-top-right-radius: 10px;
