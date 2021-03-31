@@ -1,11 +1,13 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 import { ReactComponent as Reset } from "../images/reset.svg";
 
 export default function DisplayInsurances({
   insurances,
   setComponentToDisplay,
+  userToCalculate,
 }) {
   const [insurancesStatus0, setInsurancesStatus0] = useState(
     insurances.filter((insurance) => insurance.status === 0)
@@ -22,12 +24,12 @@ export default function DisplayInsurances({
 
   return (
     <ContainerBox>
-      <H2>Hier ist dein Ergebnis:</H2>
+      <H2>{userToCalculate.name}, hier ist dein Ergebnis:</H2>
       {insurancesStatus3.length > 0 && (
         <InsuranceContainer>
           <Label>BRAUCHST DU AUF JEDEN FALL!</Label>
-          {insurancesStatus3.map(({ name }) => {
-            return <Tag>{name}</Tag>;
+          {insurancesStatus3.map(({ name, _id }) => {
+            return <Tag to={"/start/" + _id}>{name}</Tag>;
           })}
           <StyledLongerDiv />
         </InsuranceContainer>
@@ -35,8 +37,8 @@ export default function DisplayInsurances({
       {insurancesStatus2.length > 0 && (
         <InsuranceContainer>
           <Label>MIT SICHERHEIT SINNVOLL!</Label>
-          {insurancesStatus2.map(({ name }) => {
-            return <Tag>{name}</Tag>;
+          {insurancesStatus2.map(({ name, _id }) => {
+            return <Tag to={"/start/" + _id}>{name}</Tag>;
           })}
           <StyledLongerDiv />
         </InsuranceContainer>
@@ -44,8 +46,8 @@ export default function DisplayInsurances({
       {insurancesStatus1.length > 0 && (
         <InsuranceContainer>
           <Label>KÖNNTE SINNVOLL SEIN!</Label>
-          {insurancesStatus1.map(({ name }) => {
-            return <Tag>{name}</Tag>;
+          {insurancesStatus1.map(({ name, _id }) => {
+            return <Tag to={"/start/" + _id}>{name}</Tag>;
           })}
           <StyledLongerDiv />
         </InsuranceContainer>
@@ -53,8 +55,8 @@ export default function DisplayInsurances({
       {insurancesStatus0.length > 0 && (
         <InsuranceContainer>
           <Label>HAST DU BEREITS ODER BENÖTIGST DU NICHT!</Label>
-          {insurancesStatus0.map(({ name }) => {
-            return <Tag>{name}</Tag>;
+          {insurancesStatus0.map(({ name, _id }) => {
+            return <Tag to={"/start/" + _id}>{name}</Tag>;
           })}
           <StyledLongerDiv />
         </InsuranceContainer>
@@ -112,8 +114,9 @@ const Label = styled.label`
   color: #52514f;
 `;
 
-const Tag = styled.span`
+const Tag = styled(Link)`
   display: inline-block;
+  text-decoration: none;
   background: #0989f7;
   color: white;
   font-size: 0.8rem;

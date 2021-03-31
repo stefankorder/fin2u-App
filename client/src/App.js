@@ -6,10 +6,12 @@ import {
   useLocation,
   useHistory,
   Redirect,
+  useParams,
 } from "react-router-dom";
 
 import Start from "./pages/Start";
 import About from "./pages/About";
+import InsuranceDetails from "./pages/InsuranceDetails";
 
 import insuranceProducts from "./lib/insuranceProducts";
 
@@ -21,6 +23,8 @@ function App() {
   const [userToCalculate, setUserToCalculate] = useState("");
   const [insurances, setInsurances] = useState([]);
   const [componentToDisplay, setComponentToDisplay] = useState("form");
+
+  const { id } = useParams();
 
   useEffect(() => {
     insuranceProducts.forEach((insurance) => {
@@ -82,7 +86,7 @@ function App() {
         <Route exact path="/">
           <StartPage />
         </Route>
-        <Route path="/start">
+        <Route exact path="/start">
           <Start
             onSubmitForm={onSubmitForm}
             insurances={insurances}
@@ -91,7 +95,13 @@ function App() {
             setComponentToDisplay={setComponentToDisplay}
           />
         </Route>
-        <Route path="/about">
+        <Route exact path="/start/:id">
+          <InsuranceDetails
+            insurances={insurances}
+            userToCalculate={userToCalculate}
+          />
+        </Route>
+        <Route exact path="/about">
           <About />
         </Route>
       </Switch>

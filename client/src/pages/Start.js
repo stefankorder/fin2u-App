@@ -22,6 +22,7 @@ export default function Start({
         <DisplayInsurances
           insurances={insurances}
           setComponentToDisplay={setComponentToDisplay}
+          userToCalculate={userToCalculate}
         />
       )}
     </>
