@@ -3,21 +3,25 @@ import { useParams, Link } from "react-router-dom";
 
 import { ReactComponent as Back } from "../images/reset.svg";
 
-export default function InsuranceDetails({ insurances, userToCalculate }) {
+export default function InsuranceDetails({ insurances }) {
   const { id } = useParams();
 
   const insuranceToDetail = insurances.find(
     (insurance) => insurance._id === id
   );
 
-  const insuranceText = insuranceToDetail.text.split(/<br>/);
+  function parseFromString(string) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(string, "text/html");
+    return doc.body.innerHTML;
+  }
+
+  const text = parseFromString(insuranceToDetail.text);
 
   return (
     <Container>
       <TagHeadline>{insuranceToDetail.name}</TagHeadline>
-      {insuranceText.map((text) => {
-        return <Text>{text}</Text>;
-      })}
+      <TextContainer dangerouslySetInnerHTML={{ __html: text }} />
       <ButtonBack to="/start">
         <Back />
         <ButtonSpan>Zurück</ButtonSpan>
@@ -34,7 +38,7 @@ const Container = styled.div`
   max-width: 1024px;
 `;
 
-const TagHeadline = styled.p`
+const TagHeadline = styled.h1`
   display: flex;
   text-align: center;
   justify-content: center;
@@ -42,18 +46,40 @@ const TagHeadline = styled.p`
   color: white;
   font-size: 0.9rem;
   padding: 0.4rem 0.4rem 0.2rem;
-  margin: 1rem auto 1.5rem 1rem;
+  margin: 2rem auto 0.5rem 1.6rem;
   border-radius: 5px;
   filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 `;
 
-const Text = styled.p`
-  hyphens: auto;
-  text-align: justify;
-  text-align-last: left;
-  font-size: 0.8rem;
-  color: #52514f;
-  margin: 0.25rem 1rem;
+const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  h2 {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    background: #0989f7;
+    color: white;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.4rem 0.2rem;
+    margin: 2rem auto 0.5rem 1.6rem;
+    border-radius: 5px;
+    filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
+  }
+
+  p {
+    font-size: 0.8rem;
+    color: #52514f;
+    margin: 0.25rem 1rem 0.25rem 2rem;
+    line-height: 1.3;
+  }
+
+  img {
+    width: 82.5%;
+    margin: 1rem 0 1rem 2rem;
+  }
 `;
 
 const ButtonBack = styled(Link)`
@@ -61,7 +87,7 @@ const ButtonBack = styled(Link)`
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  margin: 1rem;
+  margin: 1rem 1.6rem;
   padding: 0.25rem 0.45rem;
   color: white;
   border: none;

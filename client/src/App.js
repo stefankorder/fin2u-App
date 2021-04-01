@@ -77,7 +77,6 @@ function App() {
   return (
     <AppContainer className={location.pathname === "/" && "active"}>
       {location.pathname !== "/" && <Header />}
-
       <Switch>
         {history.action === "POP" && <Redirect to="/" />}
         <Route exact path="/">
