@@ -19,7 +19,7 @@ export default function personalLiabilityInsurance(user, insurances) {
   }
   personalLiabilityInsurance.text += `
 
-<h2>Die private Haftpflichtversicherung auf einen Blick</h2>
+<h2>Auf einen Blick</h2>
 
 <img src="/images/haftpflicht-infografik-produktseite-bild-data_ohne_ueberschrift.jpg">
   

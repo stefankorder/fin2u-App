@@ -58,7 +58,7 @@ const TextContainer = styled.div`
 
   h2 {
     display: flex;
-    text-align: center;
+    text-align: left;
     justify-content: center;
     background: #0989f7;
     color: white;
@@ -70,6 +70,13 @@ const TextContainer = styled.div`
   }
 
   p {
+    font-size: 0.8rem;
+    color: #52514f;
+    margin: 0.25rem 1rem 0.25rem 2rem;
+    line-height: 1.3;
+  }
+
+  ul {
     font-size: 0.8rem;
     color: #52514f;
     margin: 0.25rem 1rem 0.25rem 2rem;
