@@ -1,3 +1,4 @@
+import dompurify from "dompurify";
 import styled from "styled-components";
 import { useParams, Link } from "react-router-dom";
 
@@ -10,18 +11,20 @@ export default function InsuranceDetails({ insurances }) {
     (insurance) => insurance._id === id
   );
 
-  function parseFromString(string) {
+  function parseAndSanitizeFromString(string) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(string, "text/html");
-    return doc.body.innerHTML;
+    return dompurify.sanitize(doc.body.innerHTML);
   }
-
-  const text = parseFromString(insuranceToDetail.text);
 
   return (
     <Container>
       <TagHeadline>{insuranceToDetail.name}</TagHeadline>
-      <TextContainer dangerouslySetInnerHTML={{ __html: text }} />
+      <TextContainer
+        dangerouslySetInnerHTML={{
+          __html: parseAndSanitizeFromString(insuranceToDetail.text),
+        }}
+      />
       <ButtonBack to="/start">
         <Back />
         <ButtonSpan>Zurück</ButtonSpan>

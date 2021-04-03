@@ -409,7 +409,7 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
             userData={userData}
             focused={focused}
             handleChange={handleChange}
-            checkboxName="SELBSTBEWOHNTES EIGENTUMSHAUS?"
+            checkboxName="IMMOBILIE VORHANDEN?"
             setUserData={setUserData}
           />
 

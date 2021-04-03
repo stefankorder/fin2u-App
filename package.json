@@ -17,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "concurrently": "^6.0.0",
+    "dompurify": "^2.2.7",
     "nodemon": "^2.0.7"
   }
 }

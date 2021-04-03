@@ -27,7 +27,7 @@ export default function vehicleFullyComprehensiveInsurance(user, insurances) {
       vehicleFullyComprehensiveInsurance.status = 1;
       vehicleFullyComprehensiveInsurance.text = `
       
-<p>${user.name}, du hast angegeben, dass du ein Auto besitzt, welches zwischen 5 und 9 Jahre alt und zwischen 3.000 EUR und 9.999 EUR wert ist und bereits eine Teilkaskoversicherung, jedoch keine Vollkaskoversicherung, abgeschlossen hast. Bei deinem Fahrzeugwert könnte eine Vollkaskoversicherung für dich dennoch Sinn machen. Durch die Teilkaskoversicherung bist du zumindest bereits vor den finanziellen Folgen einer Vielzahl von Ereignissen abgesichert. Genaueres zur Vollkasko- und Teilkaskoversicherung erfährst du in den nachfolgenden Zeilen.</p>
+<p>${user.name}, du hast angegeben, dass du ein Auto besitzt, welches zwischen 5 und 9 Jahre alt oder zwischen 3.000 EUR und 9.999 EUR wert ist und bereits eine Teilkaskoversicherung, jedoch keine Vollkaskoversicherung, abgeschlossen hast. Bei deinem Fahrzeugwert könnte eine Vollkaskoversicherung für dich dennoch Sinn machen. Durch die Teilkaskoversicherung bist du zumindest bereits vor den finanziellen Folgen einer Vielzahl von Ereignissen abgesichert. Genaueres zur Vollkasko- und Teilkaskoversicherung erfährst du in den nachfolgenden Zeilen.</p>
 
       `;
     } else if (
@@ -38,14 +38,14 @@ export default function vehicleFullyComprehensiveInsurance(user, insurances) {
       vehicleFullyComprehensiveInsurance.status = 2;
       vehicleFullyComprehensiveInsurance.text = `
       
-<p>${user.name}, du hast angegeben, dass du ein Auto besitzt, welches zwischen 5 und 9 Jahre alt und zwischen 3.000 EUR und 9.999 EUR wert ist und keine Teilkaskoversicherung oder Vollkaskoversicherung abgeschlossen hast. Bei deinem Fahrzeugwert könnte eine Vollkaskoversicherung für dich Sinn machen. Auf jeden Fall solltest du über den Abschluss einer Teilkaskoversicherung nachdenken. Wieso eine Vollkaskoversicherung wichtig sein kann, erfährst du in den nachfolgenden Zeilen.</p>
+<p>${user.name}, du hast angegeben, dass du ein Auto besitzt, welches zwischen 5 und 9 Jahre alt oder zwischen 3.000 EUR und 9.999 EUR wert ist und keine Teilkaskoversicherung oder Vollkaskoversicherung abgeschlossen hast. Bei deinem Fahrzeugwert könnte eine Vollkaskoversicherung für dich Sinn machen. Auf jeden Fall solltest du über den Abschluss einer Teilkaskoversicherung nachdenken. Wieso eine Vollkaskoversicherung wichtig sein kann, erfährst du in den nachfolgenden Zeilen.</p>
 
       `;
     } else {
       vehicleFullyComprehensiveInsurance.status = 1;
       vehicleFullyComprehensiveInsurance.text = `
       
-<p>${user.name}, du hast angegeben, dass du ein Auto besitzt, welches älter als 9 Jahre und weniger 3.000 EUR wert ist und keine Vollkaskoversicherung besitzt. Da eine Vollkaskoversicherung im Verhältnis zu deinem Fahrzeugwert relativ teuer ist, solltest du dir überlegen, ob der Abschluss einer Vollkaskoversicherung für dich Sinn macht, oder ob dir eine Teilkaskoversicherung ausreicht. Wieso eine Vollkaskoversicherung wichtig sein kann, erfährst du in den nachfolgenden Zeilen.</p>
+<p>${user.name}, du hast angegeben, dass du ein Auto besitzt, welches älter als 9 Jahre und weniger 3.000 EUR wert ist und keine Vollkaskoversicherung besitzt. Da eine Vollkaskoversicherung im Verhältnis zu deinem Fahrzeugwert relativ teuer ist, solltest du dir überlegen, ob der Abschluss einer Vollkaskoversicherung für dich Sinn macht. Wieso eine Vollkaskoversicherung wichtig sein kann, erfährst du in den nachfolgenden Zeilen.</p>
 
       `;
     }
