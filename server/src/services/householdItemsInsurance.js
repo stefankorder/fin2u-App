@@ -7,14 +7,14 @@ export default function householdItemsInsurance(user, insurances) {
       householdItemsInsurance.status = 3;
       householdItemsInsurance.text = `
       
-<p>${user.name}, du hast angegeben, dass du bisher keine Hausratversicherung abgeschlossen hast und Wertgegenstände besitzt. Um dich vor den finaziellen Folgen der Zerstörung, insbesondere aber auch des Diebstahls, deiner Wertgegenstände zu schützen, sollest du auf jeden Fall darüber nachdenken eine Hausratversicherung abzuschließen.</p> <p><strong>Bitte achte dabei auf eine ausreichend große Versicherungssumme für deine Wertgegenstände und schaue dir die Bedingungen bzgl. deiner Wertgegenstände genaustens an!</strong></p>  <p>Was eine Hausratversicherung ist, was sie alles leistet und wieso sie vor allem für dich attraktiv ist erfährst du in den nachfolgenden Zeilen.</p>
+<p>${user.name}, du hast angegeben, dass du bisher keine Hausratversicherung abgeschlossen hast und Wertgegenstände besitzt. Um dich vor den finaziellen Folgen der Zerstörung, insbesondere aber auch des Diebstahls, deiner Wertgegenstände zu schützen, sollest du auf jeden Fall darüber nachdenken eine Hausratversicherung abzuschließen.</p> <p><strong>Bitte achte dabei auf eine ausreichend große Versicherungssumme für deine Wertgegenstände und schaue dir die Bedingungen bzgl. deiner Wertgegenstände genaustens an!</strong></p>  <p>Was eine Hausratversicherung ist, was sie alles leistet und wieso sie vor allem für dich attraktiv ist, erfährst du in den nachfolgenden Zeilen.</p>
       
       `;
     } else {
       householdItemsInsurance.status = 1;
       householdItemsInsurance.text = `
       
-<p>${user.name}, du hast angegeben, dass du bisher keine Hausratversicherung abgeschlossen hast. Überlege dir gut dich gegen die finanziellen Folgen durch Gefahren, wie z. B. Feuer oder Sturm, an deinem Hausrat abzusichern. Was eine Hausratversicherung ist, was sie alles leistet und wieso sie auch für dich attraktiv sein kann erfährst du in den nachfolgenden Zeilen.</p>
+<p>${user.name}, du hast angegeben, dass du bisher keine Hausratversicherung abgeschlossen hast. Überlege dir gut dich gegen die finanziellen Folgen durch Gefahren, wie z. B. Feuer oder Sturm, an deinem Hausrat abzusichern. Was eine Hausratversicherung ist, was sie alles leistet und wieso sie auch für dich attraktiv sein kann, erfährst du in den nachfolgenden Zeilen.</p>
       
       `;
     }
@@ -22,7 +22,7 @@ export default function householdItemsInsurance(user, insurances) {
     householdItemsInsurance.status = 0;
     householdItemsInsurance.text = `
     
-<p>${user.name}, du hast angegeben, dass bereits eine Hausratversicherung abgeschlossen hast. Glückwunsch, somit bist du den finaziellen Folgen, die durch Gefahren, wie z. B. Feuer oder Sturm, an deinem Hausrat entstehen können bestens geschützt.</p> <p><strong>Bitte denke daran deinen Versicherungsschutz regelmäßig zu aktualisieren, insbesondere wenn du umziehst oder du dir Wertgegenstände anschaffst, solltest du deinen Versicherungsschutz überprüfen (lassen)!</strong></p> <p> Was eine Hausratversicherung ist und was sie alles leistet erfährst du in den nachfolgenden Zeilen.</p>
+<p>${user.name}, du hast angegeben, dass bereits eine Hausratversicherung abgeschlossen hast. Glückwunsch, somit bist du vor den finanziellen Folgen, die durch Gefahren, wie z. B. Feuer oder Sturm, an deinem Hausrat entstehen können bestens geschützt.</p> <p><strong>Bitte denke daran deinen Versicherungsschutz regelmäßig zu aktualisieren, insbesondere wenn du umziehst oder du dir Wertgegenstände anschaffst, solltest du deinen Versicherungsschutz überprüfen (lassen)!</strong></p> <p> Was eine Hausratversicherung ist und was sie alles leistet, erfährst du in den nachfolgenden Zeilen.</p>
     
     `;
   }

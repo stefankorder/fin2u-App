@@ -42,7 +42,7 @@ export default function partialCarInsurance(user, insurances) {
     <p>${user.name}, du hast angegeben, dass du ${
       user.car
         ? "bereits eine Teilkaskoversicherung für dein Auto besitzt. Glückwunsch, damit ist dein Auto nicht nur bei unverschuldeten Unfällen abgesichert, sondern z. B. auch vor Diebstahl geschützt.</p> <p><strong>Bitte denke daran deinen Versicherungschutz regelmäßig überprüfen zu lassen!</strong></p>"
-        : "kein Auto besitzt und benötigst daher keine Teilkaskoversicherung."
+        : "kein Auto besitzt und daher keine Teilkaskoversicherung benötigst."
     } Näheres zur Teilkasko- und Vollkaskoversicherung erfährst du in den nachfolgenden Zeilen.</p>
     
     `;
