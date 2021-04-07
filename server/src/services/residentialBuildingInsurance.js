@@ -25,6 +25,10 @@ export default function residentialBuildingInsurance(user, insurances) {
     `;
   }
   residentialBuildingInsurance.text += `
+
+<h2>Auf einen Blick</h2>
+
+<img src="/images/wohngebaeude-infografik-produktseite-data.jpg">
   
 <h2>Was leistet die Wohngebäudeversicherung?</h2>
 

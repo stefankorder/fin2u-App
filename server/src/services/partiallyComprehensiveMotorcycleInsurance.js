@@ -58,6 +58,10 @@ export default function partiallyComprehensiveMotorcycleInsurance(
     `;
   }
   partiallyComprehensiveMotorcycleInsurance.text += `
+
+<h2>Auf einen Blick</h2>
+
+<img src="/images/kfz-versicherung-infografik-produktseite-data.jpg">
   
 <h2>Was sind Kaskoversicherungen?</h2>
 

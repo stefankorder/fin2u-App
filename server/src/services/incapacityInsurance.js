@@ -55,6 +55,10 @@ Renteneintritt zu arbeiten. Auf dem Weg dorthin werden dir etliche Stolpersteine
     `;
   }
   incapacityInsurance.text += `
+
+<h2>Auf einen Blick</h2>
+
+<img src="/images/berufsunfaehigkeit-infografik-produktseite-data.jpg">
    
 <h2>Was ist die Berufsunfähigkeitsversicherung?</h2>
 

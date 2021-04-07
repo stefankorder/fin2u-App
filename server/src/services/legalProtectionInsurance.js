@@ -33,6 +33,10 @@ export default function legalProtectionInsurance(user, insurances) {
     `;
   }
   legalProtectionInsurance.text += `
+
+<h2>Auf einen Blick</h2>
+
+<img src="/images/rechtschutz-infografik-produktseite-data.jpg">
   
 <h2>Was ist die Rechtsschutzversicherung?</h2>
 

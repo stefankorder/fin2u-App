@@ -39,6 +39,10 @@ export default function fullyComprehensiveMotorcycleInsurance(
     `;
   }
   fullyComprehensiveMotorcycleInsurance.text += `
+
+<h2>Auf einen Blick</h2>
+
+<img src="/images/kfz-versicherung-infografik-produktseite-data.jpg">
   
 <h2>Was sind Kaskoversicherungen?</h2>
 

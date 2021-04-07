@@ -27,6 +27,10 @@ export default function householdItemsInsurance(user, insurances) {
     `;
   }
   householdItemsInsurance.text += `
+
+<h2>Auf einen Blick</h2>
+
+<img src="/images/hausrat-infografik-produktseite-data.jpg">
   
 <h2>Was ist die Hausratversicherung?</h2>
 

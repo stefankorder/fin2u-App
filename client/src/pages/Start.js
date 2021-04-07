@@ -13,8 +13,6 @@ export default function Start({
       {componentToDisplay === "form" && (
         <UserForm
           onSubmitForm={onSubmitForm}
-          insurances={insurances}
-          setComponentToDisplay={setComponentToDisplay}
           userToCalculate={userToCalculate}
         />
       )}

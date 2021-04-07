@@ -39,6 +39,10 @@ export default function riskLifeInsurance(user, insurances) {
   }
   riskLifeInsurance.text += `
 
+<h2>Auf einen Blick</h2>
+
+<img src="/images/grafik-risikolebensversicherung-produktseite-data.jpg">
+
 <h2>Was ist die Risikolebensversicherung?</h2>
 
 <p>Wer eine Risikolebensversicherung abschließt, sichert seine Angehörigen gegen den eigenen Todesfall finanziell ab. Konkret: Wenn der Versicherte stirbt, erhalten die Hinterbliebenen einen festgelegten Geldbetrag, die sogenannte Todesfallsumme.</p>

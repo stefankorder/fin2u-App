@@ -6,9 +6,9 @@ import { ReactComponent as Fin2uin } from "../images/fin2uLogoin.svg";
 import { ReactComponent as Fin2u2 } from "../images/fin2uLogo2.svg";
 import { ReactComponent as Fin2uu } from "../images/fin2uLogou.svg";
 
-export default function StartPage() {
+export default function StartPage({ isStatic }) {
   return (
-    <Container>
+    <Container isStatic={isStatic}>
       <LogoContainer>
         <LogoU />
         <Logo2 />
@@ -143,7 +143,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-around;
   width: 100%;
-  height: 100%;
+  height: ${(props) => (props.isStatic ? "30rem" : "100%")};
 `;
 
 const Button = styled(Link)`
