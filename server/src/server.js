@@ -37,4 +37,5 @@ server.post("/insurance", insurancePost);
 
 server.get("/insurances/:userId", insuranceGet);
 
-server.listen(4000, () => console.log("Server started"));
+const port = process.env.PORT || 4000;
+server.listen(port, () => console.log("Server started"));
