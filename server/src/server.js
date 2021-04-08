@@ -25,10 +25,6 @@ server.use(bodyParser.json());
 
 server.use(cors());
 
-server.get("/", (request, response) => {
-  response.json({ status: "Server is up and running" });
-});
-
 server.post("/user", userPost);
 
 server.delete("/user/:userId", userDelete);
