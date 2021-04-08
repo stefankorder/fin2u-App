@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 
@@ -109,6 +110,14 @@ export default function UserInsurances({
     </>
   );
 }
+
+UserInsurances.propTypes = {
+  userData: PropTypes.object,
+  setUserData: PropTypes.func,
+  insurancesAlreadyCompleted: PropTypes.array,
+  setInsurancesAlreadyCompleted: PropTypes.func,
+  setFocused: PropTypes.func,
+};
 
 const Label = styled.label`
   font-size: 0.8rem;

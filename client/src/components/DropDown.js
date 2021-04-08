@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useState } from "react";
 
@@ -136,6 +137,24 @@ export default function DropDown({
     </Container>
   );
 }
+
+DropDown.propTypes = {
+  focused: PropTypes.string,
+  userData: PropTypes.object,
+  value: PropTypes.string,
+  formValidation: PropTypes.array,
+  handleChange: PropTypes.func,
+  setFocused: PropTypes.func,
+  errorText: PropTypes.string,
+  inputName: PropTypes.string,
+  handleClick: PropTypes.func,
+  dropDownName: PropTypes.string,
+  menuPoints: PropTypes.array,
+  setUserData: PropTypes.func,
+  userToCalculate: PropTypes.object,
+  setFormValidation: PropTypes.func,
+  field: PropTypes.string,
+};
 
 const Container = styled.div`
   width: 70%;

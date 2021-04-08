@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import UserForm from "../components/UserForm";
 import DisplayInsurances from "../components/DisplayInsurances";
 
@@ -26,3 +27,11 @@ export default function Start({
     </>
   );
 }
+
+Start.propTypes = {
+  onSubmitForm: PropTypes.func,
+  insurances: PropTypes.array,
+  userToCalculate: PropTypes.object,
+  componentToDisplay: PropTypes.string,
+  setComponentToDisplay: PropTypes.func,
+};

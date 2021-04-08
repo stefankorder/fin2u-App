@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
@@ -27,6 +28,10 @@ export default function NavBar({ isStatic }) {
     </Container>
   );
 }
+
+NavBar.propTypes = {
+  isStatic: PropTypes.bool,
+};
 
 const Container = styled.div`
   position: ${(props) => (props.isStatic ? "static" : "fixed")};

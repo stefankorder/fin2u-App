@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 export default function Checkbox({
@@ -58,6 +59,17 @@ export default function Checkbox({
     </div>
   );
 }
+
+Checkbox.propTypes = {
+  setFocused: PropTypes.func,
+  value: PropTypes.string,
+  userData: PropTypes.object,
+  focused: PropTypes.string,
+  handleChange: PropTypes.func,
+  setUserData: PropTypes.func,
+  field: PropTypes.string,
+  checkboxName: PropTypes.string,
+};
 
 const CheckboxLabel = styled.label`
   margin: 0.25rem 0 0 0;

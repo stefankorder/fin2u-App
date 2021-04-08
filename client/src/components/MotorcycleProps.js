@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 export default function MotorcycleProps({
@@ -64,6 +65,15 @@ export default function MotorcycleProps({
     </SubMenu>
   );
 }
+
+MotorcycleProps.propTypes = {
+  userData: PropTypes.array,
+  handleChange: PropTypes.func,
+  focused: PropTypes.string,
+  handleClick: PropTypes.func,
+  formValidation: PropTypes.array,
+  setFocused: PropTypes.func,
+};
 
 const SubMenu = styled.div`
   width: 100%;

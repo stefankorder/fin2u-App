@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -21,6 +22,10 @@ export default function StartPage({ isStatic }) {
     </Container>
   );
 }
+
+StartPage.propTypes = {
+  isStatic: PropTypes.bool,
+};
 
 const blur = keyframes`
 0% {

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
@@ -526,6 +527,11 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
     </ContainerBox>
   );
 }
+
+UserForm.propTypes = {
+  onSubmitForm: PropTypes.func,
+  userToCalculate: PropTypes.object,
+};
 
 const ContainerBox = styled.div`
   display: flex;

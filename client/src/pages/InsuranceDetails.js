@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import dompurify from "dompurify";
 import styled from "styled-components";
 import { useParams, Link } from "react-router-dom";
@@ -32,6 +33,10 @@ export default function InsuranceDetails({ insurances }) {
     </Container>
   );
 }
+
+InsuranceDetails.propTypes = {
+  insurances: PropTypes.array,
+};
 
 const Container = styled.div`
   background: white;

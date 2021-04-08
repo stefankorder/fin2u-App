@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 export default function PetProps({
@@ -44,6 +45,14 @@ export default function PetProps({
     </RadioDiv>
   );
 }
+
+PetProps.propTypes = {
+  userData: PropTypes.object,
+  handleChange: PropTypes.func,
+  formValidation: PropTypes.array,
+  handleKeyDown: PropTypes.func,
+  setFocused: PropTypes.func,
+};
 
 const RadioDiv = styled.div`
   width: 100%;

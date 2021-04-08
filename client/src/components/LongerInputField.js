@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 export default function LongerInputField({
@@ -32,6 +33,17 @@ export default function LongerInputField({
     </Container>
   );
 }
+
+LongerInputField.propTypes = {
+  focused: PropTypes.string,
+  userData: PropTypes.object,
+  value: PropTypes.string,
+  formValidation: PropTypes.array,
+  handleChange: PropTypes.func,
+  setFocused: PropTypes.func,
+  errorText: PropTypes.string,
+  inputName: PropTypes.string,
+};
 
 const Container = styled.div`
   width: 100%;
