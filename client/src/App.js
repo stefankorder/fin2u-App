@@ -25,7 +25,7 @@ function App() {
 
   useEffect(() => {
     insuranceProducts.forEach((insurance) => {
-      fetch("http://localhost:4000/insurance", {
+      fetch("/insurance", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,7 +37,7 @@ function App() {
 
   useEffect(() => {
     if (userToCalculate) {
-      fetch("http://localhost:4000/insurances/" + userToCalculate._id)
+      fetch("/insurances/" + userToCalculate._id)
         .then((result) => result.json())
         .then((loadInsurances) => setInsurances(loadInsurances))
         .then(() => {
@@ -49,7 +49,7 @@ function App() {
 
   useEffect(() => {
     if (insurances.length > 0) {
-      fetch("http://localhost:4000/user/" + userToCalculate._id, {
+      fetch("/user/" + userToCalculate._id, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +62,7 @@ function App() {
   const history = useHistory();
 
   function onSubmitForm(userData) {
-    fetch("http://localhost:4000/user", {
+    fetch("/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
