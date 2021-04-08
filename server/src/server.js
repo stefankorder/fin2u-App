@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
+import dotenv from "dotenv";
 
 import { userPost, userDelete } from "./controllers/user.controller.js";
 import {
@@ -9,7 +10,9 @@ import {
   insuranceGet,
 } from "./controllers/insurance.controller.js";
 
-const connectionString = "mongodb://localhost:27017/fin2u";
+dotenv.config();
+
+const connectionString = process.env.DB_CONNECTION;
 
 mongoose.connect(connectionString, {
   useNewUrlParser: true,
@@ -34,4 +37,5 @@ server.post("/insurance", insurancePost);
 
 server.get("/insurances/:userId", insuranceGet);
 
-server.listen(4000, () => console.log("Server started"));
+const port = process.env.PORT || 4000;
+server.listen(port, () => console.log("Server started"));

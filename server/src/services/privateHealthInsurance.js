@@ -15,5 +15,10 @@ export default function privateHealthInsurance(user, insurances) {
   } else {
     privateHealthInsurance.status = 0;
   }
+  privateHealthInsurance.text = `
+  
+  
+  
+  `;
   return privateHealthInsurance;
 }

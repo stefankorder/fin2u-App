@@ -21,6 +21,7 @@ export async function insurancePost(request, response) {
     value: request.body.value,
     status: request.body.status,
     name: request.body.name,
+    text: request.body.text,
   });
 
   const value = request.body.value;

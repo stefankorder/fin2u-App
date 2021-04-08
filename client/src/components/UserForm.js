@@ -5,15 +5,22 @@ import CarProps from "./CarProps";
 import PetProps from "./PetProps";
 import MotorcycleProps from "./MotorcycleProps";
 
+import InputField from "./InputField";
+import LongerInputField from "./LongerInputField";
+import DropDown from "./DropDown";
+import Checkbox from "./Checkbox";
+
 import initialUserData from "../lib/userData";
 import insuranceProducts from "../lib/insuranceProducts";
+import pointNamesRelationship from "../lib/pointNamesRelationship";
+import pointNamesjobStatus from "../lib/pointNamesjobStatus";
 
 import { ReactComponent as Submit } from "../images/submit.svg";
 import { ReactComponent as Reset } from "../images/reset.svg";
 
 import setAge from "../services/setAge";
 import setUserNetIncome from "../services/setNetIncome";
-import getDropDownName from "../services/dropDownName";
+
 import UserInsurances from "./UserInsurances";
 
 export default function UserForm({ onSubmitForm, userToCalculate }) {
@@ -21,20 +28,10 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
     userToCalculate ? userToCalculate : initialUserData
   );
   const [focused, setFocused] = useState("");
-  const [dropDownNameRelationship, setDropDownNameRelationship] = useState(
-    userToCalculate ? getDropDownName(userToCalculate.relationship) : ""
-  );
-  const [dropDownNameWork, setDropDownNameWork] = useState(
-    userToCalculate ? getDropDownName(userToCalculate.jobStatus) : ""
-  );
   const [formValidation, setFormValidation] = useState([]);
   const [insurancesAlreadyCompleted, setInsurancesAlreadyCompleted] = useState(
     userToCalculate ? insurancesToDisplay() : []
   );
-  const [selectedTagIndex, setSelectedTagIndex] = useState({
-    relationship: -1,
-    jobStatus: -1,
-  });
 
   useEffect(() => {
     const UserAge = setAge(userData.birthday);
@@ -62,18 +59,29 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
   }, [formValidation]);
 
   useEffect(() => {
-    if (
-      focused ||
-      selectedTagIndex.relationship > -1 ||
-      selectedTagIndex.jobStatus > -1
-    ) {
-      window.addEventListener("click", handleClick);
+    if (focused) {
+      window.addEventListener("click", handleClick, false);
 
       return () => {
-        window.removeEventListener("click", handleClick);
+        window.removeEventListener("click", handleClick, false);
       };
     }
-  }, [focused, selectedTagIndex]);
+  }, [focused]);
+
+  function handleClick(event, value) {
+    event.stopPropagation();
+
+    if (value) {
+      setFocused(value);
+      return;
+    } else if (event.target.name) {
+      setFocused(event.target.name);
+      return;
+    } else {
+      setFocused("");
+      return;
+    }
+  }
 
   function insurancesToDisplay() {
     const insurancesDisplay = [];
@@ -83,115 +91,6 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
       }
     });
     return insurancesDisplay;
-  }
-
-  function handleKeyDown(event, field) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      if (field === "relationship" && selectedTagIndex.relationship === 0) {
-        dropChange("single", field);
-      }
-      if (field === "relationship" && selectedTagIndex.relationship === 1) {
-        dropChange("inRelationship", field);
-      }
-      if (field === "relationship" && selectedTagIndex.relationship === 2) {
-        dropChange("married", field);
-      }
-      if (field === "relationship" && selectedTagIndex.relationship === 3) {
-        dropChange("divorced", field);
-      }
-      if (field === "relationship" && selectedTagIndex.relationship === 4) {
-        dropChange("widowed", field);
-      }
-      if (field === "relationship" && selectedTagIndex.relationship === 5) {
-        setUserData({ ...userData, relationship: "" });
-      }
-
-      if (field === "jobStatus" && selectedTagIndex.jobStatus === 0) {
-        dropChange("employed", field);
-      }
-      if (field === "jobStatus" && selectedTagIndex.jobStatus === 1) {
-        dropChange("selfEmployed", field);
-      }
-      if (field === "jobStatus" && selectedTagIndex.jobStatus === 2) {
-        dropChange("civilServants", field);
-      }
-      if (field === "jobStatus" && selectedTagIndex.jobStatus === 3) {
-        setUserData({ ...userData, jobStatus: "" });
-      }
-
-      setSelectedTagIndex({
-        relationship: -1,
-        jobStatus: -1,
-      });
-
-      if (field === "houseOwner") {
-        setUserData({ ...userData, houseOwner: !userData.houseOwner });
-      }
-      if (field === "valuables") {
-        setUserData({ ...userData, valuables: !userData.valuables });
-      }
-      if (field === "car") {
-        setUserData({ ...userData, car: !userData.car });
-      }
-      if (field === "pet") {
-        setUserData({ ...userData, pet: !userData.pet });
-      }
-      if (field === "motorcycle") {
-        setUserData({ ...userData, motorcycle: !userData.motorcycle });
-      }
-      if (field === "dangerousHobby") {
-        setUserData({ ...userData, dangerousHobby: !userData.dangerousHobby });
-      }
-      if (event.target.name === "petSpecies") {
-        setUserData({ ...userData, petSpecies: event.target.value });
-      }
-    }
-
-    if (event.key === "ArrowLeft") {
-      if (field === "relationship") {
-        selectedTagIndex.relationship <= 0
-          ? setSelectedTagIndex({ ...selectedTagIndex, relationship: 5 })
-          : setSelectedTagIndex({
-              ...selectedTagIndex,
-              relationship: selectedTagIndex.relationship - 1,
-            });
-      }
-      if (field === "jobStatus") {
-        selectedTagIndex.jobStatus <= 0
-          ? setSelectedTagIndex({ ...selectedTagIndex, jobStatus: 3 })
-          : setSelectedTagIndex({
-              ...selectedTagIndex,
-              jobStatus: selectedTagIndex.jobStatus - 1,
-            });
-      }
-    }
-    if (event.key === "ArrowRight") {
-      if (field === "relationship") {
-        selectedTagIndex.relationship === 5
-          ? setSelectedTagIndex({ ...selectedTagIndex, relationship: 0 })
-          : setSelectedTagIndex({
-              ...selectedTagIndex,
-              relationship: selectedTagIndex.relationship + 1,
-            });
-      }
-      if (field === "jobStatus") {
-        selectedTagIndex.jobStatus === 3
-          ? setSelectedTagIndex({ ...selectedTagIndex, jobStatus: 0 })
-          : setSelectedTagIndex({
-              ...selectedTagIndex,
-              jobStatus: selectedTagIndex.jobStatus + 1,
-            });
-      }
-    }
-
-    if (event.key === "Tab") {
-      setSelectedTagIndex({
-        relationship: -1,
-        jobStatus: -1,
-      });
-      setFocused("");
-    }
   }
 
   function handleChange(event) {
@@ -326,27 +225,6 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
     setUserData({ ...userData, [field.name]: value });
   }
 
-  function dropChange(value, field) {
-    setUserData({ ...userData, [field]: value });
-    if (field === "relationship" && value) {
-      const remainingValids = formValidation.filter(
-        (valid) => valid !== "relationship"
-      );
-      setFormValidation(remainingValids);
-      const dropName = getDropDownName(value);
-      setDropDownNameRelationship(dropName);
-    }
-
-    if (field === "jobStatus" && value) {
-      const remainingValids = formValidation.filter(
-        (valid) => valid !== "jobStatus"
-      );
-      setFormValidation(remainingValids);
-      const dropName = getDropDownName(value);
-      setDropDownNameWork(dropName);
-    }
-  }
-
   function validateForm() {
     const validate = [];
     if (userData.name.length < 3) {
@@ -414,23 +292,6 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
     validateForm();
   }
 
-  function handleClick(event, value) {
-    event.stopPropagation();
-
-    setSelectedTagIndex({
-      relationship: -1,
-      jobStatus: -1,
-    });
-
-    if (value) {
-      setFocused(value);
-      return;
-    } else {
-      setFocused("");
-      return;
-    }
-  }
-
   function resetAllData() {
     setUserData(initialUserData);
     setInsurancesAlreadyCompleted([]);
@@ -442,460 +303,201 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
       <Form onSubmit={submitForm}>
         <H2>Bitte gebe deine Daten ein:</H2>
 
-        <HandleDiv>
-          <StyledDiv>
-            <Label
-              className={(focused === "name" || userData.name) && "active"}
-              htmlFor="name"
-            >
-              VORNAME
-            </Label>
-            {formValidation.includes("name") && (
-              <ErrorText>Bitte mind. 3 Buchstaben eingeben!</ErrorText>
-            )}
-          </StyledDiv>
-          <TextInput
-            className="name"
-            type="text"
-            name="name"
-            value={userData.name}
-            onFocus={() => setFocused("name")}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            onClick={(event) => handleClick(event, "name")}
-          />
-        </HandleDiv>
-        <HandleDiv>
-          <StyledDiv>
-            <Label
-              className={
-                (focused === "lastname" || userData.lastname) && "active"
-              }
-              htmlFor="lastname"
-            >
-              NACHNAME
-            </Label>
-            {formValidation.includes("lastname") && (
-              <ErrorText>Bitte mind. 3 Buchstaben eingeben!</ErrorText>
-            )}
-          </StyledDiv>
-          <TextInput
-            className="lastname"
-            type="text"
-            name="lastname"
-            value={userData.lastname}
-            onFocus={() => setFocused("lastname")}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            onClick={(event) => handleClick(event, "lastname")}
-          />
-        </HandleDiv>
+        <InputField
+          focused={focused}
+          userData={userData.name}
+          value="name"
+          formValidation={formValidation}
+          handleChange={handleChange}
+          setFocused={setFocused}
+          errorText="Bitte mind. 3 Buchstaben eingeben!"
+          inputName="VORNAME"
+        />
 
-        <HandleLongerDiv>
-          <StyledLongerDiv>
-            <Label
-              className={
-                (focused === "birthday" || userData.birthday) && "active"
-              }
-              htmlFor="birthday"
-            >
-              GEBURTSDATUM
-            </Label>
-            {formValidation.includes("birthday") && (
-              <ErrorText>
-                Kein gültiges Geburtsdatum! (Du musst mind. 18 sein)
-              </ErrorText>
-            )}
-          </StyledLongerDiv>
-          <TextLongerInput
-            placeholder={
-              focused === "birthday" && !userData.birthday && "TT.MM.JJJJ"
-            }
-            className="birthday"
-            type="text"
-            name="birthday"
-            value={userData.birthday}
-            onFocus={() => setFocused("birthday")}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            onClick={(event) => handleClick(event, "birthday")}
-          />
-        </HandleLongerDiv>
+        <InputField
+          focused={focused}
+          userData={userData.lastname}
+          value="lastname"
+          formValidation={formValidation}
+          handleChange={handleChange}
+          setFocused={setFocused}
+          errorText="Bitte mind. 3 Buchstaben eingeben!"
+          inputName="NACHNAME"
+        />
 
-        <SelectDiv>
-          <Clickfield
-            tabIndex="0"
-            onFocus={() => setFocused("relationship")}
-            onKeyDown={(event) => handleKeyDown(event, "relationship")}
-            onClick={(event) => handleClick(event, "relationship")}
-          >
-            <StyledSelectDiv>
-              <Label
-                className={userData.relationship && "active"}
-                htmlFor="relationship"
-              >
-                BEZIEHUNGSSTATUS
-              </Label>
-              {formValidation.includes("relationship") && (
-                <ErrorText>Bitte wähle deinen Beziehungsstatus!</ErrorText>
-              )}
-              <P>{userData.relationship && dropDownNameRelationship}</P>
-              <SelectSpan>
-                {focused === "relationship" ||
-                selectedTagIndex.relationship > -1
-                  ? "◂"
-                  : "▾"}
-              </SelectSpan>
-            </StyledSelectDiv>
-          </Clickfield>
-          <MenuDiv className={focused === "relationship" && "active"}>
-            <MenuP
-              className={
-                (userData.relationship === "single" ||
-                  selectedTagIndex.relationship === 0) &&
-                "active"
-              }
-              onClick={() => dropChange("single", "relationship")}
-            >
-              ledig
-            </MenuP>
-            <MenuP
-              className={
-                (userData.relationship === "inRelationship" ||
-                  selectedTagIndex.relationship === 1) &&
-                "active"
-              }
-              onClick={() => dropChange("inRelationship", "relationship")}
-            >
-              Lebensgemeinschaft
-            </MenuP>
-            <MenuP
-              className={
-                (userData.relationship === "married" ||
-                  selectedTagIndex.relationship === 2) &&
-                "active"
-              }
-              onClick={() => dropChange("married", "relationship")}
-            >
-              verheiratet
-            </MenuP>
-            <MenuP
-              className={
-                (userData.relationship === "divorced" ||
-                  selectedTagIndex.relationship === 3) &&
-                "active"
-              }
-              onClick={() => dropChange("divorced", "relationship")}
-            >
-              geschieden
-            </MenuP>
-            <MenuP
-              className={
-                (userData.relationship === "widowed" ||
-                  selectedTagIndex.relationship === 4) &&
-                "active"
-              }
-              onClick={() => dropChange("widowed", "relationship")}
-            >
-              verwitwet
-            </MenuP>
-            <MenuP
-              className={
-                userData.relationship === "" ||
-                selectedTagIndex.relationship === 5
-                  ? "red-block"
-                  : "red-font"
-              }
-              onClick={() => setUserData({ ...userData, relationship: "" })}
-            >
-              zurücksetzen
-            </MenuP>
-          </MenuDiv>
-        </SelectDiv>
-        <HandleLongerDiv>
-          <StyledLongerDiv>
-            <Label
-              className={
-                (focused === "children" ||
-                  userData.children ||
-                  userData.children === 0) &&
-                "active"
-              }
-              htmlFor="children"
-            >
-              ANZAHL DER KINDER
-            </Label>
-            {formValidation.includes("children") && (
-              <ErrorText>Bitte gebe eine Zahl ein!</ErrorText>
-            )}
-          </StyledLongerDiv>
-          <TextLongerInput
-            className="children"
-            type="text"
-            name="children"
-            value={userData.children}
-            onFocus={() => setFocused("children")}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            onClick={(event) => handleClick(event, "children")}
-          />
-        </HandleLongerDiv>
+        <LongerInputField
+          focused={focused}
+          userData={userData.birthday}
+          value="birthday"
+          formValidation={formValidation}
+          handleChange={handleChange}
+          setFocused={setFocused}
+          errorText="Kein gültiges Geburtsdatum! (Du musst mind. 18 sein)"
+          inputName="GEBURTSDATUM"
+        />
 
-        <SelectDiv>
-          <Clickfield
-            tabIndex="0"
-            onFocus={() => setFocused("jobStatus")}
-            onKeyDown={(event) => handleKeyDown(event, "jobStatus")}
-            onClick={(event) => handleClick(event, "jobStatus")}
-          >
-            <StyledSelectDiv>
-              <Label
-                className={userData.jobStatus && "active"}
-                htmlFor="jobStatus"
-              >
-                BERUFSSTATUS
-              </Label>
-              {formValidation.includes("jobStatus") && (
-                <ErrorText>Bitte wähle deinen Berufsstatus!</ErrorText>
-              )}
-              <P>{userData.jobStatus && dropDownNameWork}</P>
-              <SelectSpan>
-                {focused === "jobStatus" || selectedTagIndex.jobStatus > -1
-                  ? "◂"
-                  : "▾"}
-              </SelectSpan>
-            </StyledSelectDiv>
-          </Clickfield>
-          <MenuDiv className={focused === "jobStatus" && "active"}>
-            <MenuP
-              className={
-                (userData.jobStatus === "employed" ||
-                  selectedTagIndex.jobStatus === 0) &&
-                "active"
-              }
-              onClick={() => dropChange("employed", "jobStatus")}
-            >
-              angestellt
-            </MenuP>
-            <MenuP
-              className={
-                (userData.jobStatus === "selfEmployed" ||
-                  selectedTagIndex.jobStatus === 1) &&
-                "active"
-              }
-              onClick={() => dropChange("selfEmployed", "jobStatus")}
-            >
-              selbstständig
-            </MenuP>
-            <MenuP
-              className={
-                (userData.jobStatus === "civilServants" ||
-                  selectedTagIndex.jobStatus === 2) &&
-                "active"
-              }
-              onClick={() => dropChange("civilServants", "jobStatus")}
-            >
-              verbeamtet
-            </MenuP>
-            <MenuP
-              className={
-                userData.jobStatus === "" || selectedTagIndex.jobStatus === 3
-                  ? "red-block"
-                  : "red-font"
-              }
-              onClick={() => setUserData({ ...userData, jobStatus: "" })}
-            >
-              zurücksetzen
-            </MenuP>
-          </MenuDiv>
-        </SelectDiv>
+        <DropDown
+          setFocused={setFocused}
+          handleClick={handleClick}
+          field={userData.relationship}
+          userData={userData}
+          value="relationship"
+          errorText="Bitte wähle deinen Beziehungsstatus!"
+          dropDownName="BEZIEHUNGSSTATUS"
+          formValidation={formValidation}
+          focused={focused}
+          menuPoints={pointNamesRelationship}
+          setUserData={setUserData}
+          userToCalculate={userToCalculate}
+          setFormValidation={setFormValidation}
+        />
 
-        <HandleLongerDiv>
-          <StyledLongerDiv selected={focused === "income"}>
-            <Label
-              className={(focused === "income" || userData.income) && "active"}
-              htmlFor="income"
-            >
-              BRUTTOEINKOMMEN
-            </Label>
-            {formValidation.includes("income") && (
-              <ErrorText>Bitte gebe dein Bruttoeinkommen an!</ErrorText>
-            )}
-          </StyledLongerDiv>
-          <TextLongerInput
-            className="income"
-            type="text"
-            name="income"
-            value={userData.income}
-            onFocus={() => setFocused("income")}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            onClick={(event) => handleClick(event, "income")}
-          />
-        </HandleLongerDiv>
+        <LongerInputField
+          focused={focused}
+          userData={userData.children}
+          value="children"
+          formValidation={formValidation}
+          handleChange={handleChange}
+          setFocused={setFocused}
+          errorText="Bitte gebe eine Zahl ein!"
+          inputName="ANZAHL DER KINDER"
+        />
 
-        <HandleLongerDiv>
-          <StyledLongerDiv>
-            <Label
-              className={
-                (focused === "netIncome" || userData.netIncome) && "active"
-              }
-              htmlFor="netIncome"
-            >
-              NETTOEINKOMMEN
-            </Label>
-            {formValidation.includes("netIncome") && (
-              <ErrorText>Bitte gebe dein Nettoeinkommen an!</ErrorText>
-            )}
-          </StyledLongerDiv>
-          <TextLongerInput
-            className="netIncome"
-            type="text"
-            name="netIncome"
-            value={userData.netIncome}
-            onFocus={() => setFocused("netIncome")}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            onClick={(event) => handleClick(event, "netIncome")}
-          />
-        </HandleLongerDiv>
+        <DropDown
+          setFocused={setFocused}
+          handleClick={handleClick}
+          field={userData.jobStatus}
+          userData={userData}
+          value="jobStatus"
+          errorText="Bitte wähle deinen Berufsstatus!"
+          dropDownName="BERUFSSTATUS"
+          formValidation={formValidation}
+          focused={focused}
+          menuPoints={pointNamesjobStatus}
+          setUserData={setUserData}
+          userToCalculate={userToCalculate}
+          setFormValidation={setFormValidation}
+        />
+
+        <LongerInputField
+          focused={focused}
+          userData={userData.income}
+          value="income"
+          formValidation={formValidation}
+          handleChange={handleChange}
+          setFocused={setFocused}
+          errorText="Bitte gebe dein Bruttoeinkommen an!"
+          inputName="BRUTTOEINKOMMEN"
+        />
+
+        <LongerInputField
+          focused={focused}
+          userData={userData.netIncome}
+          value="netIncome"
+          formValidation={formValidation}
+          handleChange={handleChange}
+          setFocused={setFocused}
+          errorText="Bitte gebe dein Nettoeinkommen an!"
+          inputName="NETTOEINKOMMEN"
+        />
 
         <CheckboxContainer>
-          <div>
-            <CheckboxLabel
-              tabIndex="0"
-              onFocus={() => setFocused("houseOwner")}
-              selected={focused === "houseOwner"}
-              checked={userData.houseOwner}
-              className="firstLabel"
-              onKeyDown={(event) => handleKeyDown(event, "houseOwner")}
-            >
-              <Checkbox
-                type="checkbox"
-                name="houseOwner"
-                checked={userData.houseOwner}
-                onChange={handleChange}
-              />
-              SELBSTBEWOHNTES EIGENTUMSHAUS?
-            </CheckboxLabel>
-          </div>
-          <div>
-            <CheckboxLabel
-              tabIndex="0"
-              onFocus={() => setFocused("valuables")}
-              selected={focused === "valuables"}
-              checked={userData.valuables}
-              onKeyDown={(event) => handleKeyDown(event, "valuables")}
-            >
-              <Checkbox
-                type="checkbox"
-                name="valuables"
-                checked={userData.valuables}
-                onChange={handleChange}
-              />
-              WERTGEGENSTÄNDE VORHANDEN?
-            </CheckboxLabel>
-          </div>
-          <div>
-            <CheckboxLabel
-              tabIndex="0"
-              onFocus={() => setFocused("car")}
-              selected={focused === "car"}
-              checked={userData.car}
-              onKeyDown={(event) => handleKeyDown(event, "car")}
-            >
-              <Checkbox
-                type="checkbox"
-                name="car"
-                checked={userData.car}
-                onChange={handleChange}
-              />
-              AUTO VORHANDEN?
-            </CheckboxLabel>
+          <Checkbox
+            setFocused={setFocused}
+            value="houseOwner"
+            field={userData.houseOwner}
+            userData={userData}
+            focused={focused}
+            handleChange={handleChange}
+            checkboxName="IMMOBILIE VORHANDEN?"
+            setUserData={setUserData}
+          />
 
-            {userData.car && (
-              <CarProps
-                userData={userData}
-                handleChange={handleChange}
-                handleClick={handleClick}
-                focused={focused}
-                formValidation={formValidation}
-                setFocused={setFocused}
-              />
-            )}
-          </div>
-          <div>
-            <CheckboxLabel
-              tabIndex="0"
-              onFocus={() => setFocused("pet")}
-              selected={focused === "pet"}
-              checked={userData.pet}
-              onKeyDown={(event) => handleKeyDown(event, "pet")}
-            >
-              <Checkbox
-                type="checkbox"
-                name="pet"
-                checked={userData.pet}
-                onChange={handleChange}
-              />
-              HAUSTIER VORHANDEN?
-            </CheckboxLabel>
+          <Checkbox
+            setFocused={setFocused}
+            value="valuables"
+            field={userData.valuables}
+            userData={userData}
+            focused={focused}
+            handleChange={handleChange}
+            checkboxName="WERTGEGENSTÄNDE VORHANDEN?"
+            setUserData={setUserData}
+          />
 
-            {userData.pet && (
-              <PetProps
-                userData={userData}
-                handleChange={handleChange}
-                formValidation={formValidation}
-                handleKeyDown={handleKeyDown}
-                setFocused={setFocused}
-              />
-            )}
-          </div>
-          <div>
-            <CheckboxLabel
-              tabIndex="0"
-              onFocus={() => setFocused("motorcycle")}
-              selected={focused === "motorcycle"}
-              checked={userData.motorcycle}
-              onKeyDown={(event) => handleKeyDown(event, "motorcycle")}
-            >
-              <Checkbox
-                type="checkbox"
-                name="motorcycle"
-                checked={userData.motorcycle}
-                onChange={handleChange}
-              />
-              MOTORRAD VORHANDEN?
-            </CheckboxLabel>
+          <Checkbox
+            setFocused={setFocused}
+            value="car"
+            field={userData.car}
+            userData={userData}
+            focused={focused}
+            handleChange={handleChange}
+            checkboxName="AUTO VORHANDEN?"
+            setUserData={setUserData}
+          />
 
-            {userData.motorcycle && (
-              <MotorcycleProps
-                userData={userData}
-                handleChange={handleChange}
-                handleClick={handleClick}
-                focused={focused}
-                formValidation={formValidation}
-                setFocused={setFocused}
-              />
-            )}
-          </div>
-          <div>
-            <CheckboxLabel
-              tabIndex="0"
-              onFocus={() => setFocused("dangerousHobby")}
-              selected={focused === "dangerousHobby"}
-              checked={userData.dangerousHobby}
-              onKeyDown={(event) => handleKeyDown(event, "dangerousHobby")}
-            >
-              <Checkbox
-                type="checkbox"
-                name="dangerousHobby"
-                checked={userData.dangerousHobby}
-                onChange={handleChange}
-              />
-              GEFÄHRLICHES HOBBY? (Z.B. TAUCHEN)
-            </CheckboxLabel>
-          </div>
+          {userData.car && (
+            <CarProps
+              userData={userData}
+              handleChange={handleChange}
+              handleClick={handleClick}
+              focused={focused}
+              formValidation={formValidation}
+              setFocused={setFocused}
+            />
+          )}
+
+          <Checkbox
+            setFocused={setFocused}
+            value="pet"
+            field={userData.pet}
+            userData={userData}
+            focused={focused}
+            handleChange={handleChange}
+            checkboxName="HAUSTIER VORHANDEN?"
+            setUserData={setUserData}
+          />
+
+          {userData.pet && (
+            <PetProps
+              userData={userData}
+              handleChange={handleChange}
+              formValidation={formValidation}
+              setFocused={setFocused}
+            />
+          )}
+
+          <Checkbox
+            setFocused={setFocused}
+            value="motorcycle"
+            field={userData.motorcycle}
+            userData={userData}
+            focused={focused}
+            handleChange={handleChange}
+            checkboxName="MOTORRAD VORHANDEN?"
+            setUserData={setUserData}
+          />
+
+          {userData.motorcycle && (
+            <MotorcycleProps
+              userData={userData}
+              handleChange={handleChange}
+              handleClick={handleClick}
+              focused={focused}
+              formValidation={formValidation}
+              setFocused={setFocused}
+            />
+          )}
+
+          <Checkbox
+            setFocused={setFocused}
+            value="dangerousHobby"
+            field={userData.dangerousHobby}
+            userData={userData}
+            focused={focused}
+            handleChange={handleChange}
+            checkboxName="GEFÄHRLICHES HOBBY? (Z.B. TAUCHEN)"
+            setUserData={setUserData}
+          />
         </CheckboxContainer>
 
         <UserInsurances
@@ -907,14 +509,13 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
         />
 
         <ButtonDiv>
-          <ButtonSubmit onFocus={() => setFocused("")} type="submit" text="Add">
+          <ButtonSubmit onFocus={() => setFocused("")} type="submit">
             <Submit />
             <ButtonSpan>Los gehts!</ButtonSpan>
           </ButtonSubmit>
           <ButtonReset
             onFocus={() => setFocused("")}
             type="reset"
-            text="Reset"
             onClick={resetAllData}
           >
             <Reset />
@@ -929,10 +530,9 @@ export default function UserForm({ onSubmitForm, userToCalculate }) {
 const ContainerBox = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   padding: 0.5rem;
   padding-bottom: 3.5rem;
+  max-width: 1024px;
 `;
 
 const H2 = styled.h2`
@@ -944,199 +544,6 @@ const H2 = styled.h2`
 const Form = styled.form`
   display: flex;
   flex-wrap: wrap;
-`;
-
-const HandleLongerDiv = styled.div`
-  width: 100%;
-  max-width: 382px;
-  margin-top: 0.5rem;
-  height: 3rem;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-`;
-
-const HandleDiv = styled.div`
-  width: 50%;
-  max-width: 191px;
-  margin-top: 0.5rem;
-  height: 3rem;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-`;
-
-const SelectDiv = styled.div`
-  width: 70%;
-  max-width: 191px;
-  margin: 0.5rem 0 0 0.25rem;
-  height: 3rem;
-  display: inline-flex;
-  justify-content: center;
-  position: relative;
-`;
-
-const StyledSelectDiv = styled.div`
-  width: 100%;
-  height: 0.5rem;
-  background: transparent;
-  position: relative;
-  border: 1px solid #0989f7;
-  border-top: none;
-  z-index: 1;
-`;
-
-const SelectSpan = styled.span`
-  right: 0.25rem;
-  bottom: -0.25rem;
-  font-size: 1.5rem;
-  color: #676767;
-  position: absolute;
-`;
-
-const Clickfield = styled.div`
-  width: 95%;
-  margin-top: 0.25rem;
-  height: 1.5rem;
-  display: inline-flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  position: absolute;
-  outline: none;
-`;
-
-const TextInput = styled.input`
-  position: absolute;
-  background: transparent;
-  width: 90%;
-  border: none;
-  z-index: 10;
-  font-size: 0.8rem;
-  color: #676767;
-  bottom: 1.125rem;
-  padding: 0.25rem;
-  padding-left: 0.4rem;
-`;
-
-const StyledDiv = styled.div`
-  width: 90%;
-  height: 0.5rem;
-  background: transparent;
-  position: relative;
-  border: 1px solid #0989f7;
-  border-top: none;
-  z-index: 1;
-`;
-
-const Label = styled.label`
-  font-size: 0.8rem;
-  color: #676767;
-  z-index: 10;
-  position: absolute;
-  transition: all 0.25s;
-  left: 0.25rem;
-  bottom: 0.1rem;
-
-  &.active {
-    left: 0;
-    bottom: 0;
-    transform: translateY(-1.3rem);
-    font-size: 0.5rem;
-    color: #0989f7;
-  }
-`;
-
-const ErrorText = styled.span`
-  position: absolute;
-  font-size: 0.6rem;
-  color: #ba0d50;
-  bottom: -0.9rem;
-  left: 0;
-`;
-
-const P = styled.p`
-  font-size: 0.8rem;
-  color: #676767;
-  z-index: 10;
-  position: absolute;
-  transition: all 0.25s;
-  left: 0.25rem;
-  bottom: -0.7rem;
-`;
-
-const CheckboxLabel = styled.label`
-  margin: 0.25rem 0 0 0;
-  display: inline-flex;
-  align-items: center;
-  font-size: 0.8rem;
-  color: #676767;
-  position: relative;
-  outline: none;
-
-  &.firstLabel {
-    @media (max-width: 1024px) {
-      margin-top: 2rem;
-    }
-  }
-
-  ::before {
-    content: "";
-    display: inline-block;
-    margin-right: 0.25rem;
-
-    height: 16px;
-    width: 16px;
-
-    border: 1px solid #0989f7;
-
-    ${(prop) => prop.selected && "outline: #0989f7 solid 2px;"}
-  }
-
-  &::after {
-    content: "" ${(prop) => !prop.checked && "content: none "};
-    display: inline-block;
-    position: absolute;
-    height: 6px;
-    width: 9px;
-    border-left: 2px solid;
-    border-bottom: 2px solid;
-    color: #0989f7;
-    left: 4px;
-    top: 4px;
-
-    transform: rotate(-45deg);
-  }
-`;
-
-const Checkbox = styled.input`
-  display: none;
-`;
-
-const TextLongerInput = styled.input`
-  position: absolute;
-  background: transparent;
-  width: 95%;
-  border: none;
-  z-index: 10;
-  font-size: 0.8rem;
-  color: #676767;
-  bottom: 1.125rem;
-  padding: 0.25rem;
-  padding-left: 0.4rem;
-`;
-
-const StyledLongerDiv = styled.div`
-  width: 95%;
-  height: 0.5rem;
-  background: transparent;
-  position: relative;
-  border: 1px solid #0989f7;
-  border-top: none;
-  z-index: 1;
 `;
 
 const CheckboxContainer = styled.div`
@@ -1201,51 +608,4 @@ const ButtonReset = styled.button`
 
 const ButtonSpan = styled.span`
   margin-left: 0.25rem;
-`;
-
-const MenuDiv = styled.div`
-  font-size: 0.8rem;
-  display: none;
-  width: 95%;
-  z-index: 15;
-  position: absolute;
-  top: 1.75rem;
-  background: white;
-  &.active {
-    display: inline-block;
-  }
-`;
-
-const MenuP = styled.p`
-  margin: 0;
-  height: 1.5rem;
-  border: 0.5px solid #0989f7;
-  border-top: none;
-  padding: 0.3rem 0.4rem 0.2rem;
-  color: #0989f7;
-  font-size: 0.8rem;
-  cursor: pointer;
-
-  &:hover {
-    background: #0989f7;
-    color: white;
-  }
-
-  &.active {
-    background: #0989f7;
-    color: white;
-  }
-
-  &.red-font {
-    color: #ba0d50;
-    border: 0.5px solid #ba0d50;
-    border-top: none;
-  }
-
-  &.red-block {
-    background: #ba0d50;
-    color: white;
-    border: 0.5px solid #ba0d50;
-    border-top: none;
-  }
 `;

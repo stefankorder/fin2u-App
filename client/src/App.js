@@ -10,6 +10,7 @@ import {
 
 import Start from "./pages/Start";
 import About from "./pages/About";
+import InsuranceDetails from "./pages/InsuranceDetails";
 
 import insuranceProducts from "./lib/insuranceProducts";
 
@@ -24,7 +25,7 @@ function App() {
 
   useEffect(() => {
     insuranceProducts.forEach((insurance) => {
-      fetch("http://localhost:4000/insurance", {
+      fetch("/insurance", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +37,7 @@ function App() {
 
   useEffect(() => {
     if (userToCalculate) {
-      fetch("http://localhost:4000/insurances/" + userToCalculate._id)
+      fetch("/insurances/" + userToCalculate._id)
         .then((result) => result.json())
         .then((loadInsurances) => setInsurances(loadInsurances))
         .then(() => {
@@ -48,7 +49,7 @@ function App() {
 
   useEffect(() => {
     if (insurances.length > 0) {
-      fetch("http://localhost:4000/user/" + userToCalculate._id, {
+      fetch("/user/" + userToCalculate._id, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +62,7 @@ function App() {
   const history = useHistory();
 
   function onSubmitForm(userData) {
-    fetch("http://localhost:4000/user", {
+    fetch("/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -76,13 +77,12 @@ function App() {
   return (
     <AppContainer className={location.pathname === "/" && "active"}>
       {location.pathname !== "/" && <Header />}
-
       <Switch>
         {history.action === "POP" && <Redirect to="/" />}
         <Route exact path="/">
           <StartPage />
         </Route>
-        <Route path="/start">
+        <Route exact path="/start">
           <Start
             onSubmitForm={onSubmitForm}
             insurances={insurances}
@@ -91,7 +91,13 @@ function App() {
             setComponentToDisplay={setComponentToDisplay}
           />
         </Route>
-        <Route path="/about">
+        <Route exact path="/start/:id">
+          <InsuranceDetails
+            insurances={insurances}
+            userToCalculate={userToCalculate}
+          />
+        </Route>
+        <Route exact path="/about">
           <About />
         </Route>
       </Switch>
@@ -104,6 +110,9 @@ function App() {
 export default App;
 
 const AppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background: white;
   width: 100%;
   border-top-right-radius: 10px;

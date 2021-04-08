@@ -1,11 +1,13 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-import { ReactComponent as Reset } from "../images/reset.svg";
+import { ReactComponent as Back } from "../images/reset.svg";
 
 export default function DisplayInsurances({
   insurances,
   setComponentToDisplay,
+  userToCalculate,
 }) {
   const [insurancesStatus0, setInsurancesStatus0] = useState(
     insurances.filter((insurance) => insurance.status === 0)
@@ -22,12 +24,12 @@ export default function DisplayInsurances({
 
   return (
     <ContainerBox>
-      <H2>Hier ist dein Ergebnis:</H2>
+      <H2>{userToCalculate.name}, hier ist dein Ergebnis:</H2>
       {insurancesStatus3.length > 0 && (
         <InsuranceContainer>
           <Label>BRAUCHST DU AUF JEDEN FALL!</Label>
-          {insurancesStatus3.map(({ name }) => {
-            return <Tag>{name}</Tag>;
+          {insurancesStatus3.map(({ name, _id }) => {
+            return <Tag to={"/start/" + _id}>{name}</Tag>;
           })}
           <StyledLongerDiv />
         </InsuranceContainer>
@@ -35,8 +37,8 @@ export default function DisplayInsurances({
       {insurancesStatus2.length > 0 && (
         <InsuranceContainer>
           <Label>MIT SICHERHEIT SINNVOLL!</Label>
-          {insurancesStatus2.map(({ name }) => {
-            return <Tag>{name}</Tag>;
+          {insurancesStatus2.map(({ name, _id }) => {
+            return <Tag to={"/start/" + _id}>{name}</Tag>;
           })}
           <StyledLongerDiv />
         </InsuranceContainer>
@@ -44,8 +46,8 @@ export default function DisplayInsurances({
       {insurancesStatus1.length > 0 && (
         <InsuranceContainer>
           <Label>KÖNNTE SINNVOLL SEIN!</Label>
-          {insurancesStatus1.map(({ name }) => {
-            return <Tag>{name}</Tag>;
+          {insurancesStatus1.map(({ name, _id }) => {
+            return <Tag to={"/start/" + _id}>{name}</Tag>;
           })}
           <StyledLongerDiv />
         </InsuranceContainer>
@@ -53,32 +55,28 @@ export default function DisplayInsurances({
       {insurancesStatus0.length > 0 && (
         <InsuranceContainer>
           <Label>HAST DU BEREITS ODER BENÖTIGST DU NICHT!</Label>
-          {insurancesStatus0.map(({ name }) => {
-            return <Tag>{name}</Tag>;
+          {insurancesStatus0.map(({ name, _id }) => {
+            return <Tag to={"/start/" + _id}>{name}</Tag>;
           })}
           <StyledLongerDiv />
         </InsuranceContainer>
       )}
 
-      <ButtonReset
-        type="reset"
-        text="Reset"
-        onClick={() => setComponentToDisplay("form")}
-      >
-        <Reset />
+      <ButtonBack onClick={() => setComponentToDisplay("form")}>
+        <Back />
         <ButtonSpan>Zurück</ButtonSpan>
-      </ButtonReset>
+      </ButtonBack>
     </ContainerBox>
   );
 }
 
 const ContainerBox = styled.div`
   background: white;
-  width: 100%;
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
   padding-bottom: 3.5rem;
+  max-width: 1024px;
 `;
 
 const InsuranceContainer = styled.div`
@@ -100,7 +98,6 @@ const StyledLongerDiv = styled.div`
 `;
 
 const H2 = styled.h2`
-  width: 100%;
   font-size: 0.9rem;
   margin: 1rem 0.4rem 0 0.4rem;
 `;
@@ -108,12 +105,13 @@ const H2 = styled.h2`
 const Label = styled.label`
   font-size: 0.8rem;
   width: 100%;
-  margin: 2.5rem 0.4rem 1rem 0.4rem;
+  margin: 1.5rem 0.4rem 1rem 0.4rem;
   color: #52514f;
 `;
 
-const Tag = styled.span`
+const Tag = styled(Link)`
   display: inline-block;
+  text-decoration: none;
   background: #0989f7;
   color: white;
   font-size: 0.8rem;
@@ -123,7 +121,7 @@ const Tag = styled.span`
   filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
 `;
 
-const ButtonReset = styled.button`
+const ButtonBack = styled.button`
   align-self: flex-start;
   display: inline-flex;
   align-items: center;

@@ -5,9 +5,9 @@ import { ReactComponent as Up } from "../images/up.svg";
 import { ReactComponent as Start } from "../images/start.svg";
 import { ReactComponent as Fin2u } from "../images/fin2u.svg";
 
-export default function NavBar() {
+export default function NavBar({ isStatic }) {
   return (
-    <Container>
+    <Container isStatic={isStatic}>
       <Nav>
         <NavContainer>
           <StyledNavLink to="/start">
@@ -29,7 +29,7 @@ export default function NavBar() {
 }
 
 const Container = styled.div`
-  position: fixed;
+  position: ${(props) => (props.isStatic ? "static" : "fixed")};
   left: 0;
   bottom: 0;
   right: 0;
