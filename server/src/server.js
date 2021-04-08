@@ -37,5 +37,11 @@ server.post("/insurance", insurancePost);
 
 server.get("/insurances/:userId", insuranceGet);
 
+server.use(express.static(path.join(__dirname, "../../client/build")));
+
+server.get("/*", function (request, response) {
+  response.sendFile(path.join(__dirname, "../../client/build", "index.html"));
+});
+
 const port = process.env.PORT || 4000;
 server.listen(port, () => console.log("Server started"));
