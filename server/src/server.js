@@ -3,12 +3,16 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
+import { dirname } from "./lib/pathHelpers.js";
 
 import { userPost, userDelete } from "./controllers/user.controller.js";
 import {
   insurancePost,
   insuranceGet,
 } from "./controllers/insurance.controller.js";
+
+const __dirname = dirname(import.meta.url);
 
 dotenv.config();
 
