@@ -8,7 +8,7 @@ export default function incapacityInsurance(user, insurances) {
       incapacityInsurance.text = `
       
 <p>Du hast angegeben, dass du keine ${
-        insuranceToDetail.name
+        incapacityInsurance.name
       } hast. Du hast mit ${
         user.age
       } bereits das 60 Lebenjahr erreicht. Glückwunsch hierzu! Du beschreitest gerade die letzten ${
