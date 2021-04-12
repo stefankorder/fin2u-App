@@ -19,6 +19,11 @@ export default function pensionInsurance(user, insurances) {
       `;
     } else if (user.age < 60 && user.age > 54) {
       pensionInsurance.status = 1;
+      pensionInsurance.text = `
+
+      <p> ${user.name}, du hast angegeben, dass du keine Rentenversicherung abgeschlossen hast. Mit deinen ${user.age} Jahren wird es schwierig noch eine vernünftige Altervorsorge aufzubauen. Da du aber noch unter 60 Jahre alt bis, solltest du schauen, dass du villeicht noch etwas für deine Altersvorsorge tust. Größere Summen werden dabei jedoch nicht mehr rumkommen. Genaueres zur Lebensversicherung erfährst du in den nachfolgenden Zeilen.</p>
+            
+            `;
     } else {
       pensionInsurance.status = 0;
       pensionInsurance.text = `
